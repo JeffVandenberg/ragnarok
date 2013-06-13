@@ -1,0 +1,866 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2013-05-27 02:19+0000\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: Controller/AspectTypesController.php:29;61;86
+msgid "Invalid aspect type"
+msgstr ""
+
+#: Controller/AspectTypesController.php:44;65
+msgid "The aspect type has been saved"
+msgstr ""
+
+#: Controller/AspectTypesController.php:47;68
+msgid "The aspect type could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/AspectTypesController.php:90
+msgid "Aspect type deleted"
+msgstr ""
+
+#: Controller/AspectTypesController.php:93
+msgid "Aspect type was not deleted"
+msgstr ""
+
+#: Controller/CharactersController.php:53;93;132
+msgid "Invalid character"
+msgstr ""
+
+#: Controller/CharactersController.php:69;97
+msgid "The character has been saved"
+msgstr ""
+
+#: Controller/CharactersController.php:72;100
+msgid "The character could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/CharactersController.php:136
+msgid "Character deleted"
+msgstr ""
+
+#: Controller/CharactersController.php:139
+msgid "Character was not deleted"
+msgstr ""
+
+#: Controller/PowersController.php:53;96;130
+msgid "Invalid power"
+msgstr ""
+
+#: Controller/PowersController.php:74;104
+msgid "The power has been saved"
+msgstr ""
+
+#: Controller/PowersController.php:77;107
+msgid "The power could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/PowersController.php:134
+msgid "Power deleted"
+msgstr ""
+
+#: Controller/PowersController.php:137
+msgid "Power was not deleted"
+msgstr ""
+
+#: Controller/SkillsController.php:46;82;111
+msgid "Invalid skill"
+msgstr ""
+
+#: Controller/SkillsController.php:64;89
+msgid "The skill has been saved"
+msgstr ""
+
+#: Controller/SkillsController.php:67;92
+msgid "The skill could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/SkillsController.php:115
+msgid "Skill deleted"
+msgstr ""
+
+#: Controller/SkillsController.php:118
+msgid "Skill was not deleted"
+msgstr ""
+
+#: Controller/StuntsController.php:46;88;122
+msgid "Invalid stunt"
+msgstr ""
+
+#: Controller/StuntsController.php:66;96
+msgid "The stunt has been saved"
+msgstr ""
+
+#: Controller/StuntsController.php:69;99
+msgid "The stunt could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/StuntsController.php:126
+msgid "Stunt deleted"
+msgstr ""
+
+#: Controller/StuntsController.php:129
+msgid "Stunt was not deleted"
+msgstr ""
+
+#: Controller/TemplatesController.php:46;87;120
+msgid "Invalid template"
+msgstr ""
+
+#: Controller/TemplatesController.php:66;95
+msgid "The template has been saved"
+msgstr ""
+
+#: Controller/TemplatesController.php:69;98
+msgid "The template could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/TemplatesController.php:124
+msgid "Template deleted"
+msgstr ""
+
+#: Controller/TemplatesController.php:127
+msgid "Template was not deleted"
+msgstr ""
+
+#: Controller/UsersController.php:43;95;124;146
+msgid "Invalid user"
+msgstr ""
+
+#: Controller/UsersController.php:74;99
+msgid "The user has been saved"
+msgstr ""
+
+#: Controller/UsersController.php:77;102;157
+msgid "The user could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/UsersController.php:128
+msgid "User deleted"
+msgstr ""
+
+#: Controller/UsersController.php:131
+msgid "User was not deleted"
+msgstr ""
+
+#: Controller/UsersController.php:154
+msgid "The user's permissions have been updated."
+msgstr ""
+
+#: View/AspectTypes/add.ctp:4
+msgid "Add Aspect Type"
+msgstr ""
+
+#: View/AspectTypes/add.ctp:9
+#: View/AspectTypes/edit.ctp:10
+#: View/Characters/edit.ctp:333
+#: View/Powers/add.ctp:14
+#: View/Powers/edit.ctp:19
+#: View/Skills/add.ctp:9
+#: View/Skills/edit.ctp:11
+#: View/Stunts/add.ctp:12
+#: View/Stunts/edit.ctp:15
+#: View/Templates/add.ctp:10
+#: View/Templates/edit.ctp:13
+#: View/Users/add.ctp:84
+#: View/Users/edit.ctp:85
+msgid "Submit"
+msgstr ""
+
+#: View/AspectTypes/add.ctp:12
+#: View/AspectTypes/edit.ctp:13
+#: View/AspectTypes/index.ctp:7;36
+#: View/AspectTypes/view.ctp:17;39
+#: View/Characters/index.ctp:15;52
+#: View/Characters/view.ctp:62;98;137;173;208;243
+#: View/Powers/index.ctp:19;60
+#: View/Powers/view.ctp:53
+#: View/Skills/index.ctp:14;49
+#: View/Skills/view.ctp:19
+#: View/Stunts/index.ctp:20;64
+#: View/Stunts/view.ctp:58
+#: View/Templates/index.ctp:18;59
+#: View/Templates/view.ctp:49
+#: View/Users/add.ctp:87
+#: View/Users/edit.ctp:88
+#: View/Users/index.ctp:18;52
+#: View/Users/view.ctp:57
+msgid "Actions"
+msgstr ""
+
+#: View/AspectTypes/add.ctp:15
+#: View/AspectTypes/edit.ctp:17
+#: View/AspectTypes/view.ctp:21
+msgid "List Aspect Types"
+msgstr ""
+
+#: View/AspectTypes/add.ctp:16
+#: View/AspectTypes/edit.ctp:18
+#: View/AspectTypes/index.ctp:39
+#: View/AspectTypes/view.ctp:23
+#: View/Characters/view.ctp:74
+msgid "List Character Aspects"
+msgstr ""
+
+#: View/AspectTypes/add.ctp:17
+#: View/AspectTypes/edit.ctp:19
+#: View/AspectTypes/index.ctp:40
+#: View/AspectTypes/view.ctp:24;64
+#: View/Characters/view.ctp:75;123
+msgid "New Character Aspect"
+msgstr ""
+
+#: View/AspectTypes/edit.ctp:4
+#: View/AspectTypes/view.ctp:19
+msgid "Edit Aspect Type"
+msgstr ""
+
+#: View/AspectTypes/edit.ctp:16
+#: View/AspectTypes/index.ctp:16
+#: View/AspectTypes/view.ctp:55
+#: View/Characters/view.ctp:114;151;186;221;256
+#: View/Powers/index.ctp:35
+#: View/Skills/index.ctp:24
+#: View/Stunts/index.ctp:39
+#: View/Templates/index.ctp:34
+#: View/Users/edit.ctp:91
+msgid "Delete"
+msgstr ""
+
+#: View/AspectTypes/edit.ctp:16
+#: View/AspectTypes/index.ctp:16
+#: View/AspectTypes/view.ctp:20;55
+#: View/Characters/view.ctp:65;114;151;186;221;256
+#: View/Powers/index.ctp:35
+#: View/Powers/view.ctp:61
+#: View/Skills/index.ctp:24
+#: View/Skills/view.ctp:27
+#: View/Stunts/index.ctp:39
+#: View/Stunts/view.ctp:66
+#: View/Templates/index.ctp:34
+#: View/Templates/view.ctp:57
+#: View/Users/edit.ctp:91
+msgid "Are you sure you want to delete # %s?"
+msgstr ""
+
+#: View/AspectTypes/index.ctp:2
+msgid "Aspect Types"
+msgstr ""
+
+#: View/AspectTypes/index.ctp:14
+#: View/AspectTypes/view.ctp:53
+#: View/Characters/index.ctp:28
+#: View/Characters/view.ctp:112;149;184;219;254
+#: View/Powers/index.ctp:32
+#: View/Skills/index.ctp:21
+#: View/Stunts/index.ctp:36
+#: View/Templates/index.ctp:31
+#: View/Users/index.ctp:29
+msgid "View"
+msgstr ""
+
+#: View/AspectTypes/index.ctp:15
+#: View/AspectTypes/view.ctp:54
+#: View/Characters/index.ctp:29
+#: View/Characters/view.ctp:113;150;185;220;255
+#: View/Powers/edit.ctp:2
+#: View/Powers/index.ctp:34
+#: View/Skills/edit.ctp:2
+#: View/Skills/index.ctp:23
+#: View/Stunts/edit.ctp:2
+#: View/Stunts/index.ctp:38
+#: View/Templates/edit.ctp:2
+#: View/Templates/index.ctp:33
+msgid "Edit"
+msgstr ""
+
+#: View/AspectTypes/index.ctp:24
+#: View/Characters/index.ctp:38
+#: View/Powers/index.ctp:44
+#: View/Skills/index.ctp:33
+#: View/Stunts/index.ctp:48
+#: View/Templates/index.ctp:43
+#: View/Users/index.ctp:37
+msgid "Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}"
+msgstr ""
+
+#: View/AspectTypes/index.ctp:29
+#: View/Powers/index.ctp:51
+#: View/Skills/index.ctp:40
+#: View/Stunts/index.ctp:55
+#: View/Templates/index.ctp:50
+#: View/Users/index.ctp:44
+msgid "previous"
+msgstr ""
+
+#: View/AspectTypes/index.ctp:31
+#: View/Powers/index.ctp:53
+#: View/Skills/index.ctp:42
+#: View/Stunts/index.ctp:57
+#: View/Templates/index.ctp:52
+#: View/Users/index.ctp:46
+msgid "next"
+msgstr ""
+
+#: View/AspectTypes/index.ctp:38
+#: View/AspectTypes/view.ctp:22
+msgid "New Aspect Type"
+msgstr ""
+
+#: View/AspectTypes/view.ctp:2
+msgid "Aspect Type"
+msgstr ""
+
+#: View/AspectTypes/view.ctp:4;32
+#: View/Characters/view.ctp:4;91;132;169;204;239
+msgid "Id"
+msgstr ""
+
+#: View/AspectTypes/view.ctp:9
+msgid "Name"
+msgstr ""
+
+#: View/AspectTypes/view.ctp:20
+msgid "Delete Aspect Type"
+msgstr ""
+
+#: View/AspectTypes/view.ctp:28
+#: View/Characters/view.ctp:87
+msgid "Related Character Aspects"
+msgstr ""
+
+#: View/AspectTypes/view.ctp:33
+#: View/Characters/view.ctp:92;133;170;205;240
+msgid "Character Id"
+msgstr ""
+
+#: View/AspectTypes/view.ctp:34
+#: View/Characters/view.ctp:93
+msgid "Aspect Type Id"
+msgstr ""
+
+#: View/AspectTypes/view.ctp:35
+#: View/Characters/view.ctp:94
+msgid "Aspect Text"
+msgstr ""
+
+#: View/AspectTypes/view.ctp:36
+#: View/Characters/view.ctp:95
+#: View/Powers/view.ctp:9
+#: View/Templates/view.ctp:9
+msgid "Description"
+msgstr ""
+
+#: View/AspectTypes/view.ctp:37
+#: View/Characters/view.ctp:96;241
+msgid "Story Id"
+msgstr ""
+
+#: View/AspectTypes/view.ctp:38
+#: View/Characters/view.ctp:97
+msgid "Assoc Character Id"
+msgstr ""
+
+#: View/Characters/index.ctp:8
+msgid "Characters"
+msgstr ""
+
+#: View/Characters/index.ctp:43
+msgid "Previous"
+msgstr ""
+
+#: View/Characters/index.ctp:45
+msgid "Next"
+msgstr ""
+
+#: View/Characters/index.ctp:54
+#: View/Characters/view.ctp:67
+msgid "New Character"
+msgstr ""
+
+#: View/Characters/view.ctp:2
+msgid "Character"
+msgstr ""
+
+#: View/Characters/view.ctp:9
+msgid "Game"
+msgstr ""
+
+#: View/Characters/view.ctp:14
+msgid "Character Name"
+msgstr ""
+
+#: View/Characters/view.ctp:19
+msgid "Power Level"
+msgstr ""
+
+#: View/Characters/view.ctp:24
+msgid "Max Fate"
+msgstr ""
+
+#: View/Characters/view.ctp:29
+msgid "Current Fate"
+msgstr ""
+
+#: View/Characters/view.ctp:34
+msgid "Character Status"
+msgstr ""
+
+#: View/Characters/view.ctp:39
+#: View/Powers/view.ctp:29
+#: View/Stunts/view.ctp:34
+#: View/Templates/view.ctp:24
+msgid "Created By"
+msgstr ""
+
+#: View/Characters/view.ctp:44
+#: View/Powers/view.ctp:34
+#: View/Stunts/view.ctp:39
+#: View/Templates/view.ctp:29
+msgid "Created"
+msgstr ""
+
+#: View/Characters/view.ctp:49
+#: View/Powers/view.ctp:39
+#: View/Stunts/view.ctp:44
+#: View/Templates/view.ctp:34
+msgid "Updated By"
+msgstr ""
+
+#: View/Characters/view.ctp:54
+#: View/Powers/view.ctp:44
+#: View/Stunts/view.ctp:49
+#: View/Templates/view.ctp:39
+msgid "Updated"
+msgstr ""
+
+#: View/Characters/view.ctp:64
+msgid "Edit Character"
+msgstr ""
+
+#: View/Characters/view.ctp:65
+msgid "Delete Character"
+msgstr ""
+
+#: View/Characters/view.ctp:66
+msgid "List Characters"
+msgstr ""
+
+#: View/Characters/view.ctp:68
+msgid "List Games"
+msgstr ""
+
+#: View/Characters/view.ctp:69
+msgid "New Game"
+msgstr ""
+
+#: View/Characters/view.ctp:70
+msgid "List Character Statuses"
+msgstr ""
+
+#: View/Characters/view.ctp:71
+msgid "New Character Status"
+msgstr ""
+
+#: View/Characters/view.ctp:72
+#: View/Users/add.ctp:90
+#: View/Users/edit.ctp:92
+#: View/Users/view.ctp:59
+msgid "List Users"
+msgstr ""
+
+#: View/Characters/view.ctp:73
+msgid "New Created By"
+msgstr ""
+
+#: View/Characters/view.ctp:76
+msgid "List Character Powers"
+msgstr ""
+
+#: View/Characters/view.ctp:77;160
+msgid "New Character Power"
+msgstr ""
+
+#: View/Characters/view.ctp:78
+msgid "List Character Skills"
+msgstr ""
+
+#: View/Characters/view.ctp:79;195
+msgid "New Character Skill"
+msgstr ""
+
+#: View/Characters/view.ctp:80
+msgid "List Character Stunts"
+msgstr ""
+
+#: View/Characters/view.ctp:81;230
+msgid "New Character Stunt"
+msgstr ""
+
+#: View/Characters/view.ctp:82
+msgid "List Story Characters"
+msgstr ""
+
+#: View/Characters/view.ctp:83;265
+msgid "New Story Character"
+msgstr ""
+
+#: View/Characters/view.ctp:128
+msgid "Related Character Powers"
+msgstr ""
+
+#: View/Characters/view.ctp:134
+msgid "Power Id"
+msgstr ""
+
+#: View/Characters/view.ctp:135
+msgid "Refresh Cost"
+msgstr ""
+
+#: View/Characters/view.ctp:136;207
+msgid "Note"
+msgstr ""
+
+#: View/Characters/view.ctp:165
+msgid "Related Character Skills"
+msgstr ""
+
+#: View/Characters/view.ctp:171
+msgid "Skill Id"
+msgstr ""
+
+#: View/Characters/view.ctp:172
+msgid "Skill Level"
+msgstr ""
+
+#: View/Characters/view.ctp:200
+msgid "Related Character Stunts"
+msgstr ""
+
+#: View/Characters/view.ctp:206
+msgid "Stunt Id"
+msgstr ""
+
+#: View/Characters/view.ctp:235
+msgid "Related Story Characters"
+msgstr ""
+
+#: View/Characters/view.ctp:242
+msgid "Used Milestone"
+msgstr ""
+
+#: View/Powers/add.ctp:4
+#: View/Powers/view.ctp:57
+msgid "Add Power"
+msgstr ""
+
+#: View/Powers/add.ctp:15
+#: View/Powers/edit.ctp:20
+#: View/Skills/add.ctp:10
+#: View/Skills/edit.ctp:12
+#: View/Stunts/add.ctp:13
+#: View/Stunts/edit.ctp:16
+#: View/Templates/add.ctp:11
+#: View/Templates/edit.ctp:14
+#: View/Users/edit_permissions.ctp:14
+msgid "Cancel"
+msgstr ""
+
+#: View/Powers/edit.ctp:7
+#: View/Powers/view.ctp:60
+msgid "Edit Power"
+msgstr ""
+
+#: View/Powers/index.ctp:10
+msgid "Powers"
+msgstr ""
+
+#: View/Powers/index.ctp:62
+msgid "New Power"
+msgstr ""
+
+#: View/Powers/view.ctp:4;7
+#: View/Users/view.ctp:4
+msgid "Power"
+msgstr ""
+
+#: View/Powers/view.ctp:14
+#: View/Stunts/view.ctp:9
+msgid "Cost"
+msgstr ""
+
+#: View/Powers/view.ctp:19
+#: View/Skills/view.ctp:9
+#: View/Stunts/view.ctp:24
+#: View/Templates/view.ctp:14
+msgid "Is Official"
+msgstr ""
+
+#: View/Powers/view.ctp:21;26
+#: View/Skills/index.ctp:19
+#: View/Skills/view.ctp:11
+#: View/Stunts/index.ctp:29;30
+#: View/Stunts/view.ctp:26;31
+#: View/Templates/index.ctp:24;25
+#: View/Templates/view.ctp:16;21
+msgid "Yes"
+msgstr ""
+
+#: View/Powers/view.ctp:21;26
+#: View/Skills/index.ctp:19
+#: View/Skills/view.ctp:11
+#: View/Stunts/index.ctp:29;30
+#: View/Stunts/view.ctp:26;31
+#: View/Templates/index.ctp:24;25
+#: View/Templates/view.ctp:16;21
+msgid "No"
+msgstr ""
+
+#: View/Powers/view.ctp:24
+#: View/Stunts/view.ctp:29
+#: View/Templates/view.ctp:19
+msgid "Is Approved"
+msgstr ""
+
+#: View/Powers/view.ctp:55
+msgid "List Powers"
+msgstr ""
+
+#: View/Powers/view.ctp:61
+msgid "Delete Power"
+msgstr ""
+
+#: View/Skills/add.ctp:5
+#: View/Skills/view.ctp:23
+msgid "Add Skill"
+msgstr ""
+
+#: View/Skills/edit.ctp:6
+#: View/Skills/view.ctp:26
+msgid "Edit Skill"
+msgstr ""
+
+#: View/Skills/index.ctp:9
+msgid "Skills"
+msgstr ""
+
+#: View/Skills/index.ctp:51
+msgid "New Skill"
+msgstr ""
+
+#: View/Skills/view.ctp:4;7
+#: View/Stunts/view.ctp:14
+msgid "Skill"
+msgstr ""
+
+#: View/Skills/view.ctp:21
+msgid "List Skills"
+msgstr ""
+
+#: View/Skills/view.ctp:27
+msgid "Delete Skill"
+msgstr ""
+
+#: View/Skills/view.ctp:32
+msgid "Related Stunts"
+msgstr ""
+
+#: View/Stunts/add.ctp:4
+#: View/Stunts/view.ctp:62
+msgid "Add Stunt"
+msgstr ""
+
+#: View/Stunts/edit.ctp:6
+#: View/Stunts/view.ctp:65
+msgid "Edit Stunt"
+msgstr ""
+
+#: View/Stunts/index.ctp:10
+msgid "Stunts"
+msgstr ""
+
+#: View/Stunts/index.ctp:66
+msgid "New Stunt"
+msgstr ""
+
+#: View/Stunts/view.ctp:4;7
+#: View/Templates/view.ctp:4
+msgid "Stunt"
+msgstr ""
+
+#: View/Stunts/view.ctp:19
+msgid "Stunt Rules"
+msgstr ""
+
+#: View/Stunts/view.ctp:60
+msgid "List Stunts"
+msgstr ""
+
+#: View/Stunts/view.ctp:66
+msgid "Delete Stunt"
+msgstr ""
+
+#: View/Templates/add.ctp:4
+#: View/Templates/view.ctp:53
+msgid "Add Template"
+msgstr ""
+
+#: View/Templates/edit.ctp:6
+#: View/Templates/view.ctp:56
+msgid "Edit Template"
+msgstr ""
+
+#: View/Templates/index.ctp:9
+msgid "Templates"
+msgstr ""
+
+#: View/Templates/index.ctp:61
+msgid "New Template"
+msgstr ""
+
+#: View/Templates/view.ctp:7
+msgid "Template"
+msgstr ""
+
+#: View/Templates/view.ctp:51
+msgid "List Templates"
+msgstr ""
+
+#: View/Templates/view.ctp:57
+msgid "Delete Template"
+msgstr ""
+
+#: View/Users/add.ctp:4
+msgid "Add User"
+msgstr ""
+
+#: View/Users/add.ctp:91
+#: View/Users/edit.ctp:93
+#: View/Users/index.ctp:55
+msgid "List Permissions"
+msgstr ""
+
+#: View/Users/add.ctp:92
+#: View/Users/edit.ctp:94
+#: View/Users/index.ctp:56
+msgid "New Permission"
+msgstr ""
+
+#: View/Users/edit.ctp:4
+msgid "Edit User"
+msgstr ""
+
+#: View/Users/edit_permissions.ctp:5
+msgid "Edit Permissions for "
+msgstr ""
+
+#: View/Users/edit_permissions.ctp:13
+msgid "Save Permissions"
+msgstr ""
+
+#: View/Users/index.ctp:9
+msgid "Users"
+msgstr ""
+
+#: View/Users/index.ctp:54
+msgid "New User"
+msgstr ""
+
+#: View/Users/view.ctp:7
+msgid "User"
+msgstr ""
+
+#: View/Users/view.ctp:9
+msgid "User Ip"
+msgstr ""
+
+#: View/Users/view.ctp:14
+msgid "User Regdate"
+msgstr ""
+
+#: View/Users/view.ctp:19
+msgid "User Email"
+msgstr ""
+
+#: View/Users/view.ctp:24
+msgid "User Birthday"
+msgstr ""
+
+#: View/Users/view.ctp:29
+msgid "User Lastvisit"
+msgstr ""
+
+#: View/Users/view.ctp:34
+msgid "User Lastpage"
+msgstr ""
+
+#: View/Users/view.ctp:41
+msgid "Permissions"
+msgstr ""
+
+#: View/Users/view.ctp:60
+msgid "Edit Permissions"
+msgstr ""
+
+#: Model/AspectType.php:validation for field name
+#: Model/CharacterPower.php:validation for field note
+#: Model/CharacterStatus.php:validation for field name
+#: Model/CharacterStunt.php:validation for field note
+#: Model/Game.php:validation for field game_name;validation for field host_name
+#: Model/Permission.php:validation for field permission_name
+#: Model/Power.php:validation for field power_name
+#: Model/Skill.php:validation for field skill_name
+#: Model/Story.php:validation for field story_description
+#: Model/StoryStatus.php:validation for field name
+#: Model/StoryType.php:validation for field name
+#: Model/StoryUpdate.php:validation for field description
+#: Model/Stunt.php:validation for field stunt_name;validation for field stunt_rules
+#: Model/Template.php:validation for field template_name;validation for field description
+#: Model/UserStatus.php:validation for field name
+#: Model/UserType.php:validation for field name
+msgid "notempty"
+msgstr ""
+
+#: Model/Character.php:validation for field game_id;validation for field template_id;validation for field power_level;validation for field max_fate;validation for field current_fate;validation for field character_status_id;validation for field created_by_id;validation for field updated_by_id
+#: Model/CharacterAspect.php:validation for field character_id;validation for field aspect_type_id
+#: Model/CharacterPower.php:validation for field character_id;validation for field power_id;validation for field refresh_cost
+#: Model/CharacterSkill.php:validation for field character_id;validation for field skill_id;validation for field skill_level
+#: Model/CharacterStunt.php:validation for field character_id;validation for field stunt_id
+#: Model/Power.php:validation for field cost;validation for field created_by_id;validation for field updated_by_id
+#: Model/Story.php:validation for field power_level;validation for field story_type_id;validation for field story_status_id;validation for field created_by_id;validation for field updated_by_id
+#: Model/StoryCharacter.php:validation for field character_id;validation for field story_id
+#: Model/StoryUpdate.php:validation for field story_id;validation for field created_by_id;validation for field updated_by_id
+#: Model/Stunt.php:validation for field cost;validation for field skill_id;validation for field created_by_id;validation for field updated_by_id
+#: Model/Template.php:validation for field created_by_id;validation for field updated_by_id
+#: Model/TemplatePower.php:validation for field template_id;validation for field power_id;validation for field power_cost
+msgid "numeric"
+msgstr ""
+
+#: Model/Character.php:validation for field character_name
+msgid "The Character Name is too short."
+msgstr ""
+
+#: Model/Power.php:validation for field is_official;validation for field is_approved
+#: Model/Skill.php:validation for field is_official
+#: Model/StoryCharacter.php:validation for field used_milestone
+#: Model/Stunt.php:validation for field is_official;validation for field is_approved
+#: Model/Template.php:validation for field is_official;validation for field is_approved
+msgid "boolean"
+msgstr ""
+
+#: Model/Story.php:validation for field story_name
+#: Model/StoryUpdate.php:validation for field update_name
+msgid "minlength"
+msgstr ""
+
