@@ -1,6 +1,8 @@
 <?php /* @var View $this */ ?>
 <?php /* @var array $actions */ ?>
 <?php /* @var array $stunt */ ?>
+<?php /* @var bool $isAjax */ ?>
+<?php /* @var bool $isGm */ ?>
 <?php $this->set('title_for_layout', __('Stunt') . ': ' . h($stunt['Stunt']['stunt_name'])); ?>
 
 <div class="stunts view">
@@ -13,7 +15,11 @@
 		</dd>
 		<dt><?php echo __('Skill'); ?></dt>
 		<dd>
+            <?php if($isAjax): ?>
+                <?php echo $this->Html->link($stunt['Skill']['skill_name'], array('controller' => 'skills', 'action' => 'view', $stunt['Skill']['id']), array('target' => '_blank')); ?>
+            <?php else: ?>
 			<?php echo $this->Html->link($stunt['Skill']['skill_name'], array('controller' => 'skills', 'action' => 'view', $stunt['Skill']['id'])); ?>
+            <?php endif; ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Stunt Rules'); ?></dt>

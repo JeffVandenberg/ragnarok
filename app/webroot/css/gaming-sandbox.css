@@ -1,331 +1,331 @@
-* {
-    margin: 0;
-    padding: 0;
-}
-html {
-    min-height: 100%;
-}
-body {
-    background-color: #ffffff;
-    /* Mozilla Firefox */
-    background-image: -moz-linear-gradient(top, #FFDD88 0%, #FFFFDD 100%);
-
-    /* Opera */
-    background-image: -o-linear-gradient(top, #FFDD88 0%, #FFFFDD 100%);
-
-    /* Webkit (Safari/Chrome 10) */
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FFDD88), color-stop(1, #FFFFDD));
-
-    /* Webkit (Chrome 11+) */
-    background-image: -webkit-linear-gradient(top, #FFDD88 0%, #FFFFDD 100%);
-
-    /* W3C Markup, IE10 Release Preview */
-    background-image: linear-gradient(to bottom, #FFDD88 0%, #FFFFDD 100%);
-    color: #000000;
-    font-family: "Verdana", sans-serif;
-    font-size: 14px;
-}
-
-a {
-    color: #ff8811;
-    text-decoration: none;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-#content-area a {
-    color: #0b9444;
-}
-
-fieldset {
-    border: none;
-}
-
-h1 {
-
-}
-
-h2, h3 {
-    color: #0074c7;
-}
-
-table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-tr {
-    vertical-align: top;
-}
-
-td {
-    padding: 6px;
-}
-
-div#header-bar {
-    height: 30px;
-    line-height: 30px;
-    background-color: #003663;
-    /*background: linear-gradient(to bottom, #ccccaa 0%, #aaaacc 100%);*/
-    border-bottom-right-radius: 6px;
-    -moz-border-radius-bottomright: 6px;
-    border-bottom-left-radius: 6px;
-    -moz-border-radius-bottomleft: 6px;
-    box-shadow: 2px 4px 3px rgba(0,0,0,.7);
-    color: #000000;
-    position: fixed;
-    top: 0;
-    width: 100%;
-}
-
-div#header-inner {
-    width: 800px;
-    margin: 0 auto;
-}
-
-div#header-logo {
-    width: 150px;
-    float: left;
-    margin-right: 20px;
-    /*background-color: #555;*/
-    background: url('../img/logo-banner.png') no-repeat center;
-    text-indent: -999px;
-}
-
-#header-logo-nav {
-    width: 150px;
-    height: 30px;
-    display: block;
-}
-
-div#header-games {
-    width: 350px;
-    float: left;
-    margin-right: 20px;
-    /*background-color: #bbbbbb;*/
-}
-
-div#header-user {
-    width: 200px;
-    float: right;
-    text-align: right;
-    /*background-color: #ccbbbb;*/
-}
-
-div#main-logo {
-    height: 110px;
-    background: url('../img/gs_logo_bluewhite.png') no-repeat center;
-    margin-top: 35px;
-}
-
-div#main-logo-name {
-    line-height: 75px;
-    text-align: center;
-    font-size: 40px;
-    text-transform: uppercase;
-}
-
-div#main-logo-phrase {
-    text-align: center;
-    font-size: 18px;
-    text-shadow: 2px 2px 3px rgba(0, 0, 0, .4);
-}
-
-div#content {
-    width: 900px;
-    /*background: #bbbbbb;*/
-    margin: 0 auto 20px auto;
-    overflow: auto;
-    color: #000000;
-}
-
-div#right-nav {
-    float: right;
-    width: 200px;
-    margin: 10px;
-    min-height: 250px;
-    background-color: #004e8f;
-    box-shadow: 2px 4px 3px rgba(0,0,0,.7);
-    border-radius: 6px;
-}
-
-div#content-area {
-    width: 650px;
-    background-color: #ffffdd;
-    margin: 10px;
-    padding: 10px;
-    border-radius: 3px;
-    box-shadow: 2px 4px 3px rgba(0,0,0,.6);
-    border: solid 1px #004e8f;
-}
-
-.wide-content {
-    width: 850px !important;
-}
-
-div#footer-bar {
-    height: 20px;
-    line-height: 20px;
-    font-size: 10px;
-    background-color: #003663;
-    border-top-right-radius: 6px;
-    -moz-border-radius-topright: 6px;
-    border-top-left-radius: 6px;
-    -moz-border-radius-topleft: 6px;
-    box-shadow: 2px 4px 3px rgba(0,0,0,.7);
-    color: #cccccc;
-    position: fixed;
-    bottom: 0px;
-    width: 100%;
-}
-
-div#footer-inner {
-    width: 800px;
-    margin: 0 auto;
-    text-align: right;
-}
-
-div#top-nav {
-    width: 100px;
-    float: left;
-}
-div.paragraph {
-    padding-bottom: 10px;
-}
-
-li {
-    margin-left: 20px;
-}
-
-/* Form Formatting */
-div.submit {
-    width: 100px;
-    display: inline;
-    margin-right: 20px;
-}
-div.input {
-    margin: 10px 0;
-}
-
-.input > label {
-    font-weight: bold;
-    color: #613b17;
-    display: block;
-}
-
-.input > input {
-    border: solid 1px #000000;
-    padding: 4px;
-    width: 95%;
-}
-
-.input .textarea {
-    border: solid 1px #000000;
-    padding: 4px;
-    width: 95%;
-    min-width: 300px;
-    min-height: 100px;
-}
-
-.input .text:focus {
-    background: #ddddff;
-}
-
-.required label{
-    color: #990000;
-}
-
-.required label:before {
-    content: "*";
-}
-
-.submit > input, .button, button {
-    padding: 4px 10px;
-    text-shadow: 0px 1px 1px #115599;
-    color: rgba(0, 0, 0, .9);
-    background: linear-gradient(to bottom, #FBBB6D 0%, #F9A237 100%);
-    border-radius: 4px;
-}
-
-.right-box {
-    background-color: #ffffdd;
-    border-radius: 6px;
-    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, .5);
-    padding: 10px;
-    margin: 5px;
-}
-
-.right-box > .title {
-    text-align: center;
-    font-weight:bold;
-    text-transform: uppercase;
-    background-color: #004e8f;
-    color: #dddddd;
-    border-radius: 3px;
-}
-
-/* General */
-.clickable {
-    cursor: pointer;
-}
-
-/** row styles **/
-.row-0 {
-    background: none;
-}
-.row-1 {
-    background-color: #dddddd;
-}
-
-/* character sheet */
-.aspect {
-    text-align: center;
-    font-weight: bold;
-    text-decoration: underline;
-}
-
-#skill-list, #power-list, #stunt-list {
-    list-style: none;
-    margin: 0;
-}
-
-#skill_points {
-    width: 25px !important;
-}
-
-#skill-list li, #power-list li, #stunt-list li {
-    margin: 0 0 5px 0;
-}
-
-.skill_name, .power_name, .stunt_name, .stunt_skill {
-    width: 150px !important;
-    margin-right: 10px;
-}
-
-.stunt_rules {
-    width: 250px !important;
-    margin-right: 10px;
-}
-
-.skill_level, .refresh_cost, .stunt_cost {
-    width: 20px !important;
-}
-
-
-/* jquery ui overrides */
-.ui-autocomplete {
-    max-height: 100px;
-    overflow-y: auto;
-    /* prevent horizontal scrollbar */
-    overflow-x: hidden;
-}
-
-/* cake styles */
-.cake-stack-trace {
-    list-style: none;
-    margin: 0;
+* {
+    margin: 0;
+    padding: 0;
+}
+html {
+    min-height: 100%;
+}
+body {
+    background-color: #ffffff;
+    /* Mozilla Firefox */
+    background-image: -moz-linear-gradient(top, #FFDD88 0%, #FFFFDD 100%);
+
+    /* Opera */
+    background-image: -o-linear-gradient(top, #FFDD88 0%, #FFFFDD 100%);
+
+    /* Webkit (Safari/Chrome 10) */
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FFDD88), color-stop(1, #FFFFDD));
+
+    /* Webkit (Chrome 11+) */
+    background-image: -webkit-linear-gradient(top, #FFDD88 0%, #FFFFDD 100%);
+
+    /* W3C Markup, IE10 Release Preview */
+    background-image: linear-gradient(to bottom, #FFDD88 0%, #FFFFDD 100%);
+    color: #000000;
+    font-family: "Verdana", sans-serif;
+    font-size: 14px;
+}
+
+a {
+    color: #ff8811;
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+#content-area a {
+    color: #0b9444;
+}
+
+fieldset {
+    border: none;
+}
+
+h1 {
+
+}
+
+h2, h3 {
+    color: #0074c7;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+tr {
+    vertical-align: top;
+}
+
+td {
+    padding: 6px;
+}
+
+div#header-bar {
+    height: 30px;
+    line-height: 30px;
+    background-color: #003663;
+    /*background: linear-gradient(to bottom, #ccccaa 0%, #aaaacc 100%);*/
+    border-bottom-right-radius: 6px;
+    -moz-border-radius-bottomright: 6px;
+    border-bottom-left-radius: 6px;
+    -moz-border-radius-bottomleft: 6px;
+    box-shadow: 2px 4px 3px rgba(0,0,0,.7);
+    color: #000000;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+div#header-inner {
+    width: 800px;
+    margin: 0 auto;
+}
+
+div#header-logo {
+    width: 150px;
+    float: left;
+    margin-right: 20px;
+    /*background-color: #555;*/
+    background: url('../img/logo-banner.png') no-repeat center;
+    text-indent: -999px;
+}
+
+#header-logo-nav {
+    width: 150px;
+    height: 30px;
+    display: block;
+}
+
+div#header-games {
+    width: 350px;
+    float: left;
+    margin-right: 20px;
+    /*background-color: #bbbbbb;*/
+}
+
+div#header-user {
+    width: 200px;
+    float: right;
+    text-align: right;
+    /*background-color: #ccbbbb;*/
+}
+
+div#main-logo {
+    height: 110px;
+    background: url('../img/gs_logo_bluewhite.png') no-repeat center;
+    margin-top: 35px;
+}
+
+div#main-logo-name {
+    line-height: 75px;
+    text-align: center;
+    font-size: 40px;
+    text-transform: uppercase;
+}
+
+div#main-logo-phrase {
+    text-align: center;
+    font-size: 18px;
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, .4);
+}
+
+div#content {
+    width: 900px;
+    /*background: #bbbbbb;*/
+    margin: 0 auto 20px auto;
+    overflow: auto;
+    color: #000000;
+}
+
+div#right-nav {
+    float: right;
+    width: 200px;
+    margin: 10px;
+    min-height: 250px;
+    background-color: #004e8f;
+    box-shadow: 2px 4px 3px rgba(0,0,0,.7);
+    border-radius: 6px;
+}
+
+div#content-area {
+    width: 650px;
+    background-color: #ffffdd;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 3px;
+    box-shadow: 2px 4px 3px rgba(0,0,0,.6);
+    border: solid 1px #004e8f;
+}
+
+.wide-content {
+    width: 850px !important;
+}
+
+div#footer-bar {
+    height: 20px;
+    line-height: 20px;
+    font-size: 10px;
+    background-color: #003663;
+    border-top-right-radius: 6px;
+    -moz-border-radius-topright: 6px;
+    border-top-left-radius: 6px;
+    -moz-border-radius-topleft: 6px;
+    box-shadow: 2px 4px 3px rgba(0,0,0,.7);
+    color: #cccccc;
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+}
+
+div#footer-inner {
+    width: 800px;
+    margin: 0 auto;
+    text-align: right;
+}
+
+div#top-nav {
+    width: 100px;
+    float: left;
+}
+div.paragraph {
+    padding-bottom: 10px;
+}
+
+li {
+    margin-left: 20px;
+}
+
+/* Form Formatting */
+div.submit {
+    width: 100px;
+    display: inline;
+    margin-right: 20px;
+}
+div.input {
+    margin: 10px 0;
+}
+
+.input > label {
+    font-weight: bold;
+    color: #613b17;
+    display: block;
+}
+
+.input > input {
+    border: solid 1px #000000;
+    padding: 4px;
+    width: 95%;
+}
+
+.input .textarea {
+    border: solid 1px #000000;
+    padding: 4px;
+    width: 95%;
+    min-width: 300px;
+    min-height: 100px;
+}
+
+.input .text:focus {
+    background: #ddddff;
+}
+
+.required label{
+    color: #990000;
+}
+
+.required label:before {
+    content: "*";
+}
+
+.submit > input, .button, button {
+    padding: 4px 10px;
+    text-shadow: 0px 1px 1px #115599;
+    color: rgba(0, 0, 0, .9);
+    background: linear-gradient(to bottom, #FBBB6D 0%, #F9A237 100%);
+    border-radius: 4px;
+}
+
+.right-box {
+    background-color: #ffffdd;
+    border-radius: 6px;
+    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, .5);
+    padding: 10px;
+    margin: 5px;
+}
+
+.right-box > .title {
+    text-align: center;
+    font-weight:bold;
+    text-transform: uppercase;
+    background-color: #004e8f;
+    color: #dddddd;
+    border-radius: 3px;
+}
+
+/* General */
+.clickable {
+    cursor: pointer;
+}
+
+/** row styles **/
+.row-0 {
+    background: none;
+}
+.row-1 {
+    background-color: #dddddd;
+}
+
+/* character sheet */
+.aspect {
+    text-align: center;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+#skill-list, #power-list, #stunt-list {
+    list-style: none;
+    margin: 0;
+}
+
+#skill_points {
+    width: 25px !important;
+}
+
+#skill-list li, #power-list li, #stunt-list li {
+    margin: 0 0 5px 0;
+}
+
+.skill_name, .power_name, .stunt_name, .stunt_skill {
+    width: 150px !important;
+    margin-right: 10px;
+}
+
+.stunt_rules {
+    width: 250px !important;
+    margin-right: 10px;
+}
+
+.skill_level, .refresh_cost, .stunt_cost {
+    width: 20px !important;
+}
+
+
+/* jquery ui overrides */
+.ui-autocomplete {
+    max-height: 100px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+}
+
+/* cake styles */
+.cake-stack-trace {
+    list-style: none;
+    margin: 0;
 }

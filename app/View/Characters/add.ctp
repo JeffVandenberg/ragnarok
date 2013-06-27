@@ -1,5 +1,6 @@
-<?php /* @var $this View*/ ?>
-<?php /* @var $skillSpreads array*/ ?>
+<?php /* @var $this View */ ?>
+<?php /* @var $skillSpreads array */ ?>
+<?php /* @var $skills array */ ?>
 <?php $this->set('title_for_layout', 'Create Character'); ?>
 <?php $this->start('script'); ?>
 <?php echo $this->Html->script('df-character'); ?>
@@ -58,10 +59,10 @@
                     <li>
                         <div class="input">
                             <?php
-                            echo $this->Form->hidden("Character.$i.CharacterSkill.id");
-                            echo $this->Form->hidden("Character.$i.CharacterSkill.skill_id", array('class' => 'skill-id'));
-                            echo $this->Form->input("Character.$i.CharacterSkill.skill_name", array('class' => array('skill-name', 'field-hint'), 'fieldname' => 'Skill Name', 'value' => 'Skill Name', 'style' => 'color:#aaaaaa', 'label' => false, 'div' => false));
-                            echo $this->Form->input("Character.$i.CharacterSkill.skill_level", array('class' => 'skill-level', 'value' => '0', 'label' => false, 'div' => false));
+                            echo $this->Form->hidden("CharacterSkill.$i.id");
+                            echo $this->Form->hidden("CharacterSkill.$i.skill_id", array('class' => 'skill-id'));
+                            echo $this->Form->input("CharacterSkill.$i.Skill.skill_name", array('class' => array('skill-name', 'field-hint'), 'fieldname' => 'Skill Name', 'value' => 'Skill Name', 'style' => 'color:#aaaaaa', 'label' => false, 'div' => false));
+                            echo $this->Form->input("CharacterSkill.$i.skill_level", array('class' => 'skill-level', 'value' => '0', 'label' => false, 'div' => false));
                             echo $this->Html->image('ragny_icon_search.png', array('class' => array('skill-view', 'clickable'))); 
                             ?>
                         </div>
@@ -86,6 +87,7 @@
                             echo $this->Form->input("CharacterStunt.$i.Stunt.stunt_name", array('class' => array('stunt-name', 'field-hint'), 'fieldname' => 'Stunt Name', 'value' => 'Stunt Name', 'style' => 'color:#aaaaaa', 'label' => false, 'div' => false));
                             echo $this->Form->input("CharacterStunt.$i.note", array('class' => array('stunt-note', 'field-hint'), 'fieldname' => 'Note', 'value' => 'Note', 'style' => 'color:#aaaaaa', 'label' => false, 'div' => false));
                             echo $this->Form->hidden("CharacterStunt.$i.cost", array('class' => array('stunt-cost'), 'label' => false, 'div' => false));
+                            echo $this->Html->image('ragny_icon_search.png', array('class' => array('stunt-view', 'clickable')));
                             ?>
                         </div>
                     </li>
@@ -97,6 +99,7 @@
         <div class="paragraph">
             <div id="add-power" class='simple-button'>Add Power</div>
             <div id="sort-powers" class='simple-button'>Sort Powers</div>
+            <div id="apply-template" class='simple-button'>Apply Template</div>
         </div>
         <div class="paragraph">
             <ul id="power-list">
@@ -107,8 +110,9 @@
                             echo $this->Form->input("CharacterPower.$i.id");
                             echo $this->Form->hidden("CharacterPower.$i.power_id", array('class' => 'power-id'));
                             echo $this->Form->input("CharacterPower.$i.Power.power_name", array('class' => array('power-name', 'field-hint'), 'fieldname' => 'Power Name', 'value' => 'Power Name', 'style' => 'color:#aaaaaa', 'label' => false, 'div' => false));
-                            echo $this->Form->input("CharacterPower.$i.Power.note", array('class' => array('power-note', 'field-hint'), 'fieldname' => 'Power Note', 'value' => 'Power Name', 'style' => 'color:#aaaaaa', 'label' => false, 'div' => false));
-                            echo $this->Form->input("CharacterPower.$i.refresh_cost", array('class' => 'refresh-cost', 'label' => false, 'div' => false));
+                            echo $this->Form->input("CharacterPower.$i.note", array('class' => array('power-note', 'field-hint'), 'fieldname' => 'Power Note', 'value' => 'Power Note', 'style' => 'color:#aaaaaa', 'label' => false, 'div' => false));
+                            echo $this->Form->input("CharacterPower.$i.refresh_cost", array('value' => '0', 'class' => 'refresh-cost', 'label' => false, 'div' => false));
+                            echo $this->Html->image('ragny_icon_search.png', array('class' => array('power-view', 'clickable')));
                             ?>
                         </div>
                     </li>
@@ -118,17 +122,17 @@
     </div>
     <div id="stress">
         <div class="paragraph">
-            <?php echo $this->Form->input('skill_id', array('label' => 'Physical Stress Skill')); ?>
+            <?php echo $this->Form->input('physical_stress_skill_id', array('label' => 'Physical Stress Skill', 'options' => $skills)); ?>
             Physical Stress: <span id="physical-stress"></span><br />
             Extra Physical Consequences: <span id="extra-physical-consequences"></span>
         </div>
         <div class="paragraph">
-            <?php echo $this->Form->input('skill_id', array('label' => 'Mental Stress Skill')); ?>
+            <?php echo $this->Form->input('mental_stress_skill_id', array('label' => 'Mental Stress Skill', 'options' => $skills)); ?>
             Mental Stress: <span id="mental-stress"></span><br />
             Extra Mental Consequences: <span id="extra-mental-consequences"></span>
         </div>
         <div class="paragraph">
-            <?php echo $this->Form->input('skill_id', array('label' => 'Social Stress Skill')); ?>
+            <?php echo $this->Form->input('social_stress_skill_id', array('label' => 'Social Stress Skill', 'options' => $skills)); ?>
             Social Stress: <span id="social-stress"></span><br />
             Extra Social Consequences: <span id="extra-social-consequences"></span>
         </div>
@@ -156,9 +160,6 @@
 <script type="text/javascript">
     $(function () {
         $("#tabs").tabs();
-        $(".character-autocomplete").autocomplete({
-            source: characterNames
-        });
     });
 </script>
 <script type="text/javascript">

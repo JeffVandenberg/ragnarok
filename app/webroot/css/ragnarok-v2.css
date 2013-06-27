@@ -472,8 +472,7 @@ div.submit {
 /* scaffold view */
 dl {
     line-height: 2em;
-    margin: 0em 0em;
-    width: 60%;
+    /*width: 60%;*/
 }
 
 dl dd:nth-child(4n+2),
@@ -545,7 +544,7 @@ dd {
     margin-right: 10px;
 }
 
-.stunt-note {
+.stunt-note, .power-note {
     width: 250px !important;
     margin-right: 10px;
 }
@@ -554,13 +553,13 @@ dd {
     width: 30px !important;
 }
 
-.skill-view {
+.skill-view, .power-view, .stunt-view {
     margin: 0 10px;
 }
 
 /* jquery ui overrides */
 .ui-autocomplete {
-    max-height: 100px;
+    max-height: 150px;
     overflow-y: auto;
     /* prevent horizontal scrollbar */
     overflow-x: hidden;

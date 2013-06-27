@@ -1,55 +1,26 @@
-/**
- * Created with JetBrains PhpStorm.
+/* Created with JetBrains PhpStorm.
  * User: JeffVandenberg
  * Date: 5/30/13
  * Time: 9:31 PM
  * To change this template use File | Settings | File Templates.
  */
-var characterNames = [
-    "Abe",
-    "Bob",
-    "Carl",
-    "Dan",
-    "Edward",
-    "Frank",
-    "George",
-    "Harry",
-    "Isaac",
-    "Jackob",
-    "Karl",
-    "Leonard",
-    "Manny",
-    "Nicholas",
-    "OName",
-    "Peter",
-    "Reginald",
-    "Steve",
-    "Terry",
-    "UName",
-    "VName",
-    "William",
-    "Xander",
-    "Yanny",
-    "Zazzz"
-];
-
-var fateCharacter = {};
-fateCharacter.skillPoints = 30;
-fateCharacter.powerLevel = 8;
-fateCharacter.baseMentalStress = 2;
-fateCharacter.basePhysicalStress = 2;
-fateCharacter.baseSocialStress = 2;
-fateCharacter.calculateStressModifier = function (skillValue) {
+var dfCharacter = {};
+dfCharacter.skillPoints = 30;
+dfCharacter.powerLevel = 8;
+dfCharacter.baseMentalStress = 2;
+dfCharacter.basePhysicalStress = 2;
+dfCharacter.baseSocialStress = 2;
+dfCharacter.calculateStressModifier = function (skillValue) {
     var modifier = 0;
     if ((skillValue >= 1) && (skillValue <= 2)) {
-        modifier = 1
+        modifier = 1;
     }
     if (skillValue >= 3) {
-        modifier = 2
+        modifier = 2;
     }
     return modifier;
 };
-fateCharacter.calculateExtraConsequence = function (skillValue) {
+dfCharacter.calculateExtraConsequence = function (skillValue) {
     var modifier = 0;
     if (skillValue > 4) {
         modifier = Math.ceil((skillValue - 4) / 2);
@@ -58,30 +29,33 @@ fateCharacter.calculateExtraConsequence = function (skillValue) {
 };
 
 function updateSkills() {
-    var mentalStress = fateCharacter.baseMentalStress;
-    var physicalStress = fateCharacter.basePhysicalStress;
-    var socialStress = fateCharacter.baseSocialStress;
+    var mentalStress = dfCharacter.baseMentalStress;
+    var physicalStress = dfCharacter.basePhysicalStress;
+    var socialStress = dfCharacter.baseSocialStress;
     var extraMentalConsequence = 0;
     var extraPhysicalConsequence = 0;
     var extraSocialConsequence = 0;
 
     $(".skill-name").each(function (row, item) {
         var skillValue = $(item).parent('div').find('.skill-level').val();
+        var physicalStressSkill = $("#CharacterPhysicalStressSkillId").find('option:selected').text();
+        var mentalStressSkill = $("#CharacterMentalStressSkillId").find('option:selected').text();
+        var socialStressSkill = $("#CharacterSocialStressSkillId").find('option:selected').text();
 
-        if ($(item).val() == 'Conviction') {
-            mentalStress += fateCharacter.calculateStressModifier(skillValue);
-            extraMentalConsequence = fateCharacter.calculateExtraConsequence(skillValue);
+        if ($(item).val() === mentalStressSkill) {
+            mentalStress += dfCharacter.calculateStressModifier(skillValue);
+            extraMentalConsequence = dfCharacter.calculateExtraConsequence(skillValue);
         }
-        if ($(item).val() == 'Discipline') {
+        if ($(item).val() === 'Discipline') {
 
         }
-        if ($(item).val() == 'Endurance') {
-            physicalStress += fateCharacter.calculateStressModifier(skillValue);
-            extraPhysicalConsequence = fateCharacter.calculateExtraConsequence(skillValue);
+        if ($(item).val() === physicalStressSkill) {
+            physicalStress += dfCharacter.calculateStressModifier(skillValue);
+            extraPhysicalConsequence = dfCharacter.calculateExtraConsequence(skillValue);
         }
-        if ($(item).val() == 'Presence') {
-            socialStress += fateCharacter.calculateStressModifier(skillValue);
-            extraSocialConsequence = fateCharacter.calculateExtraConsequence(skillValue);
+        if ($(item).val() === socialStressSkill) {
+            socialStress += dfCharacter.calculateStressModifier(skillValue);
+            extraSocialConsequence = dfCharacter.calculateExtraConsequence(skillValue);
         }
     });
 
@@ -96,25 +70,73 @@ function updateSkills() {
 function initializeCharacter() {
     updateSkills();
 }
-
-function UpdateCharacterPowers(powers) {
-    for (var i = 0; i < powers.powers.length; i++) {
-        var power = powers.powers[i];
-    }
+function clearPowerRow() {
+    $(this)
+        .closest('div')
+        .find('.power-id')
+        .val(0);
+    $(this)
+        .closest('div')
+        .find('.refresh-cost')
+        .val('0');
+    $(this)
+        .closest('div')
+        .find('.power-note')
+        .val('')
+        .blur();
+    $(this)
+        .closest('div')
+        .find('.power-name')
+        .unlockField()
+        .val('')
+        .blur();
+    checkRefresh();
 }
+
+function clearSkillRow() {
+    $(this)
+        .closest('div')
+        .find('.skill-id')
+        .val(0);
+    $(this)
+        .closest('div')
+        .find('.skill-level')
+        .val('0');
+    $(this)
+        .closest('div')
+        .find('.skill-name')
+        .unlockField()
+        .val('')
+        .blur();
+    checkSkills();
+}
+
+function clearStuntRow() {
+    $(this)
+        .closest('div')
+        .find('.stunt-id')
+        .val(0);
+    $(this)
+        .closest('div')
+        .find('.stunt-cost')
+        .val('0');
+    $(this)
+        .closest('div')
+        .find('.stunt-note')
+        .val('')
+        .blur();
+    $(this)
+        .closest('div')
+        .find('.stunt-name')
+        .unlockField()
+        .val('')
+        .blur();
+    checkSkills();
+}
+
 $(function () {
-    $("#CharacterTemplateId").getValue();
     initializeCharacter();
     $(".simple-button").button();
-
-    $("#CharacterTemplateId").change(function () {
-        var templateId = $(this).val();
-        if (templateId == -1) {
-        }
-        else {
-            $.get('<?php echo $this->Html->url(' / '); ?>templates/listpowers/' + templateId + '.json', null, UpdateCharacterPowers)
-        }
-    });
 
     var showSkillAlert = true;
     var selectedSkill;
@@ -124,8 +146,13 @@ $(function () {
                 source: baseUrl + 'skills/getList.json',
                 select: function (e, ui) {
                     selectedSkill = true;
-                    $(this).closest('div').find('.skill-name').val(ui.item.label);
-                    $(this).closest('div').find('.skill-id').val(ui.item.value);
+                    $(this).closest('div').find('.skill-name')
+                        .val(ui.item.label)
+                        .lockField();
+                    $(this).closest('div').find('.skill-id')
+                        .val(ui.item.value);
+                    $(this).closest('div')
+                        .appendDelete('skill-delete');
                     e.preventDefault();
                 },
                 response: function () {
@@ -156,7 +183,7 @@ $(function () {
             $(this).autocomplete('search', $(this).val());
         });
 
-    var selectedStunt;
+    dfCharacter.selectedStunt = false;
     $(document)
         .on('focus', '.stunt-name:not(.ui-autocomplete-input)', function () {
             $(this).autocomplete({
@@ -165,26 +192,37 @@ $(function () {
                     return false;
                 },
                 select: function (e, ui) {
-                    selectedStunt = true;
-                    $(this).closest('div').find('.stunt-name').val(ui.item.label);
-                    $(this).closest('div').find('.stunt-id').val(ui.item.value);
-                    $(this).closest('div').find('.stunt-cost').val(ui.item.Stunt.cost);
+                    dfCharacter.selectedStunt = true;
+                    $(this).closest('div').find('.stunt-name')
+                        .val(ui.item.label)
+                        .lockField();
+                    $(this).closest('div').find('.stunt-id')
+                        .val(ui.item.value);
+                    //noinspection JSUnresolvedVariable
+                    $(this).closest('div').find('.stunt-cost')
+                        .val(ui.item.Stunt.cost);
+
+                    $(this).closest('div')
+                        .appendDelete('stunt-delete');
+
                     e.preventDefault();
                 },
                 response: function (e, ui) {
-                    selectedStunt = false;
-                    inStunt = false;
+                    dfCharacter.selectedStunt = false;
+                    dfCharacter.inStunt = false;
                     for (var i = 0; i < ui.content.length; i++) {
                         var obj = ui.content[i];
+                        //noinspection JSUnresolvedVariable
                         obj.label = obj.Stunt.stunt_name + ' (' + obj.Skill.skill_name + ')';
+                        //noinspection JSUnresolvedVariable
                         obj.value = obj.Stunt.id;
                     }
                 },
                 change: function () {
-                    inStunt = true;
+                    dfCharacter.inStunt = true;
                     var row = $(this).closest('div');
                     var stuntName = $(row).find('.stunt-name').val();
-                    if ((!selectedStunt) && (stuntName != 'Stunt Name') && (stuntName != '')) {
+                    if ((!dfCharacter.selectedStunt) && (stuntName != 'Stunt Name') && (stuntName != '')) {
                         if (confirm('Would you like to create ' + stuntName + '?')) {
                             $("#sheet-subview").load(
                                 baseUrl + 'stunts/add?name=' + encodeURIComponent(stuntName),
@@ -196,21 +234,26 @@ $(function () {
                                         height: 550,
                                         title: 'Add Stunt',
                                         closeOnEscape: false,
-                                        open: function (event, ui) {
+                                        open: function () {
                                             $(".ui-dialog-titlebar-close")
                                                 .hide();
                                         },
                                         buttons: {
                                             Save: function () {
                                                 var dialog = this;
-                                                var data = $("#sheet-subview").find('form').serializeArray()
+                                                var data = $("#sheet-subview").find('form').serializeArray();
                                                 $.post(
                                                     baseUrl + 'stunts/add/',
                                                     data,
                                                     function (response) {
                                                         if (response.result == 'ok') {
-                                                            $(row).find('.stunt-name').val(response.Stunt.stunt_name);
+                                                            //noinspection JSUnresolvedVariable
+                                                            $(row).find('.stunt-name')
+                                                                .val(response.Stunt.stunt_name)
+                                                                .lockField();
+                                                            //noinspection JSUnresolvedVariable
                                                             $(row).find('.stunt-id').val(response.Stunt.id);
+                                                            $(this).closest('div').appendDelete('stunt-delete');
                                                             $(dialog).dialog('close');
                                                         }
                                                         else {
@@ -241,6 +284,51 @@ $(function () {
             $(this).autocomplete('search', $(this).val());
         });
 
+    dfCharacter.selectedPower = false;
+    $(document)
+        .on('focus', '.power-name:not(.ui-autocomplete-input)', function () {
+            $(this).autocomplete({
+                source: baseUrl + 'powers/getList.json',
+                select: function (e, ui) {
+                    dfCharacter.selectedPower = true;
+                    $(this).closest('div').find('.power-name')
+                        .val($.trim(ui.item.label))
+                        .lockField();
+                    $(this).closest('div').find('.power-id').val(ui.item.value);
+                    //noinspection JSUnresolvedVariable
+                    $(this).closest('div').find('.refresh-cost').val(ui.item.Power.cost);
+                    $(this).closest('div').appendDelete('power-delete');
+                    checkRefresh();
+                    e.preventDefault();
+                },
+                response: function (e, ui) {
+                    dfCharacter.selectedPower = false;
+                    for (var i = 0; i < ui.content.length; i++) {
+                        var obj = ui.content[i];
+                        //noinspection JSUnresolvedVariable
+                        obj.label = $.trim(obj.Power.power_name);
+                        //noinspection JSUnresolvedVariable
+                        obj.value = obj.Power.id;
+                    }
+                },
+                focus: function () {
+                    return false;
+                },
+                change: function () {
+                    var powerName = $(this).closest('div').find('.power-name').val();
+                    var powerId = $(this).closest('div').find('.power-id').val();
+                    if((powerId == '') || (powerId == '0')) {
+                        if(($.trim(powerName) != 'Power Name') && ($.trim(powerName) != '')) {
+                            alert('Select Powers from the drop down');
+                            $(this).closest('div').find('.power-name').val('').blur();
+                        }
+                    }
+                    dfCharacter.selectedPower = false;
+                }
+            });
+            $(this).autocomplete('search', $(this).val());
+        });
+
     $("#add-skill").click(function () {
         var list = $("#skill-list");
         var rowNumber = list.find('li').length;
@@ -262,8 +350,7 @@ $(function () {
             .addClass('field-hint')
             .attr('fieldname', 'Skill Name')
             .attr('name', 'data[Character][' + rowNumber + '][CharacterSkill][skill_name]')
-            .val('Skill Name')
-            .css('color', '#aaaaaa');
+            .val('');
         var skillLevel = $("<input />")
             .addClass('skill-level')
             .attr('type', 'number')
@@ -282,17 +369,58 @@ $(function () {
                 .append(viewImg)
         );
         list.append(newItem);
+        skillName.blur();
     });
 
     $("#add-power").click(function () {
+        var list = $("#power-list");
+        var rowNumber = list.find('li').length;
         var newItem = $("<li></li>");
-        var newContent = $("<div></div>").addClass('input');
-        var skillName = $("<input />").addClass('power_name').addClass('field-hint').attr('fieldname', 'Power Name').attr('name', 'power_name[]').val('Power Name').css('color', '#aaaaaa');
-        var skillLevel = $("<input />").addClass('refresh_cost').attr('name', 'refresh_cost[]').val(0);
+        var newContent = $("<div></div>")
+            .addClass('input');
+        var characterPowerId = $("<input />")
+            .attr('type', 'hidden')
+            .attr('name', 'data[CharacterPower][' + rowNumber + '][id]')
+            .attr('id', 'CharacterPower' + rowNumber + 'Id');
+        var powerId = $('<input />')
+            .attr('type', 'hidden')
+            .attr('name', 'data[CharacterPower][' + rowNumber + '][power_id]')
+            .attr('id', 'CharacterPower' + rowNumber + 'PowerId')
+            .addClass('power-id')
+            .val(0);
+        var powerName = $("<input />")
+            .addClass('power-name')
+            .addClass('field-hint')
+            .attr('fieldname', 'Power Name')
+            .attr('name', 'data[CharacterPower][' + rowNumber + '][Power][power_name]')
+            .attr('id', 'CharacterPower' + rowNumber + 'PowerPowerName');
+        var powerNote = $('<input />')
+            .addClass('power-note')
+            .addClass('field-hint')
+            .attr('fieldname', 'Power Note')
+            .attr('name', 'data[CharacterPower][' + rowNumber + '][power_note]')
+            .attr('id', 'CharacterPower' + rowNumber + 'PowerNote');
+        var refreshCost = $("<input />")
+            .addClass('refresh-cost')
+            .attr('type', 'number')
+            .attr('name', 'data[CharacterPower][' + rowNumber + '][refresh_cost]')
+            .val(0);
+        var viewImg = $('<img />')
+            .attr('src', baseUrl + 'img/ragny_icon_search.png')
+            .addClass('power-view')
+            .addClass('clickable');
         newItem.append(
-            newContent.append(skillName).append(skillLevel)
+            newContent
+                .append(characterPowerId)
+                .append(powerId)
+                .append(powerName)
+                .append(powerNote)
+                .append(refreshCost)
+                .append(viewImg)
         );
-        $("#power-list").append(newItem);
+        list.append(newItem);
+        powerName.blur();
+        powerNote.blur();
     });
 
     $("#add-stunt").click(function () {
@@ -334,6 +462,10 @@ $(function () {
             .attr('id', 'CharacterStunt' + rowNumber + 'Cost')
             .attr('type', 'hidden')
             .val(0);
+        var viewImg = $('<img />')
+            .attr('src', baseUrl + 'img/ragny_icon_search.png')
+            .addClass('stunt-view')
+            .addClass('clickable');
         newItem.append(
             newContent
                 .append(characterStuntId)
@@ -341,8 +473,104 @@ $(function () {
                 .append(stuntName)
                 .append(stuntRules)
                 .append(cost)
+                .append(viewImg)
         );
         list.append(newItem);
+    });
+
+    $("#apply-template")
+        .click(function() {
+            alert('applying template')
+        });
+
+    $("#sort-skills").click(function () {
+        sortSkills();
+    });
+
+    $("#sort-powers").click(function () {
+        var powers = [];
+        var list = $('#power-list');
+        list.find("li").each(function () {
+            var item = {};
+            item.id = $(this).find('.power-id').val();
+            item.name = $(this).find('.power-name').getValue();
+            item.note = $(this).find('.power-note').getValue();
+            item.cost = $(this).find('.refresh-cost').val();
+            powers.push(item);
+        });
+        powers.sort(function (a, b) {
+            console.debug('compare ' + a.name + ' to ' + b.name);
+            if((a.name || '|||') == '|||') {
+                return 1;
+            }
+            if((b.name || '|||') == '|||') {
+                return -1;
+            }
+            return (a.name || '|||').toUpperCase().localeCompare((b.name || '|||').toUpperCase());
+        });
+        var row = 0;
+        list.find("li").each(function (count, item) {
+            $(item).find('.power-id').val(powers[row].id);
+            $(item).find('.power-name').val(powers[row].name).blur();
+            $(item).find('.power-note').val(powers[row].note).blur();
+            $(item).find('.refresh-cost').val(powers[row].cost);
+            row++;
+        });
+        updatePowerElements();
+    });
+
+    $("#sort-stunts").click(function () {
+        var stunts = [];
+        var list = $("#stunt-list");
+        list.find("li").each(function () {
+            var item = {};
+            item.id = $(this).find('.stunt-id').val();
+            item.name = $(this).find('.stunt-name').getValue();
+            item.note = $(this).find('.stunt-note').getValue();
+            item.cost = $(this).find('.stunt-cost').val();
+            stunts.push(item);
+        });
+        stunts.sort(function (a, b) {
+            if((a.name || '|||') == '|||') {
+                return 1;
+            }
+            if((b.name || '|||') == '|||') {
+                return -1;
+            }
+            return (a.name || '|||').toUpperCase().localeCompare((b.name || '|||').toUpperCase());
+        });
+        var row = 0;
+        list.find("li").each(function (count, item) {
+            $(item).find('.stunt-name').val(stunts[row].name).blur();
+            $(item).find('.stunt-id').val(stunts[row].id);
+            $(item).find('.stunt-note').val(stunts[row].note).blur();
+            $(item).find('.stunt-cost').val(stunts[row].cost);
+            row++;
+        });
+        updateStuntElements();
+    });
+
+    $("#CharacterSkillSpread").change(function () {
+        // initialize
+        $('.skill-id').val(0);
+        $(".skill-level").val(0);
+        $(".skill-name").val('').blur();
+
+        // set values
+        var skillSpread = $(this).find(":selected").text();
+        var row = 0;
+        var skillLevel = 1;
+
+        while (skillSpread != '') {
+            var slashPosition = skillSpread.lastIndexOf('/');
+            var numberOfSkills = skillSpread.substring(slashPosition + 1);
+            for (var i = 0; i < numberOfSkills; i++) {
+                $("#CharacterSkill" + row++ + "SkillLevel").val(skillLevel);
+            }
+            skillSpread = skillSpread.substring(0, slashPosition);
+            skillLevel++;
+        }
+        sortSkills();
     });
 
     $(document)
@@ -368,87 +596,51 @@ $(function () {
             }
         });
 
-    $("#sort-skills").click(function () {
-        sortSkills();
-    });
-
-    $("#sort-powers").click(function () {
-        var powers = [];
-        var list = $('#power-list');
-        list.find("li").each(function () {
-            var item = {};
-            item.name = $(this).find('.power_name').getValue();
-            item.cost = $(this).find('.refresh_cost').val();
-            powers.push(item);
-        });
-        powers.sort(function (a, b) {
-            if (a.name < b.name) {
-                return -1;
+    $(document)
+        .on('click', '.stunt-view', function () {
+            var stuntId = $(this).closest('div').find('.stunt-id').val();
+            if ((stuntId == 0) || (stuntId == '')) {
+                alert('No Stunt to display');
             }
-            if (b.name < a.name) {
-                return 1;
+            else {
+                $("#sheet-subview")
+                    .load(
+                    baseUrl + 'stunts/view/' + stuntId,
+                    null,
+                    function () {
+                        $(this).dialog({
+                            modal: true,
+                            width: 500,
+                            height: 400,
+                            title: 'View Stunt'
+                        });
+                    }
+                );
             }
-            return 0;
         });
-        var row = 0;
-        list.find("li").each(function (count, item) {
-            $(item).find('.power_name').val(powers[row].name);
-            $(item).find('.refresh_cost').val(powers[row].cost);
-            row++;
-        });
-    });
 
-    $("#sort-stunts").click(function () {
-        var stunts = [];
-        var list = $("#stunt-list");
-        list.find("li").each(function () {
-            var item = {};
-            item.id = $(this).find('.stunt-id').val();
-            item.name = $(this).find('.stunt-name').getValue();
-            item.note = $(this).find('.stunt-note').getValue();
-            item.cost = $(this).find('.stunt-cost').val();
-            stunts.push(item);
-        });
-        stunts.sort(function (a, b) {
-            if (a.name < b.name) {
-                return -1;
+    $(document)
+        .on('click', '.power-view', function() {
+            var powerId = $(this).closest('div').find('.power-id').val();
+            if((powerId == 0) || (powerId == '')) {
+                alert('No Power to display');
             }
-            if (b.name < a.name) {
-                return 1;
+            else {
+                $("#sheet-subview")
+                    .load(
+                        baseUrl + 'powers/view/' + powerId,
+                        null,
+                        function() {
+                            $(this).dialog({
+                                modal: true,
+                                width: 500,
+                                height: 400,
+                                title: 'View Power'
+                            });
+                        }
+                    );
             }
-            return 0;
         });
-        var row = 0;
-        list.find("li").each(function (count, item) {
-            $(item).find('.stunt-name').val(stunts[row].name).blur();
-            $(item).find('.stunt-id').val(stunts[row].id);
-            $(item).find('.stunt-note').val(stunts[row].note);
-            $(item).find('.stunt-cost').val(stunts[row].cost);
-            row++;
-        });
-    });
-
-    $("#CharacterSkillSpread").change(function () {
-        // initialize
-        $(".skill-level").val(0);
-        $(".skill-name").val('Skill Name').css('color', '#aaaaaa');
-
-        // set values
-        var skillSpread = $(this).find(":selected").text();
-        var row = 0;
-        var skillLevel = 1;
-
-        while (skillSpread != '') {
-            var slashPosition = skillSpread.lastIndexOf('/');
-            var numberOfSkills = skillSpread.substring(slashPosition + 1);
-            for (var i = 0; i < numberOfSkills; i++) {
-                $("#Character" + row++ + "CharacterSkillSkillLevel").val(skillLevel);
-            }
-            skillSpread = skillSpread.substring(0, slashPosition);
-            skillLevel++;
-        }
-        sortSkills();
-    });
 
     $(document)
         .off('blur', '.skill-level')
@@ -458,14 +650,44 @@ $(function () {
         });
 
     $(document)
-        .off('blur', '.refresh_cost')
-        .on('blur', '.refresh_cost', function () {
+        .off('blur', '.refresh-cost')
+        .on('blur', '.refresh-cost', function () {
             checkRefresh();
+        });
+
+    $(document)
+        .off('click', '.skill-delete')
+        .on('click', '.skill-delete', function() {
+            var skillName = $(this).closest('div').find('.skill-name').val();
+            if(confirm('Are you sure you want to delete ' + skillName + '?')) {
+                clearSkillRow.call(this);
+                $(this).remove();
+            }
+        });
+
+    $(document)
+        .off('click', '.stunt-delete')
+        .on('click', '.stunt-delete', function() {
+            var stuntName = $(this).closest('div').find('.stunt-name').val();
+            if(confirm('Are you sure you want to delete ' + stuntName + '?')) {
+                clearStuntRow.call(this);
+                $(this).remove();
+            }
+        });
+
+    $(document)
+        .off('click', '.power-delete')
+        .on('click', '.power-delete', function() {
+            var powerName = $(this).closest('div').find('.power-name').val();
+            if(confirm('Are you sure you want to delete ' + powerName + '?')) {
+                clearPowerRow.call(this);
+                $(this).remove();
+            }
         });
 });
 
 function checkSkills() {
-    var remainingPoints = fateCharacter.skillPoints;
+    var remainingPoints = dfCharacter.skillPoints;
 
     var levels = [0, 0, 0, 0, 0, 0, 0, 0];
     $('.skill-level')
@@ -495,15 +717,39 @@ function checkSkills() {
 }
 
 function checkRefresh() {
-    var remainingRefresh = fateCharacter.powerLevel;
+    var remainingRefresh = dfCharacter.powerLevel;
 
-    $('.refresh_cost')
+    var hasPower = false;
+    $('.refresh-cost')
         .each(function (count, item) {
+            var powerId = $(item).closest('div').find('.power-id').val();
+            if((powerId != '0') && (powerId != '')) {
+                hasPower = true;
+            }
             if (!isNaN(parseInt($(item).val()))) {
-                remainingRefresh -= $(item).val();
+                remainingRefresh += parseInt($(item).val());
             }
         });
-    $("#refresh").val(remainingRefresh);
+    $('.stunt-cost')
+        .each(function (count, item) {
+            if (!isNaN(parseInt($(item).val()))) {
+                remainingRefresh += parseInt($(item).val());
+            }
+        });
+    if(!hasPower) {
+        $("#CharacterTemplateId").val("1");
+        remainingRefresh += 2;
+        // set to mortal
+        // give mortal bonus
+    }
+    else {
+        // check if mortal
+        // remind to change if
+        if($("#CharacterTemplateId").val() == '1') {
+            alert('No longer a mortal character. Please change template.');
+        }
+    }
+    $("#CharacterMaxFate").val(remainingRefresh);
 }
 
 function sortSkills() {
@@ -517,7 +763,13 @@ function sortSkills() {
         skills.push(item);
     });
     skills.sort(function (a, b) {
-        return b.level - a.level;
+        if(a.level > b.level) {
+            return -1;
+        }
+        if(b.level > a.level) {
+            return 1;
+        }
+        return (a.skill || '|||').toUpperCase().localeCompare((b.skill || '|||').toUpperCase());
     });
     var row = 0;
     list.find("li").each(function (count, item) {
@@ -527,4 +779,75 @@ function sortSkills() {
         row++;
     });
     checkSkills();
+    updateSkillElements();
 }
+
+function updateSkillElements() {
+    $("#skill-list").find('li').each(function() {
+        if(parseInt($(this).find('.skill-id').val()) > 0) {
+            $(this).find('.skill-name').lockField();
+            if($(this).find('.skill-delete').length == 0) {
+                $(this).find('div').appendDelete('skill-delete');
+            }
+        }
+        else {
+            $(this).find('.skill-name').unlockField();
+            $(this).find('.skill-delete').remove();
+        }
+    });
+}
+
+function updateStuntElements() {
+    $("#stunt-list").find('li').each(function() {
+        if(parseInt($(this).find('.stunt-id').val()) > 0) {
+            $(this).find('.stunt-name').lockField();
+            if($(this).find('.stunt-delete').length == 0) {
+                $(this).find('div').appendDelete('stunt-delete');
+            }
+        }
+        else {
+            $(this).find('.stunt-name').unlockField();
+            $(this).find('.stunt-delete').remove();
+        }
+    });
+}
+
+function updatePowerElements() {
+    $("#power-list").find('li').each(function() {
+        if(parseInt($(this).find('.power-id').val()) > 0) {
+            $(this).find('.power-name').lockField();
+            if($(this).find('.power-delete').length == 0) {
+                $(this).find('div').appendDelete('power-delete');
+            }
+        }
+        else {
+            $(this).find('.power-name').unlockField();
+            $(this).find('.power-delete').remove();
+        }
+    });
+}
+
+$.fn.lockField = function() {
+    $(this)
+        .css('background-color', '#ddccbb')
+        .attr('readonly', 'readonly');
+    return $(this);
+};
+
+$.fn.unlockField = function() {
+    $(this)
+        .css('background-color', '')
+        .attr('readonly', false);
+    return $(this);
+};
+
+$.fn.appendDelete = function(className) {
+    $(this)
+        .append(
+            $('<img />')
+                .addClass(className)
+                .addClass('clickable')
+                .attr('src', baseUrl + 'img/ragny_icon_delete.png')
+        );
+    return $(this);
+};

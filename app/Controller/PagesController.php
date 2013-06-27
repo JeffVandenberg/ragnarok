@@ -20,6 +20,7 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 App::uses('AppController', 'Controller');
+
 /**
  * Static content controller
  *
@@ -29,18 +30,21 @@ App::uses('AppController', 'Controller');
  * @link http://book.cakephp.org/2.0/en/controllers/pages-controller.html
  */
 class PagesController extends AppController {
+
 /**
  * Controller name
  *
  * @var string
  */
 	public $name = 'Pages';
+
 /**
  * This controller does not use a model
  *
  * @var array
  */
 	public $uses = array();
+
 /**
  * Displays a view
  *
@@ -49,11 +53,13 @@ class PagesController extends AppController {
  */
 	public function display() {
 		$path = func_get_args();
+
 		$count = count($path);
 		if (!$count) {
 			$this->redirect('/');
 		}
 		$page = $subpage = $title_for_layout = null;
+
 		if (!empty($path[0])) {
 			$page = $path[0];
 		}

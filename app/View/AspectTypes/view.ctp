@@ -58,6 +58,7 @@
 	<?php endforeach; ?>
 	</table>
 <?php endif; ?>
+
 	<div class="actions">
 		<ul>
 			<li><?php echo $this->Html->link(__('New Character Aspect'), array('controller' => 'character_aspects', 'action' => 'add')); ?> </li>
