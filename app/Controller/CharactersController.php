@@ -104,6 +104,7 @@ class CharactersController extends AppController
         $character['Character']['physical_stress_skill_id'] = Configure::read('character.PhysicalStressSkillId');
         $character['Character']['mental_stress_skill_id'] = Configure::read('character.MentalStressSkillId');
         $character['Character']['social_stress_skill_id'] = Configure::read('character.SocialStressSkillId');
+        $character['Character']['hunger_stress_skill_id'] = Configure::read('character.HungerStressSkillId');
         $this->request->data = $character;
 
         $this->set(compact('templates', 'skillSpreads', 'skills'));

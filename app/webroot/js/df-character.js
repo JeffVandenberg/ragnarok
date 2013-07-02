@@ -4,6 +4,7 @@
  * Time: 9:31 PM
  * To change this template use File | Settings | File Templates.
  */
+
 var dfCharacter = {};
 dfCharacter.skillPoints = 30;
 dfCharacter.powerLevel = 8;
@@ -13,10 +14,10 @@ dfCharacter.baseSocialStress = 2;
 dfCharacter.calculateStressModifier = function (skillValue) {
     var modifier = 0;
     if ((skillValue >= 1) && (skillValue <= 2)) {
-        modifier = 1;
+        modifier = 1
     }
     if (skillValue >= 3) {
-        modifier = 2;
+        modifier = 2
     }
     return modifier;
 };
@@ -38,22 +39,22 @@ function updateSkills() {
 
     $(".skill-name").each(function (row, item) {
         var skillValue = $(item).parent('div').find('.skill-level').val();
+
         var physicalStressSkill = $("#CharacterPhysicalStressSkillId").find('option:selected').text();
         var mentalStressSkill = $("#CharacterMentalStressSkillId").find('option:selected').text();
         var socialStressSkill = $("#CharacterSocialStressSkillId").find('option:selected').text();
-
-        if ($(item).val() === mentalStressSkill) {
+        if ($(item).val() == mentalStressSkill) {
             mentalStress += dfCharacter.calculateStressModifier(skillValue);
             extraMentalConsequence = dfCharacter.calculateExtraConsequence(skillValue);
         }
-        if ($(item).val() === 'Discipline') {
+        if ($(item).val() == 'Discipline') {
 
         }
-        if ($(item).val() === physicalStressSkill) {
+        if ($(item).val() == physicalStressSkill) {
             physicalStress += dfCharacter.calculateStressModifier(skillValue);
             extraPhysicalConsequence = dfCharacter.calculateExtraConsequence(skillValue);
         }
-        if ($(item).val() === socialStressSkill) {
+        if ($(item).val() == socialStressSkill) {
             socialStress += dfCharacter.calculateStressModifier(skillValue);
             extraSocialConsequence = dfCharacter.calculateExtraConsequence(skillValue);
         }
@@ -70,6 +71,13 @@ function updateSkills() {
 function initializeCharacter() {
     updateSkills();
 }
+
+function UpdateCharacterPowers(powers) {
+    for (var i = 0; i < powers.powers.length; i++) {
+        var power = powers.powers[i];
+    }
+}
+
 function clearPowerRow() {
     $(this)
         .closest('div')
@@ -79,11 +87,6 @@ function clearPowerRow() {
         .closest('div')
         .find('.refresh-cost')
         .val('0');
-    $(this)
-        .closest('div')
-        .find('.power-note')
-        .val('')
-        .blur();
     $(this)
         .closest('div')
         .find('.power-name')
@@ -138,6 +141,15 @@ $(function () {
     initializeCharacter();
     $(".simple-button").button();
 
+    $("#CharacterTemplateId").change(function () {
+        var templateId = $(this).val();
+        if (templateId == -1) {
+        }
+        else {
+            $.get('<?php echo $this->Html->url(' / '); ?>templates/listpowers/' + templateId + '.json', null, UpdateCharacterPowers)
+        }
+    });
+
     var showSkillAlert = true;
     var selectedSkill;
     $(document)
@@ -183,7 +195,7 @@ $(function () {
             $(this).autocomplete('search', $(this).val());
         });
 
-    dfCharacter.selectedStunt = false;
+    var selectedStunt;
     $(document)
         .on('focus', '.stunt-name:not(.ui-autocomplete-input)', function () {
             $(this).autocomplete({
@@ -192,13 +204,12 @@ $(function () {
                     return false;
                 },
                 select: function (e, ui) {
-                    dfCharacter.selectedStunt = true;
+                    selectedStunt = true;
                     $(this).closest('div').find('.stunt-name')
                         .val(ui.item.label)
                         .lockField();
                     $(this).closest('div').find('.stunt-id')
                         .val(ui.item.value);
-                    //noinspection JSUnresolvedVariable
                     $(this).closest('div').find('.stunt-cost')
                         .val(ui.item.Stunt.cost);
 
@@ -208,21 +219,19 @@ $(function () {
                     e.preventDefault();
                 },
                 response: function (e, ui) {
-                    dfCharacter.selectedStunt = false;
-                    dfCharacter.inStunt = false;
+                    selectedStunt = false;
+                    inStunt = false;
                     for (var i = 0; i < ui.content.length; i++) {
                         var obj = ui.content[i];
-                        //noinspection JSUnresolvedVariable
                         obj.label = obj.Stunt.stunt_name + ' (' + obj.Skill.skill_name + ')';
-                        //noinspection JSUnresolvedVariable
                         obj.value = obj.Stunt.id;
                     }
                 },
                 change: function () {
-                    dfCharacter.inStunt = true;
+                    inStunt = true;
                     var row = $(this).closest('div');
                     var stuntName = $(row).find('.stunt-name').val();
-                    if ((!dfCharacter.selectedStunt) && (stuntName != 'Stunt Name') && (stuntName != '')) {
+                    if ((!selectedStunt) && (stuntName != 'Stunt Name') && (stuntName != '')) {
                         if (confirm('Would you like to create ' + stuntName + '?')) {
                             $("#sheet-subview").load(
                                 baseUrl + 'stunts/add?name=' + encodeURIComponent(stuntName),
@@ -234,26 +243,26 @@ $(function () {
                                         height: 550,
                                         title: 'Add Stunt',
                                         closeOnEscape: false,
-                                        open: function () {
+                                        open: function (event, ui) {
                                             $(".ui-dialog-titlebar-close")
                                                 .hide();
                                         },
                                         buttons: {
                                             Save: function () {
                                                 var dialog = this;
-                                                var data = $("#sheet-subview").find('form').serializeArray();
+                                                var data = $("#sheet-subview").find('form').serializeArray()
                                                 $.post(
                                                     baseUrl + 'stunts/add/',
                                                     data,
                                                     function (response) {
                                                         if (response.result == 'ok') {
-                                                            //noinspection JSUnresolvedVariable
                                                             $(row).find('.stunt-name')
                                                                 .val(response.Stunt.stunt_name)
                                                                 .lockField();
-                                                            //noinspection JSUnresolvedVariable
                                                             $(row).find('.stunt-id').val(response.Stunt.id);
+
                                                             $(this).closest('div').appendDelete('stunt-delete');
+
                                                             $(dialog).dialog('close');
                                                         }
                                                         else {
@@ -284,30 +293,27 @@ $(function () {
             $(this).autocomplete('search', $(this).val());
         });
 
-    dfCharacter.selectedPower = false;
+    var selectedPower;
     $(document)
         .on('focus', '.power-name:not(.ui-autocomplete-input)', function () {
             $(this).autocomplete({
                 source: baseUrl + 'powers/getList.json',
                 select: function (e, ui) {
-                    dfCharacter.selectedPower = true;
+                    selectedPower = true;
                     $(this).closest('div').find('.power-name')
                         .val($.trim(ui.item.label))
                         .lockField();
                     $(this).closest('div').find('.power-id').val(ui.item.value);
-                    //noinspection JSUnresolvedVariable
                     $(this).closest('div').find('.refresh-cost').val(ui.item.Power.cost);
                     $(this).closest('div').appendDelete('power-delete');
                     checkRefresh();
                     e.preventDefault();
                 },
                 response: function (e, ui) {
-                    dfCharacter.selectedPower = false;
+                    selectedPower = false;
                     for (var i = 0; i < ui.content.length; i++) {
                         var obj = ui.content[i];
-                        //noinspection JSUnresolvedVariable
                         obj.label = $.trim(obj.Power.power_name);
-                        //noinspection JSUnresolvedVariable
                         obj.value = obj.Power.id;
                     }
                 },
@@ -323,7 +329,7 @@ $(function () {
                             $(this).closest('div').find('.power-name').val('').blur();
                         }
                     }
-                    dfCharacter.selectedPower = false;
+                    selectedPower = false;
                 }
             });
             $(this).autocomplete('search', $(this).val());

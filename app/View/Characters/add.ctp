@@ -32,7 +32,9 @@
         <li><a href="#skills">Skills</a></li>
         <li><a href="#stunts">Stunts</a></li>
         <li><a href="#powers">Powers</a></li>
+        <li><a href="#powers2">Power Notes</a></li>
         <li><a href="#stress">Stress</a></li>
+        <li><a href="#description">Description</a></li>
         <li><a href="#stories">Stories</a></li>
         <li><a href="#advancement">Advancement</a></li>
         <li><a href="#notes">Notes</a></li>
@@ -120,6 +122,11 @@
             </ul>
         </div>
     </div>
+    <div id="powers2">
+        This section is for notes which have a more complexity, such as your wereform's alternate skills and various
+        magical bonuses, foci, etc.
+        <?php echo $this->Form->input('additional_power_notes'); ?>
+    </div>
     <div id="stress">
         <div class="paragraph">
             <?php echo $this->Form->input('physical_stress_skill_id', array('label' => 'Physical Stress Skill', 'options' => $skills)); ?>
@@ -136,18 +143,39 @@
             Social Stress: <span id="social-stress"></span><br />
             Extra Social Consequences: <span id="extra-social-consequences"></span>
         </div>
+        <div class="paragraph">
+            <?php echo $this->Form->input('hunger_stress_skill_id', array('label' => 'Hunger Stress Skill', 'options' => $skills)); ?>
+            Hunger Stress: <span id="hunger-stress"></span><br />
+            Extra Hunger Consequences: <span id="extra-hunger-consequences"></span>
+        </div>
     </div>
-    <div id="stories">
+    <div id="description">
+        <div class="input">
+            <label>Description</label>
+            <?php echo $this->Form->textarea('description', array('class' => 'full-editor')); ?>
+        </div>
         <div class="input">
             <label>Character History</label>
             <?php echo $this->Form->textarea('history', array('class' => 'full-editor')); ?>
         </div>
-        Stories your character has been, or is, involved in.<br/>
-        Also story management area where you can decide if people can have
-        you as a connection.
+    </div>
+    <div id="stories">
+        <div id="create-story" class="simple-button">Create Personal Story</div>
+        <h3>
+            Site Stories
+        </h3>
+        <h3>
+            GM Stories
+        </h3>
+        <h3>
+            Personal Stories
+        </h3>
     </div>
     <div id="advancement">
-        A log of your characters Advancement
+        <div id="create-minor-milestone" class="simple-button">Create Minor Milestone</div>
+        <?php echo $this->Form->input('available_significant_milestones', array('style' => 'width:50px;', 'readonly' => 'readonly')); ?>
+        <?php echo $this->Form->input('available_major_milestones', array('style' => 'width:50px;', 'readonly' => 'readonly')); ?>
+        <h3>Previous Milestones</h3>
     </div>
     <div id="notes">
         Administrative Notes Area
