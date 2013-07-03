@@ -282,4 +282,56 @@ class Character extends AppModel {
         return $hasAspectType;
     }
 
+    public function SaveCharacter($character)
+    {
+        if(isset($character['CharacterSkill']))
+        {
+            foreach($character['CharacterSkill'] as $row => $item)
+            {
+                if(($item['skill_id'] == '0') || ($item['skill_id'] == ''))
+                {
+                    unset($character['CharacterSkill'][$row]);
+                }
+            }
+            if(count($character['CharacterSkill']) == 0)
+            {
+                unset($character['CharacterSkill']);
+            }
+        }
+
+        if(isset($character['CharacterStunt']))
+        {
+            foreach($character['CharacterStunt'] as $row => $item)
+            {
+                if(($item['stunt_id'] == '0') || ($item['stunt_id'] == ''))
+                {
+                    unset($character['CharacterStunt'][$row]);
+                }
+            }
+            if(count($character['CharacterStunt']) == 0)
+            {
+                unset($character['CharacterStunt']);
+            }
+        }
+
+        if(isset($character['CharacterPower']))
+        {
+            foreach($character['CharacterPower'] as $row => $item)
+            {
+                if(($item['power_id'] == '0') || ($item['power_id'] == ''))
+                {
+                    unset($character['CharacterPower'][$row]);
+                }
+            }
+            if(count($character['CharacterPower']) == 0)
+            {
+                unset($character['CharacterPower']);
+            }
+        }
+
+        debug($character);
+        die('done');
+        return $this->saveAll($character);
+    }
+
 }

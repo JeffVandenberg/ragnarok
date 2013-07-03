@@ -52,7 +52,6 @@ class AspectHelper extends AppHelper
     public function MakeAddTable()
     {
         $view = '<table>';
-
         $view .= $this->MakeHighConceptAspectEdit(0);
         $view .= $this->MakeTroubleAspectEdit(1);
         $view .= $this->MakeBackgroundAspectEdit(2);

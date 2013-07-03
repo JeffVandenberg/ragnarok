@@ -71,7 +71,7 @@ class CharactersController extends AppController
             $this->request->data['Character']['current_fate'] = $this->request->data['Character']['max_fate'];
             $this->request->data['Character']['character_status_id'] = 1;
 
-            $data = array();
+            /*$data = array();
             $data['Character'] = $this->request->data['Character'];
             $data['Character']['character_name'] = 'A Much Longer Name';
             $data['CharacterSkill'] = $this->request->data['CharacterSkill'];
@@ -79,18 +79,27 @@ class CharactersController extends AppController
                 if($skill['skill_id'] == 0) {
                     unset($data['CharacterSkill'][$id]);
                 }
-            }
+            }*/
             //$this->Character->saveAll($data);
             //debug($this->Character->validationErrors);
-            debug($this->request->data);
+            App::uses('Sanitize', 'Utility');
+            $this->request->data['Character']['public_information'] = Sanitize::stripScripts($this->request->data['Character']['public_information']);
 
-            die();
-            if ($this->Character->save($this->request->data)) {
+            if ($this->Character->SaveCharacter($this->request->data)) {
                 $this->Session->setFlash(__('The character has been saved'));
                 $this->redirect(array('action' => 'index'));
             } else {
+                debug($this->Character->validationErrors);
                 $this->Session->setFlash(__('The character could not be saved. Please, try again.'));
             }
+        }
+        else {
+            $character = array();
+            $character['Character']['physical_stress_skill_id'] = Configure::read('character.PhysicalStressSkillId');
+            $character['Character']['mental_stress_skill_id'] = Configure::read('character.MentalStressSkillId');
+            $character['Character']['social_stress_skill_id'] = Configure::read('character.SocialStressSkillId');
+            $character['Character']['hunger_stress_skill_id'] = Configure::read('character.HungerStressSkillId');
+            $this->request->data = $character;
         }
         $skillSpreads = array(
             1 => '5/5/5',
@@ -100,12 +109,6 @@ class CharactersController extends AppController
         );
         $templates = $this->Character->Template->find('list');
         $skills = $this->Skill->find('list');
-        $character = array();
-        $character['Character']['physical_stress_skill_id'] = Configure::read('character.PhysicalStressSkillId');
-        $character['Character']['mental_stress_skill_id'] = Configure::read('character.MentalStressSkillId');
-        $character['Character']['social_stress_skill_id'] = Configure::read('character.SocialStressSkillId');
-        $character['Character']['hunger_stress_skill_id'] = Configure::read('character.HungerStressSkillId');
-        $this->request->data = $character;
 
         $this->set(compact('templates', 'skillSpreads', 'skills'));
     }

@@ -653,3 +653,8 @@ dd {
     background: #efefef;
     color: #c73e14;
 }
+
+/* TinyMCE Text area classes */
+.full-editor {
+    min-height: 600px;
+}

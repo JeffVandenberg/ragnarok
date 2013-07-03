@@ -11,6 +11,8 @@ dfCharacter.powerLevel = 8;
 dfCharacter.baseMentalStress = 2;
 dfCharacter.basePhysicalStress = 2;
 dfCharacter.baseSocialStress = 2;
+dfCharacter.baseHungerStress = 2;
+
 dfCharacter.calculateStressModifier = function (skillValue) {
     var modifier = 0;
     if ((skillValue >= 1) && (skillValue <= 2)) {
@@ -33,9 +35,12 @@ function updateSkills() {
     var mentalStress = dfCharacter.baseMentalStress;
     var physicalStress = dfCharacter.basePhysicalStress;
     var socialStress = dfCharacter.baseSocialStress;
+    var hungerStress = dfCharacter.baseHungerStress;
+
     var extraMentalConsequence = 0;
     var extraPhysicalConsequence = 0;
     var extraSocialConsequence = 0;
+    var extraHungerConsequence = 0;
 
     $(".skill-name").each(function (row, item) {
         var skillValue = $(item).parent('div').find('.skill-level').val();
@@ -43,12 +48,15 @@ function updateSkills() {
         var physicalStressSkill = $("#CharacterPhysicalStressSkillId").find('option:selected').text();
         var mentalStressSkill = $("#CharacterMentalStressSkillId").find('option:selected').text();
         var socialStressSkill = $("#CharacterSocialStressSkillId").find('option:selected').text();
+        var hungerStressSkill = $("#CharacterHungerStressSkillId").find('option:selected').text();
+
         if ($(item).val() == mentalStressSkill) {
             mentalStress += dfCharacter.calculateStressModifier(skillValue);
             extraMentalConsequence = dfCharacter.calculateExtraConsequence(skillValue);
         }
-        if ($(item).val() == 'Discipline') {
-
+        if ($(item).val() == hungerStressSkill) {
+            hungerStress += dfCharacter.calculateStressModifier(skillValue);
+            extraHungerConsequence = dfCharacter.calculateExtraConsequence(skillValue);
         }
         if ($(item).val() == physicalStressSkill) {
             physicalStress += dfCharacter.calculateStressModifier(skillValue);
@@ -66,6 +74,8 @@ function updateSkills() {
     $("#extra-physical-consequences").html(extraPhysicalConsequence);
     $("#social-stress").html(socialStress);
     $("#extra-social-consequences").html(extraSocialConsequence);
+    $("#hunger-stress").html(hungerStress);
+    $("#extra-hunger-consequences").html(extraHungerConsequence);
 }
 
 function initializeCharacter() {
@@ -143,11 +153,13 @@ $(function () {
 
     $("#CharacterTemplateId").change(function () {
         var templateId = $(this).val();
-        if (templateId == -1) {
+        if (templateId === "1") {
+            alert('mortal');
         }
         else {
-            $.get('<?php echo $this->Html->url(' / '); ?>templates/listpowers/' + templateId + '.json', null, UpdateCharacterPowers)
+            $.get(baseUrl + 'templates/listpowers/' + templateId + '.json', null, UpdateCharacterPowers)
         }
+        checkRefresh()
     });
 
     var showSkillAlert = true;

@@ -34,10 +34,10 @@
         <li><a href="#powers">Powers</a></li>
         <li><a href="#powers2">Power Notes</a></li>
         <li><a href="#stress">Stress</a></li>
-        <li><a href="#description">Description</a></li>
+        <li><a href="#description">Public</a></li>
         <li><a href="#stories">Stories</a></li>
         <li><a href="#advancement">Advancement</a></li>
-        <li><a href="#notes">Notes</a></li>
+        <li><a href="#notes">Admin</a></li>
     </ul>
     <div id="aspects">
         <?php echo $this->Aspect->MakeAddTable(); ?>
@@ -151,12 +151,8 @@
     </div>
     <div id="description">
         <div class="input">
-            <label>Description</label>
-            <?php echo $this->Form->textarea('description', array('class' => 'full-editor')); ?>
-        </div>
-        <div class="input">
-            <label>Character History</label>
-            <?php echo $this->Form->textarea('history', array('class' => 'full-editor')); ?>
+            Public Character Page. Put anything and everything you want people to know about your character here.
+            <?php echo $this->Form->textarea('public_information', array('class' => 'full-editor')); ?>
         </div>
     </div>
     <div id="stories">
@@ -170,6 +166,10 @@
         <h3>
             Personal Stories
         </h3>
+        <div class="input">
+            <label>Character History</label>
+            <?php echo $this->Form->textarea('history', array('class' => 'full-editor')); ?>
+        </div>
     </div>
     <div id="advancement">
         <div id="create-minor-milestone" class="simple-button">Create Minor Milestone</div>
@@ -202,7 +202,8 @@
         ],
         toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
         toolbar2: "print preview media | forecolor backcolor emoticons",
-        image_advtab: true
+        image_advtab: true,
+        height: 600
     });
 </script>
 <?php $this->end(); ?>
