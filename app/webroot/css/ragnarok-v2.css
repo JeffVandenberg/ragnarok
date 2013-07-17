@@ -172,7 +172,7 @@ div#main-logo {
 }
 
 #vnav li.chosen a {
-    background: url('../img/vnav-chosen.png') 50% 0 no-repeat;
+    background: url('../img/topnav-chosen.png') 50% 0 no-repeat;
     color: #fff;
 }
 
@@ -267,7 +267,7 @@ div#main-logo {
 }
 
 #vnav2 li a.chosen {
-    background: url('../img/vnav-chosen.png') 50% 0 no-repeat;
+    background: url('../img/topnav-chosen.png') 50% 0 no-repeat;
     color: #fff;
     font-weight: bold;
 }
@@ -419,7 +419,7 @@ div.submit {
     margin-right: 10px;
 }
 
-.input > label {
+#content-body label {
     font-weight: bold;
     color: #613b17;
     margin-right: 5px;
@@ -556,6 +556,14 @@ dd {
 
 .skill-view, .power-view, .stunt-view {
     margin: 0 10px;
+}
+
+.unofficial-item {
+    background-color: #aa3;
+}
+
+.unapproved-item {
+    background-color: #a33;
 }
 
 /* jquery ui overrides */

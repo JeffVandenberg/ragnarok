@@ -39,9 +39,9 @@ class TemplateFixture extends CakeTestFixture {
 			'is_official' => 1,
 			'is_approved' => 1,
 			'created_by_id' => 1,
-			'created' => '2013-05-08 05:35:34',
+			'created' => '2013-05-25 20:42:59',
 			'updated_by_id' => 1,
-			'updated' => '2013-05-08 05:35:34'
+			'updated' => '2013-05-25 20:42:59'
 		),
 	);
 

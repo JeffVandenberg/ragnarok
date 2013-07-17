@@ -155,7 +155,23 @@ class Character extends AppModel {
         'Template' => array(
             'className' => 'Template',
             'foreignKey' => 'template_id'
-        )
+        ),
+        'PhysicalStressSkill' => array(
+            'className' => 'Skill',
+            'foreignKey' => 'physical_stress_skill_id'
+        ),
+        'MentalStressSkill' => array(
+            'className' => 'Skill',
+            'foreignKey' => 'mental_stress_skill_id'
+        ),
+        'SocialStressSkill' => array(
+            'className' => 'Skill',
+            'foreignKey' => 'social_stress_skill_id'
+        ),
+        'HungerStressSkill' => array(
+            'className' => 'Skill',
+            'foreignKey' => 'hunger_stress_skill_id'
+        ),
 	);
 
 /**
@@ -243,7 +259,59 @@ class Character extends AppModel {
 
     public function LoadCharacter($id)
     {
-        $options = array('conditions' => array('Character.' . $this->primaryKey => $id));
+        $options = array(
+            'conditions' => array(
+                'Character.' . $this->primaryKey => $id
+            ),
+            'contain' => array(
+                'CharacterAspect' => array(
+                    'AspectType'
+                ),
+                'CreatedBy' => array(
+                    'fields' => array(
+                        'username',
+                        'user_id'
+                    )
+                ),
+                'UpdatedBy' => array(
+                    'fields' => array(
+                        'username',
+                        'user_id'
+                    )
+                ),
+                'CharacterStatus',
+                'Template',
+                'CharacterSkill' => array(
+                    'Skill' => array(
+                        'fields' => array(
+                            'skill_name'
+                        )
+                    )
+                ),
+                'CharacterStunt' => array(
+                    'Stunt' => array(
+                        'fields' => array(
+                            'stunt_name',
+                            'is_official',
+                            'is_approved'
+                        )
+                    )
+                ),
+                'CharacterPower' => array(
+                    'Power' => array(
+                        'fields' => array(
+                            'power_name',
+                            'is_official',
+                            'is_approved'
+                        )
+                    )
+                ),
+                'PhysicalStressSkill',
+                'MentalStressSkill',
+                'SocialStressSkill',
+                'HungerStressSkill'
+            )
+        );
         $character = $this->find('first', $options);
         $this->CheckAspects($character);
         return $character;
@@ -284,6 +352,9 @@ class Character extends AppModel {
 
     public function SaveCharacter($character)
     {
+        App::uses('Sanitize', 'Utility');
+        $character['Character']['public_information'] = Sanitize::stripScripts($character['Character']['public_information']);
+
         if(isset($character['CharacterSkill']))
         {
             foreach($character['CharacterSkill'] as $row => $item)
@@ -329,9 +400,16 @@ class Character extends AppModel {
             }
         }
 
-        debug($character);
-        die('done');
-        return $this->saveAll($character);
+        $datasource = $this->getDataSource();
+        $datasource->begin();
+        $success = $this->saveAssociated($character);
+        if($success) {
+            $datasource->commit();
+        }
+        else {
+            $datasource->rollback();
+        }
+        return $success;
     }
 
 }

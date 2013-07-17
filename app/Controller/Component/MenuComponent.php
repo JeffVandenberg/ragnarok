@@ -64,7 +64,8 @@ class MenuComponent extends Component {
             ),
             'Tools' => array(
 
-            )
+            ),
+
         );
 
         if($this->Auth->loggedIn())
@@ -79,13 +80,17 @@ class MenuComponent extends Component {
 
         if($this->RagnarokPermissions->CheckPermission($this->Session->read('user_id'), Permission::$ViewUsers))
         {
-            $this->menu['Tools'] = array(
-                'menu' => array(
-                    'User Management' => array(
-                        'controller' => 'users',
-                        'action' => 'index'
-                    )
-                )
+            $this->menu['Tools']['menu']['User management'] = array(
+                'controller' => 'users',
+                'action' => 'index'
+            );
+        }
+
+        if($this->RagnarokPermissions->CheckPermission($this->Session->read('user_id'), Permission::$GameMaster))
+        {
+            $this->menu['Tools']['menu']['GM Tools'] = array(
+                'controller' => 'gamemaster',
+                'action' => 'index'
             );
         }
     }

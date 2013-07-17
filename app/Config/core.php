@@ -360,3 +360,4 @@ Configure::write('site.subhost', 'ragnarok.gamingsandbox.com/');
 Configure::write('character.PhysicalStressSkillId', 11);
 Configure::write('character.MentalStressSkillId', 5);
 Configure::write('character.SocialStressSkillId', 19);
+Configure::write('character.HungerStressSkillId', 8);

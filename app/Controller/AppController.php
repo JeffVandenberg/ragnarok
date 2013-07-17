@@ -30,6 +30,7 @@ App::uses('Permission', 'Model');
  * will inherit them.
  *
  * @package		app.Controller
+ * @property MenuComponent Menu
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {

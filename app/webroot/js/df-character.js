@@ -79,7 +79,37 @@ function updateSkills() {
 }
 
 function initializeCharacter() {
+    checkSkills();
     updateSkills();
+    $(".field-hint").blur();
+    // lock skills
+
+    $("#skill-list").find("li").each(function() {
+        if(parseInt($(this).find(".skill-id").val()) > 0) {
+            $(this).find(".skill-name").lockField();
+            $(this).find("div").appendDelete('skill-delete');
+        }
+        if(isNaN(parseInt($(this).find(".skill-level").val()))) {
+            $(this).find(".skill-level").val(0);
+        }
+    });
+    // lock stunts
+    $("#stunt-list").find("li").each(function() {
+        if(parseInt($(this).find(".stunt-id").val()) > 0) {
+            $(this).find(".stunt-name").lockField();
+            $(this).find("div").appendDelete('stunt-delete');
+        }
+    });
+    // lock powers
+    $("#power-list").find("li").each(function() {
+        if(parseInt($(this).find(".power-id").val()) > 0) {
+            $(this).find(".power-name").lockField();
+            $(this).find("div").appendDelete('power-delete');
+        }
+        if(isNaN(parseInt($(this).find(".refresh-cost").val()))) {
+            $(this).find(".refresh-cost").val(0);
+        }
+    });
 }
 
 function UpdateCharacterPowers(powers) {
@@ -131,10 +161,6 @@ function clearStuntRow() {
         .val(0);
     $(this)
         .closest('div')
-        .find('.stunt-cost')
-        .val('0');
-    $(this)
-        .closest('div')
         .find('.stunt-note')
         .val('')
         .blur();
@@ -154,7 +180,7 @@ $(function () {
     $("#CharacterTemplateId").change(function () {
         var templateId = $(this).val();
         if (templateId === "1") {
-            alert('mortal');
+            // alert('mortal');
         }
         else {
             $.get(baseUrl + 'templates/listpowers/' + templateId + '.json', null, UpdateCharacterPowers)
@@ -222,12 +248,10 @@ $(function () {
                         .lockField();
                     $(this).closest('div').find('.stunt-id')
                         .val(ui.item.value);
-                    $(this).closest('div').find('.stunt-cost')
-                        .val(ui.item.Stunt.cost);
 
                     $(this).closest('div')
                         .appendDelete('stunt-delete');
-
+                    checkRefresh();
                     e.preventDefault();
                 },
                 response: function (e, ui) {
@@ -276,6 +300,7 @@ $(function () {
                                                             $(this).closest('div').appendDelete('stunt-delete');
 
                                                             $(dialog).dialog('close');
+                                                            checkRefresh();
                                                         }
                                                         else {
                                                             alert(response.message);
@@ -474,12 +499,6 @@ $(function () {
             .attr('maxlength', 45)
             .val('Note')
             .css('color', '#aaaaaa');
-        var cost = $("<input />")
-            .addClass('stunt-cost')
-            .attr('name', 'data[CharacterStunt][' + rowNumber + '][cost]')
-            .attr('id', 'CharacterStunt' + rowNumber + 'Cost')
-            .attr('type', 'hidden')
-            .val(0);
         var viewImg = $('<img />')
             .attr('src', baseUrl + 'img/ragny_icon_search.png')
             .addClass('stunt-view')
@@ -498,7 +517,7 @@ $(function () {
 
     $("#apply-template")
         .click(function() {
-            alert('applying template')
+            alert('This does nothing right now.')
         });
 
     $("#sort-skills").click(function () {
@@ -545,7 +564,6 @@ $(function () {
             item.id = $(this).find('.stunt-id').val();
             item.name = $(this).find('.stunt-name').getValue();
             item.note = $(this).find('.stunt-note').getValue();
-            item.cost = $(this).find('.stunt-cost').val();
             stunts.push(item);
         });
         stunts.sort(function (a, b) {
@@ -562,7 +580,6 @@ $(function () {
             $(item).find('.stunt-name').val(stunts[row].name).blur();
             $(item).find('.stunt-id').val(stunts[row].id);
             $(item).find('.stunt-note').val(stunts[row].note).blur();
-            $(item).find('.stunt-cost').val(stunts[row].cost);
             row++;
         });
         updateStuntElements();
@@ -690,6 +707,7 @@ $(function () {
             if(confirm('Are you sure you want to delete ' + stuntName + '?')) {
                 clearStuntRow.call(this);
                 $(this).remove();
+                checkRefresh();
             }
         });
 
@@ -700,6 +718,7 @@ $(function () {
             if(confirm('Are you sure you want to delete ' + powerName + '?')) {
                 clearPowerRow.call(this);
                 $(this).remove();
+                checkRefresh();
             }
         });
 });
@@ -748,14 +767,15 @@ function checkRefresh() {
                 remainingRefresh += parseInt($(item).val());
             }
         });
-    $('.stunt-cost')
+    $('.stunt-id')
         .each(function (count, item) {
             if (!isNaN(parseInt($(item).val()))) {
-                remainingRefresh += parseInt($(item).val());
+                remainingRefresh -= 1;
             }
         });
     if(!hasPower) {
-        $("#CharacterTemplateId").val("1");
+        //$("#CharacterTemplateId").val("1");
+        // alert('Character is now mortal');
         remainingRefresh += 2;
         // set to mortal
         // give mortal bonus

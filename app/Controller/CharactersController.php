@@ -18,7 +18,7 @@ class CharactersController extends AppController
         parent::beforeFilter();
         $this->Paginator->settings = array(
             'Character' => array(
-                'limit' => 1
+                'limit' => 20
             )
         );
     }
@@ -52,8 +52,7 @@ class CharactersController extends AppController
         if (!$this->Character->exists($id)) {
             throw new NotFoundException(__('Invalid character'));
         }
-        $options = array('conditions' => array('Character.' . $this->Character->primaryKey => $id));
-        $this->set('character', $this->Character->find('first', $options));
+        $this->set('character', $this->Character->LoadCharacter($id));
     }
 
     /**
@@ -70,26 +69,11 @@ class CharactersController extends AppController
             $this->request->data['Character']['game_id'] = 1;
             $this->request->data['Character']['current_fate'] = $this->request->data['Character']['max_fate'];
             $this->request->data['Character']['character_status_id'] = 1;
-
-            /*$data = array();
-            $data['Character'] = $this->request->data['Character'];
-            $data['Character']['character_name'] = 'A Much Longer Name';
-            $data['CharacterSkill'] = $this->request->data['CharacterSkill'];
-            foreach($data['CharacterSkill'] as $id => $skill) {
-                if($skill['skill_id'] == 0) {
-                    unset($data['CharacterSkill'][$id]);
-                }
-            }*/
-            //$this->Character->saveAll($data);
-            //debug($this->Character->validationErrors);
-            App::uses('Sanitize', 'Utility');
-            $this->request->data['Character']['public_information'] = Sanitize::stripScripts($this->request->data['Character']['public_information']);
-
             if ($this->Character->SaveCharacter($this->request->data)) {
                 $this->Session->setFlash(__('The character has been saved'));
                 $this->redirect(array('action' => 'index'));
             } else {
-                debug($this->Character->validationErrors);
+                //debug($this->Character->validationErrors);
                 $this->Session->setFlash(__('The character could not be saved. Please, try again.'));
             }
         }
@@ -99,6 +83,8 @@ class CharactersController extends AppController
             $character['Character']['mental_stress_skill_id'] = Configure::read('character.MentalStressSkillId');
             $character['Character']['social_stress_skill_id'] = Configure::read('character.SocialStressSkillId');
             $character['Character']['hunger_stress_skill_id'] = Configure::read('character.HungerStressSkillId');
+            $character['Character']['available_significant_milestones'] = 0;
+            $character['Character']['available_major_milestones'] = 0;
             $this->request->data = $character;
         }
         $skillSpreads = array(
@@ -126,7 +112,8 @@ class CharactersController extends AppController
             throw new NotFoundException(__('Invalid character'));
         }
         if ($this->request->is('post') || $this->request->is('put')) {
-            if ($this->Character->save($this->request->data)) {
+            $this->request->data['Character']['updated_by_id'] = $this->Session->read('user_id');
+            if ($this->Character->SaveCharacter($this->request->data)) {
                 $this->Session->setFlash(__('The character has been saved'));
                 $this->redirect(array('action' => 'index'));
             } else {
@@ -145,6 +132,7 @@ class CharactersController extends AppController
         );
         $templates[-1] = 'Custom';
         $skills = $this->Skill->find('list');
+        $characterStatuses = $this->Character->CharacterStatus->find('list');
         $this->set(compact('games', 'characterStatuses', 'createdBies', 'updatedBies', 'templates', 'skillSpreads', 'skills'));
     }
 

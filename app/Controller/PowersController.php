@@ -41,7 +41,7 @@ class PowersController extends AppController
     }
 
     /**
-     * Retrieve a JSON list of skills from the database.
+     * Retrieve a JSON list of powers from the database.
      */
     public function getList()
     {

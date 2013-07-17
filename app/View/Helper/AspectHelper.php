@@ -49,6 +49,16 @@ class AspectHelper extends AppHelper
         return $view;
     }
 
+    public function MakeViewTable($character)
+    {
+        $view = '<table>';
+        foreach ($character['CharacterAspect'] as $row => $aspect) {
+            $view .= $this->MakeAspectView($aspect);
+        }
+        $view .= '</table>';
+        return $view;
+    }
+
     public function MakeAddTable()
     {
         $view = '<table>';
@@ -63,11 +73,38 @@ class AspectHelper extends AppHelper
         return $view;
     }
 
+    private function MakeAspectView($aspect)
+    {
+        $aspectType = $aspect['AspectType']['name'];
+        $view = <<<EOQ
+<tr class="row-0">
+    <td colspan="3">
+        <div class="aspect">
+            $aspectType
+        </div>
+    </td>
+</tr>
+<tr class="row-0">
+    <td style="vertical-align: top;">
+        <label>Aspect</label><br />
+        $aspect[aspect_text]
+    </td>
+    <td style="vertical-align: top;">
+        <label>Description</label><br />
+        $aspect[description]
+    </td>
+    <td>
+    </td>
+</tr>
+EOQ;
+        return $view;
+    }
+
     private function MakeHighConceptAspectEdit($row)
     {
         $aspect = $this->Form->input("CharacterAspect.$row.aspect_text", array('label' => 'Aspect', 'class' => array('aspect-text', 'required')));
         $id = $this->Form->input("CharacterAspect.$row.id");
-        $aspectType = $this->Form->hidden("CharacterAspect.$row.aspect_type_id");
+        $aspectType = $this->Form->hidden("CharacterAspect.$row.aspect_type_id", array('value' => 1));
 
         $view = <<<EOQ
 <tr>
@@ -92,7 +129,7 @@ EOQ;
     {
         $aspect = $this->Form->input("CharacterAspect.$row.aspect_text", array('label' => 'Aspect', 'class' => 'aspect-text'));
         $id = $this->Form->input("CharacterAspect.$row.id");
-        $aspectType = $this->Form->hidden("CharacterAspect.$row.aspect_type_id");
+        $aspectType = $this->Form->hidden("CharacterAspect.$row.aspect_type_id", array('value' => '6'));
         $description = $this->Form->input("CharacterAspect.$row.description", array('style' => 'width:100%;'));
         $characterId = $this->Form->hidden("CharacterAspect.$row.assoc_character_id");
         $characterName = $this->Form->input("CharacterAspect.$row.assoc_character_name", array('class' => 'character-search'));
@@ -134,7 +171,7 @@ EOQ;
     {
         $aspect = $this->Form->input("CharacterAspect.$row.aspect_text", array('label' => 'Aspect', 'class' => 'aspect-text'));
         $id = $this->Form->input("CharacterAspect.$row.id");
-        $aspectType = $this->Form->hidden("CharacterAspect.$row.aspect_type_id");
+        $aspectType = $this->Form->hidden("CharacterAspect.$row.aspect_type_id", array('value' => 5));
         $description = $this->Form->input("CharacterAspect.$row.description", array('style' => 'width:100%;'));
         $characterId = $this->Form->hidden("CharacterAspect.$row.assoc_character_id");
         $characterName = $this->Form->input("CharacterAspect.$row.assoc_character_name", array('class' => 'character-search', 'label' => 'Guest Starring'));
@@ -177,7 +214,7 @@ EOQ;
     {
         $aspect = $this->Form->input("CharacterAspect.$row.aspect_text", array('label' => 'Aspect', 'class' => 'aspect-text'));
         $id = $this->Form->input("CharacterAspect.$row.id");
-        $aspectType = $this->Form->hidden("CharacterAspect.$row.aspect_type_id");
+        $aspectType = $this->Form->hidden("CharacterAspect.$row.aspect_type_id", array('value' => 3));
         $description = $this->Form->input("CharacterAspect.$row.description");
 
         $view = <<<EOQ
@@ -206,7 +243,7 @@ EOQ;
     {
         $aspect = $this->Form->input("CharacterAspect.$row.aspect_text", array('label' => 'Aspect', 'class' => 'aspect-text'));
         $id = $this->Form->input("CharacterAspect.$row.id");
-        $aspectType = $this->Form->hidden("CharacterAspect.$row.aspect_type_id");
+        $aspectType = $this->Form->hidden("CharacterAspect.$row.aspect_type_id", array('value' => 4));
         $description = $this->Form->input("CharacterAspect.$row.description");
 
         $view = <<<EOQ
@@ -235,7 +272,7 @@ EOQ;
     {
         $aspect = $this->Form->input("CharacterAspect.$row.aspect_text", array('label' => 'Aspect', 'class' => 'aspect-text'));
         $id = $this->Form->input("CharacterAspect.$row.id");
-        $aspectType = $this->Form->hidden("CharacterAspect.$row.aspect_type_id");
+        $aspectType = $this->Form->hidden("CharacterAspect.$row.aspect_type_id", array('value' => 2));
 
         $view = <<<EOQ
 <tr class="row-0">
