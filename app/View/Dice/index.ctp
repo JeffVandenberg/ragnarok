@@ -68,7 +68,6 @@
         if(result == 1) {
             $("#dice-" + dice).attr('src', '<?php echo $this->Html->url('/') . 'img/fate_magicplus.png';?>');
         }
-
     }
 
     $(function() {

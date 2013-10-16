@@ -8,150 +8,151 @@ App::uses('AppModel', 'Model');
  * @property Template $Template
  * @property User $CreatedBy
  * @property User $UpdatedBy
- * @property CharacterAspect[] $CharacterAspect
- * @property CharacterPower[] $CharacterPower
- * @property CharacterSkill[] $CharacterSkill
- * @property CharacterStunt[] $CharacterStunt
- * @property StoryCharacter[] $StoryCharacter
+ * @property CharacterAspect $CharacterAspect
+ * @property CharacterPower $CharacterPower
+ * @property CharacterSkill $CharacterSkill
+ * @property CharacterStunt $CharacterStunt
+ * @property StoryCharacter $StoryCharacter
  */
-class Character extends AppModel {
+class Character extends AppModel
+{
 
-/**
- * Display field
- *
- * @var string
- */
-	public $displayField = 'character_name';
+    /**
+     * Display field
+     *
+     * @var string
+     */
+    public $displayField = 'character_name';
 
-/**
- * Validation rules
- *
- * @var array
- */
-	public $validate = array(
-		'game_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'character_name' => array(
-			'minlength' => array(
-				'rule' => array('minlength', 5),
-				'message' => 'The Character Name is too short.',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
+    /**
+     * Validation rules
+     *
+     * @var array
+     */
+    public $validate = array(
+        'game_id' => array(
+            'numeric' => array(
+                'rule' => array('numeric'),
+                //'message' => 'Your custom message here',
+                //'allowEmpty' => false,
+                //'required' => false,
+                //'last' => false, // Stop validation after this rule
+                //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
+        'character_name' => array(
+            'minlength' => array(
+                'rule' => array('minlength', 5),
+                'message' => 'The Character Name is too short.',
+                //'allowEmpty' => false,
+                //'required' => false,
+                //'last' => false, // Stop validation after this rule
+                //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
         'template_id' => array(
             'numeric' => array(
                 'rule' => array('numeric'),
             )
         ),
-		'power_level' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'max_fate' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'current_fate' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'character_status_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'created_by_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'updated_by_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-	);
+        'power_level' => array(
+            'numeric' => array(
+                'rule' => array('numeric'),
+                //'message' => 'Your custom message here',
+                //'allowEmpty' => false,
+                //'required' => false,
+                //'last' => false, // Stop validation after this rule
+                //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
+        'max_fate' => array(
+            'numeric' => array(
+                'rule' => array('numeric'),
+                //'message' => 'Your custom message here',
+                //'allowEmpty' => false,
+                //'required' => false,
+                //'last' => false, // Stop validation after this rule
+                //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
+        'current_fate' => array(
+            'numeric' => array(
+                'rule' => array('numeric'),
+                //'message' => 'Your custom message here',
+                //'allowEmpty' => false,
+                //'required' => false,
+                //'last' => false, // Stop validation after this rule
+                //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
+        'character_status_id' => array(
+            'numeric' => array(
+                'rule' => array('numeric'),
+                //'message' => 'Your custom message here',
+                //'allowEmpty' => false,
+                //'required' => false,
+                //'last' => false, // Stop validation after this rule
+                //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
+        'created_by_id' => array(
+            'numeric' => array(
+                'rule' => array('numeric'),
+                //'message' => 'Your custom message here',
+                //'allowEmpty' => false,
+                //'required' => false,
+                //'last' => false, // Stop validation after this rule
+                //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
+        'updated_by_id' => array(
+            'numeric' => array(
+                'rule' => array('numeric'),
+                //'message' => 'Your custom message here',
+                //'allowEmpty' => false,
+                //'required' => false,
+                //'last' => false, // Stop validation after this rule
+                //'on' => 'create', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
+    );
 
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
+    //The Associations below have been created with all possible keys, those that are not needed can be removed
 
-/**
- * belongsTo associations
- *
- * @var array
- */
-	public $belongsTo = array(
-		'Game' => array(
-			'className' => 'Game',
-			'foreignKey' => 'game_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'CharacterStatus' => array(
-			'className' => 'CharacterStatus',
-			'foreignKey' => 'character_status_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'CreatedBy' => array(
-			'className' => 'User',
-			'foreignKey' => 'created_by_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'UpdatedBy' => array(
-			'className' => 'User',
-			'foreignKey' => 'updated_by_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
+    /**
+     * belongsTo associations
+     *
+     * @var array
+     */
+    public $belongsTo = array(
+        'Game' => array(
+            'className' => 'Game',
+            'foreignKey' => 'game_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => ''
+        ),
+        'CharacterStatus' => array(
+            'className' => 'CharacterStatus',
+            'foreignKey' => 'character_status_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => ''
+        ),
+        'CreatedBy' => array(
+            'className' => 'User',
+            'foreignKey' => 'created_by_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => ''
+        ),
+        'UpdatedBy' => array(
+            'className' => 'User',
+            'foreignKey' => 'updated_by_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => ''
+        ),
         'Template' => array(
             'className' => 'Template',
             'foreignKey' => 'template_id'
@@ -172,80 +173,93 @@ class Character extends AppModel {
             'className' => 'Skill',
             'foreignKey' => 'hunger_stress_skill_id'
         ),
-	);
+    );
 
-/**
- * hasMany associations
- *
- * @var array
- */
-	public $hasMany = array(
-		'CharacterAspect' => array(
-			'className' => 'CharacterAspect',
-			'foreignKey' => 'character_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		),
-		'CharacterPower' => array(
-			'className' => 'CharacterPower',
-			'foreignKey' => 'character_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		),
-		'CharacterSkill' => array(
-			'className' => 'CharacterSkill',
-			'foreignKey' => 'character_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		),
-		'CharacterStunt' => array(
-			'className' => 'CharacterStunt',
-			'foreignKey' => 'character_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		),
-		'StoryCharacter' => array(
-			'className' => 'StoryCharacter',
-			'foreignKey' => 'character_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		)
-	);
+    /**
+     * hasMany associations
+     *
+     * @var array
+     */
+    public $hasMany = array(
+        'CharacterAspect' => array(
+            'className' => 'CharacterAspect',
+            'foreignKey' => 'character_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        ),
+        'CharacterPower' => array(
+            'className' => 'CharacterPower',
+            'foreignKey' => 'character_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        ),
+        'CharacterSkill' => array(
+            'className' => 'CharacterSkill',
+            'foreignKey' => 'character_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        ),
+        'CharacterStunt' => array(
+            'className' => 'CharacterStunt',
+            'foreignKey' => 'character_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        ),
+        'StoryCharacter' => array(
+            'className' => 'StoryCharacter',
+            'foreignKey' => 'character_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        ),
+        'CharacterGmNote' => array(
+            'className' => 'CharacterGmNote',
+            'foreignKey' => 'character_id',
+            'dependent' => false,
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'exclusive' => '',
+            'finderQuery' => '',
+            'counterQuery' => ''
+        ),
+    );
 
     public function FindForUser($userId)
     {
@@ -259,6 +273,8 @@ class Character extends AppModel {
 
     public function LoadCharacter($id)
     {
+        $this->recursive = -1;
+        $this->CharacterSkill->recursive = -1;
         $options = array(
             'conditions' => array(
                 'Character.' . $this->primaryKey => $id
@@ -282,11 +298,7 @@ class Character extends AppModel {
                 'CharacterStatus',
                 'Template',
                 'CharacterSkill' => array(
-                    'Skill' => array(
-                        'fields' => array(
-                            'skill_name'
-                        )
-                    )
+                    'Skill'
                 ),
                 'CharacterStunt' => array(
                     'Stunt' => array(
@@ -306,6 +318,13 @@ class Character extends AppModel {
                         )
                     )
                 ),
+                'CharacterGmNote' => array(
+                    'CreatedBy' => array(
+                        'fields' => array(
+                            'username'
+                        )
+                    )
+                ),
                 'PhysicalStressSkill',
                 'MentalStressSkill',
                 'SocialStressSkill',
@@ -317,14 +336,28 @@ class Character extends AppModel {
         return $character;
     }
 
+    public function LoadLimitedCharacter($id)
+    {
+        $this->recursive = -1;
+        $this->CharacterSkill->recursive = -1;
+        $options = array(
+            'conditions' => array(
+                'Character.' . $this->primaryKey => $id
+            ),
+            'contain' => false
+        );
+        $character = $this->find('first', $options);
+        return $character;
+    }
+
     private function CheckAspects(&$character)
     {
-        if(count($character['CharacterAspect']) < 7)
+        if (count($character['CharacterAspect']) < 7)
         {
             $aspectTypeId = 1;
-            for($i = count($character['CharacterAspect']); $i < 7; $i++)
+            for ($i = count($character['CharacterAspect']); $i < 7; $i++)
             {
-                while($this->HasAspectType($character['CharacterAspect'], $aspectTypeId))
+                while ($this->HasAspectType($character['CharacterAspect'], $aspectTypeId))
                 {
                     $aspectTypeId++;
                 }
@@ -339,9 +372,10 @@ class Character extends AppModel {
     {
         $hasAspectType = false;
 
-        foreach($CharacterAspect as $aspect)
+        foreach ($CharacterAspect as $aspect)
         {
-            if($aspect['aspect_type_id'] == $aspectTypeId) {
+            if ($aspect['aspect_type_id'] == $aspectTypeId)
+            {
                 $hasAspectType = true;
                 continue;
             }
@@ -353,48 +387,50 @@ class Character extends AppModel {
     public function SaveCharacter($character)
     {
         App::uses('Sanitize', 'Utility');
-        $character['Character']['public_information'] = Sanitize::stripScripts($character['Character']['public_information']);
+        //debug($character['Character']['public_information']);
+        //$character['Character']['public_information'] = Sanitize::stripScripts($character['Character']['public_information']);
+        //debug($character['Character']['public_information']);
 
-        if(isset($character['CharacterSkill']))
+        if (isset($character['CharacterSkill']))
         {
-            foreach($character['CharacterSkill'] as $row => $item)
+            foreach ($character['CharacterSkill'] as $row => $item)
             {
-                if(($item['skill_id'] == '0') || ($item['skill_id'] == ''))
+                if (($item['skill_id'] == '0') || ($item['skill_id'] == ''))
                 {
                     unset($character['CharacterSkill'][$row]);
                 }
             }
-            if(count($character['CharacterSkill']) == 0)
+            if (count($character['CharacterSkill']) == 0)
             {
                 unset($character['CharacterSkill']);
             }
         }
 
-        if(isset($character['CharacterStunt']))
+        if (isset($character['CharacterStunt']))
         {
-            foreach($character['CharacterStunt'] as $row => $item)
+            foreach ($character['CharacterStunt'] as $row => $item)
             {
-                if(($item['stunt_id'] == '0') || ($item['stunt_id'] == ''))
+                if (($item['stunt_id'] == '0') || ($item['stunt_id'] == ''))
                 {
                     unset($character['CharacterStunt'][$row]);
                 }
             }
-            if(count($character['CharacterStunt']) == 0)
+            if (count($character['CharacterStunt']) == 0)
             {
                 unset($character['CharacterStunt']);
             }
         }
 
-        if(isset($character['CharacterPower']))
+        if (isset($character['CharacterPower']))
         {
-            foreach($character['CharacterPower'] as $row => $item)
+            foreach ($character['CharacterPower'] as $row => $item)
             {
-                if(($item['power_id'] == '0') || ($item['power_id'] == ''))
+                if (($item['power_id'] == '0') || ($item['power_id'] == ''))
                 {
                     unset($character['CharacterPower'][$row]);
                 }
             }
-            if(count($character['CharacterPower']) == 0)
+            if (count($character['CharacterPower']) == 0)
             {
                 unset($character['CharacterPower']);
             }
@@ -402,14 +438,33 @@ class Character extends AppModel {
 
         $datasource = $this->getDataSource();
         $datasource->begin();
+        $this->CharacterSkill->deleteAll(array(
+            'CharacterSkill.character_id' => $character['Character']['id']
+        ));
+        $this->CharacterStunt->deleteAll(array(
+            'CharacterStunt.character_id' => $character['Character']['id']
+        ));
+        $this->CharacterPower->deleteAll(array(
+            'CharacterPower.character_id' => $character['Character']['id']
+        ));
+        //debug($character);
         $success = $this->saveAssociated($character);
-        if($success) {
+        if ($success)
+        {
             $datasource->commit();
         }
-        else {
+        else
+        {
             $datasource->rollback();
         }
         return $success;
     }
 
+    public function SaveLimitedCharacter($character)
+    {
+        App::uses('Sanitize', 'Utility');
+
+        $success = $this->save($character);
+        return $success;
+    }
 }

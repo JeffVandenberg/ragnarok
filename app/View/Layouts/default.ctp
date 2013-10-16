@@ -62,9 +62,11 @@ $cakeDescription = __d('ragnarok', 'Ragnarok NYC');
                 </select>
             </div>
             <div id="header-user">
-                <?php if (isset($_SESSION['session_id']) && ($_SESSION['session_id'] != null)): ?>
-                    <?php echo $this->Session->read('username'); ?>
-                    <a href="<?php echo $this->Html->url('/'); ?>forum/ucp.php?mode=logout&sid=<?php echo $this->Session->read('session_id'); ?>">Logout</a>
+                <?php if (AuthComponent::user('username') !== null): ?>
+                    <?php echo AuthComponent::user('username'); ?>
+                    <a href="<?php echo $this->Html->url('/'); ?>forum/ucp.php?mode=logout&sid=<?php echo AuthComponent::user('session_id'); ?>">Logout</a>
+                <?php else: ?>
+                    Guest
                 <?php endif; ?>
             </div>
         </div>

@@ -17,7 +17,7 @@ class PowersController extends AppController
         {
             $actions['add'] = true;
         }
-        if($this->RagnarokPermissions->CheckPermission($this->Session->read('user_id'), Permission::$EditDatabase))
+        if($this->RagnarokPermissions->CheckPermission($this->Auth->user('user_id'), Permission::$EditDatabase))
         {
             $actions['edit'] = true;
         }
@@ -88,8 +88,8 @@ class PowersController extends AppController
                 $this->redirect(array('action' => 'index'));
             } else {
                 $this->Power->create();
-                $this->request->data['Power']['created_by_id'] = $this->Session->read('user_id');
-                $this->request->data['Power']['updated_by_id'] = $this->Session->read('user_id');
+                $this->request->data['Power']['created_by_id'] = $this->Auth->user('user_id');
+                $this->request->data['Power']['updated_by_id'] = $this->Auth->user('user_id');
                 if ($this->Power->save($this->request->data)) {
                     $this->Session->setFlash(__('The power has been saved'));
                     $this->redirect(array('action' => 'index'));
@@ -119,7 +119,7 @@ class PowersController extends AppController
             if ($this->request->data['action'] == 'Cancel') {
                 $this->redirect(array('action' => 'view', $id));
             } else {
-                $this->request->data['Power']['updated_by_id'] = $this->Session->read('user_id');
+                $this->request->data['Power']['updated_by_id'] = $this->Auth->user('user_id');
                 if ($this->Power->save($this->request->data)) {
                     $this->Session->setFlash(__('The power has been saved'));
                     $this->redirect(array('action' => 'index'));
@@ -166,7 +166,7 @@ class PowersController extends AppController
                 break;
             case 'edit':
             case 'delete':
-                return $this->RagnarokPermissions->CheckPermission($this->Session->Read('user_id'), Permission::$EditDatabase);
+                return $this->RagnarokPermissions->CheckPermission($this->Auth->user('user_id'), Permission::$EditDatabase);
                 break;
         }
         return false;

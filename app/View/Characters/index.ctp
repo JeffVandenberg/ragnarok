@@ -26,7 +26,8 @@
                 <td><?php echo h($character['Character']['updated']); ?>&nbsp;</td>
                 <td class="actions">
                     <?php echo $this->Html->link(__('View'), array('action' => 'view', $character['Character']['id'])); ?>
-                    <?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $character['Character']['id'])); ?>
+                    <?php echo $this->Html->Link(__('Tools'), array('action' => 'tools', $character['Character']['id'])); ?>
+                    <?php echo $this->Html->link(__('Public'), array('action' => 'publicView', $character['Character']['id'])); ?>
                     <?php //echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $character['Character']['id']), null, __('Are you sure you want to delete # %s?', $character['Character']['id'])); ?>
                 </td>
             </tr>

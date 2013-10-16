@@ -35,6 +35,8 @@ class MenuComponent extends Component {
                 'append' => 'forum'
             ),
             'Wiki' => array(
+                'link' => '/',
+                'append' => 'wiki'
             ),
             'Database' => array(
                 'menu' => array(
@@ -60,7 +62,12 @@ class MenuComponent extends Component {
 
             ),
             'Characters' => array(
-
+                'menu' => array(
+                    'Cast' => array(
+                        'controller' => 'characters',
+                        'action' => 'cast'
+                    )
+                )
             ),
             'Tools' => array(
 
@@ -70,15 +77,17 @@ class MenuComponent extends Component {
 
         if($this->Auth->loggedIn())
         {
-            $this->menu['Characters'] = array(
-                'link' => array(
-                    'controller' => 'characters',
-                    'action' => 'index'
-                )
+            $this->menu['Characters']['menu']['Your Characters'] = array(
+                'controller' => 'characters',
+                'action' => 'index'
+            );
+            $this->menu['Tools']['menu']['Scene Roller'] = array(
+                'controller' => 'diceRolls',
+                'action' => 'scene'
             );
         }
 
-        if($this->RagnarokPermissions->CheckPermission($this->Session->read('user_id'), Permission::$ViewUsers))
+        if($this->RagnarokPermissions->CheckPermission($this->Auth->user('user_id'), Permission::$ViewUsers))
         {
             $this->menu['Tools']['menu']['User management'] = array(
                 'controller' => 'users',
@@ -86,7 +95,7 @@ class MenuComponent extends Component {
             );
         }
 
-        if($this->RagnarokPermissions->CheckPermission($this->Session->read('user_id'), Permission::$GameMaster))
+        if($this->RagnarokPermissions->CheckPermission($this->Auth->user('user_id'), Permission::$GameMaster))
         {
             $this->menu['Tools']['menu']['GM Tools'] = array(
                 'controller' => 'gamemaster',

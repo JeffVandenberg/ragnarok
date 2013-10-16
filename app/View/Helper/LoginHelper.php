@@ -22,10 +22,9 @@ class LoginHelper extends AppHelper
         $basePath = $this->Html->url('/');
         $thisPage = $this->Html->url();
 
-        $auth = $this->Session->read('Auth');
-        if (count($auth) > 0) {
-            $userName = $auth['User']['username'];
-            $sessionId = $this->Session->read('session_id');
+        if (AuthComponent::user('user_id') !== null) {
+            $userName = AuthComponent::user('username');
+            $sessionId = AuthComponent::user('session_id');
             $userBox = <<<EOQ
 <h3>Welcome</h3>
 <div class="paragraph">
@@ -40,8 +39,8 @@ EOQ;
             $serverName = Configure::read('site.subhost');
             $userBox = <<<EOQ
 <h3>Login</h3>
-<div style="height:50px;overflow:hidden;width:200px ">
-    <div class="input">
+<!--<div style="height:50px;overflow:hidden;width:200px ">
+    <!--<div class="input">
         <label>
             Social Login
         </label>
@@ -54,9 +53,9 @@ EOQ;
             'callback_uri': 'http://{$serverName}forum/index.php' ,
             'css_theme_uri' : (("https:" == "http") ? "https://secure." : "http://public.") + 'oneallcdn.com/css/api/socialize/themes/phpbb/small.css'
         });
-    </script>
+    </script>-->
     <!-- oneall.com / Social Login for phpBB / v1.8.0 -->
-</div>
+<!--</div>-->
 <form method="post" action="{$basePath}forum/ucp.php?mode=login">
     <div class="input text">
         <label for="username">Username</label>
@@ -65,6 +64,10 @@ EOQ;
     <div class="input password">
         <label for="password">Password</label>
         <input name="password" type="password" id="password"/>
+    </div>
+    <div class="input checkbox">
+        <label for="autologin">Autologin</label>
+        <input name="autologin" type="checkbox" id="autologin"/>
     </div>
     <input type="hidden" name="redirect" value="$thisPage" id="redirect" />
     <div class="submit">

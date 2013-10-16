@@ -3,6 +3,30 @@
 <div class="header">Welcome</div>
 
 <div class="news">
+    <div class="news-date">8/7/2013</div>
+    <div class="news-title">Game On</div>
+    <div class="news-body">
+        <div class="paragraph">
+            Game is live.. starting now!
+        </div>
+    </div>
+</div>
+<div class="news">
+    <div class="news-date">7/27/2013</div>
+    <div class="news-title">Tools Update</div>
+    <div class="news-body">
+        <div class="paragraph">
+            This is a note that characters can now be saved and edited. Though there are a couple of
+            issues still with characters. But it's a pretty close to done.
+        </div>
+        <div class="paragraph">
+            Also, the dice roller is available. Under Tools there is the Scene roller that GMs can
+            use. Additionally, once you create a character, there will be a link next to the character
+            for the character specific dice roller that has extra functionality.
+        </div>
+    </div>
+</div>
+<div class="news">
     <div class="news-date">6/9/2013</div>
     <div class="news-title">Chat Update</div>
     <div class="news-body">
@@ -125,9 +149,17 @@
     </div>
     <div class="context-group">
         <h3>Chat Login</h3>
-        <?php echo $this->Form->create(false, array('action' => 'chat', 'method' => 'post')) ?>
-        <?php echo $this->Form->input('name'); ?>
-        <?php echo $this->Form->end('Login'); ?>
+        <!--<form method="post" action="http://www.gamingsandbox.com/chatblazer">-->
+        <?php if(AuthComponent::user('user_id') !== null): ?>
+            <div class="paragraph">
+                <?php echo $this->Html->link('Login OOC', '/chat/'); ?>
+            </div>
+        <?php else: ?>
+        <form method="post" action="/chat/">
+            <?php echo $this->Form->input('username', array('value' => AuthComponent::user('username'))); ?>
+            <?php echo $this->Form->button('Login', array('type' => 'submit')); ?>
+        </form>
+        <?php endif; ?>
     </div>
     <div class="context-group">
         <h3>Quick Tools</h3>

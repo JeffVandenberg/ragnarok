@@ -6,8 +6,8 @@
  */
 
 var dfCharacter = {};
-dfCharacter.skillPoints = 30;
-dfCharacter.powerLevel = 8;
+dfCharacter.skillPoints = 35;
+dfCharacter.powerLevel = 10;
 dfCharacter.baseMentalStress = 2;
 dfCharacter.basePhysicalStress = 2;
 dfCharacter.baseSocialStress = 2;
@@ -81,6 +81,7 @@ function updateSkills() {
 function initializeCharacter() {
     checkSkills();
     updateSkills();
+    checkRefresh();
     $(".field-hint").blur();
     // lock skills
 
@@ -170,7 +171,7 @@ function clearStuntRow() {
         .unlockField()
         .val('')
         .blur();
-    checkSkills();
+    checkRefresh();
 }
 
 $(function () {
@@ -380,11 +381,11 @@ $(function () {
             .addClass('input');
         var characterSkillId = $('<input />')
             .attr('type', 'hidden')
-            .attr('name', 'data[Character][' + rowNumber + '][CharacterSkill][id]')
+            .attr('name', 'data[CharacterSkill][' + rowNumber + '][id]')
             .attr('id', 'Character' + rowNumber + 'CharacterSkillId');
         var skillId = $('<input />')
             .attr('type', 'hidden')
-            .attr('name', 'data[Character][' + rowNumber + '][CharacterSkill][skill_id]')
+            .attr('name', 'data[CharacterSkill][' + rowNumber + '][skill_id]')
             .attr('id', 'Character' + rowNumber + 'CharacterSkillSkillId')
             .addClass('skill-id')
             .val(0);
@@ -392,12 +393,12 @@ $(function () {
             .addClass('skill-name')
             .addClass('field-hint')
             .attr('fieldname', 'Skill Name')
-            .attr('name', 'data[Character][' + rowNumber + '][CharacterSkill][skill_name]')
+            .attr('name', 'data[CharacterSkill][' + rowNumber + '][Skill][skill_name]')
             .val('');
         var skillLevel = $("<input />")
             .addClass('skill-level')
             .attr('type', 'number')
-            .attr('name', 'data[Character][' + rowNumber + '][CharacterSkill][skill_level]')
+            .attr('name', 'data[CharacterSkill][' + rowNumber + '][skill_level]')
             .val(0);
         var viewImg = $('<img />')
             .attr('src', baseUrl + 'img/ragny_icon_search.png')
@@ -509,7 +510,6 @@ $(function () {
                 .append(stuntId)
                 .append(stuntName)
                 .append(stuntRules)
-                .append(cost)
                 .append(viewImg)
         );
         list.append(newItem);
@@ -769,7 +769,7 @@ function checkRefresh() {
         });
     $('.stunt-id')
         .each(function (count, item) {
-            if (!isNaN(parseInt($(item).val()))) {
+            if (!isNaN(parseInt($(item).val())) && (parseInt($(item).val()) > 0)) {
                 remainingRefresh -= 1;
             }
         });

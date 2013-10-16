@@ -59,8 +59,12 @@ class AppController extends Controller {
     {
         $this->Auth->authenticate = array('Ragnarok');
         $this->Auth->authorize = array('Controller');
-        $this->Auth->logout();
-        $this->Auth->login();
+        if(!$this->Auth->loggedIn())
+        {
+            $this->Auth->login();
+        }
+//        $this->Auth->logout();
+//        $this->Auth->login();
         $this->Menu->InitializeMenu();
         $this->Auth->deny();
     }
@@ -78,6 +82,24 @@ class AppController extends Controller {
         }
 
         return true;
+    }
+
+    /**
+     * @param $characterId
+     * @return array
+     */
+    public function validateUserCharacter($characterId)
+    {
+        App::uses('Character', 'Model');
+        $characterRepository = new Character();
+        $character = $characterRepository->find('first', array(
+            'conditions' => array(
+                'Character.id' => $characterId,
+                'Character.created_by_id' => $this->Auth->user('user_id')
+            ),
+            'contain' => false
+        ));
+        return (count($character) > 0);
     }
 
 

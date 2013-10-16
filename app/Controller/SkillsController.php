@@ -17,7 +17,7 @@ class SkillsController extends AppController
         if ($this->Auth->loggedIn()) {
             $actions['add'] = true;
         }
-        if ($this->RagnarokPermissions->CheckPermission($this->Session->read('user_id'), Permission::$EditDatabase)) {
+        if ($this->RagnarokPermissions->CheckPermission($this->Auth->user('user_id'), Permission::$EditDatabase)) {
             $actions['edit'] = true;
         }
         $this->set('actions', $actions);
@@ -158,7 +158,7 @@ class SkillsController extends AppController
                 break;
             case 'edit':
             case 'delete':
-                return $this->RagnarokPermissions->CheckPermission($this->Session->Read('user_id'), Permission::$EditDatabase);
+                return $this->RagnarokPermissions->CheckPermission($this->Auth->user('user_id'), Permission::$EditDatabase);
                 break;
         }
         return false;

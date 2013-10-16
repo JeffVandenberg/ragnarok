@@ -24,7 +24,7 @@ class UsersController extends AppController {
         );
  		$this->set('users', $this->Paginator->paginate('User', array('User.user_type !=' => 2)));
         $actions = array();
-        if($this->RagnarokPermissions->CheckPermission($this->Session->read('user_id'), Permission::$EditUsers))
+        if($this->RagnarokPermissions->CheckPermission($this->Auth->user('user_id'), Permission::$EditUsers))
         {
             $actions['edit'] = true;
         }
@@ -55,7 +55,7 @@ class UsersController extends AppController {
             )
         );
 		$this->set('user', $this->User->find('first', $options));
-        if($this->RagnarokPermissions->CheckPermission($this->Session->read('user_id'), Permission::$EditUsers))
+        if($this->RagnarokPermissions->CheckPermission($this->Auth->user('user_id'), Permission::$EditUsers))
         {
             $actions['edit'] = true;
         }
@@ -149,7 +149,7 @@ class UsersController extends AppController {
             if ($this->request->data['action'] == 'Cancel') {
                 $this->redirect(array('action' => 'view', $id));
             } else {
-                $this->request->data['User']['updated_by_id'] = $this->Session->read('user_id');
+                $this->request->data['User']['updated_by_id'] = $this->Auth->user('user_id');
                 if ($this->User->save($this->request->data)) {
                     $this->Session->setFlash(__('The user\'s permissions have been updated.'));
                     $this->redirect(array('action' => 'view', $this->request->data['User']['user_id']));
@@ -186,12 +186,12 @@ class UsersController extends AppController {
         switch ($this->request->params['action']) {
             case 'index':
             case 'view':
-            return $this->RagnarokPermissions->CheckPermission($this->Session->Read('user_id'), Permission::$ViewUsers);
+            return $this->RagnarokPermissions->CheckPermission($this->Auth->user('user_id'), Permission::$ViewUsers);
                 break;
             case 'edit':
             case 'editPermissions':
             case 'delete':
-                return $this->RagnarokPermissions->CheckPermission($this->Session->Read('user_id'), Permission::$EditUsers);
+                return $this->RagnarokPermissions->CheckPermission($this->Auth->user('user_id'), Permission::$EditUsers);
                 break;
         }
         return false;

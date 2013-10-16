@@ -130,7 +130,7 @@ EOQ;
         $aspect = $this->Form->input("CharacterAspect.$row.aspect_text", array('label' => 'Aspect', 'class' => 'aspect-text'));
         $id = $this->Form->input("CharacterAspect.$row.id");
         $aspectType = $this->Form->hidden("CharacterAspect.$row.aspect_type_id", array('value' => '6'));
-        $description = $this->Form->input("CharacterAspect.$row.description", array('style' => 'width:100%;'));
+        $description = $this->Form->input("CharacterAspect.$row.description");
         $characterId = $this->Form->hidden("CharacterAspect.$row.assoc_character_id");
         $characterName = $this->Form->input("CharacterAspect.$row.assoc_character_name", array('class' => 'character-search'));
         $storyId = $this->Form->hidden("CharacterAspect.$row.story_id");
@@ -149,18 +149,8 @@ EOQ;
         $aspectType
         $aspect
     </td>
-    <td>
+    <td colspan="2">
         $description
-    </td>
-    <td>
-        <span>
-            $storyId
-            $storyName
-        </span>
-        <span>
-            $characterId
-            $characterName
-        </span>
     </td>
 </tr>
 EOQ;
@@ -172,7 +162,7 @@ EOQ;
         $aspect = $this->Form->input("CharacterAspect.$row.aspect_text", array('label' => 'Aspect', 'class' => 'aspect-text'));
         $id = $this->Form->input("CharacterAspect.$row.id");
         $aspectType = $this->Form->hidden("CharacterAspect.$row.aspect_type_id", array('value' => 5));
-        $description = $this->Form->input("CharacterAspect.$row.description", array('style' => 'width:100%;'));
+        $description = $this->Form->input("CharacterAspect.$row.description");
         $characterId = $this->Form->hidden("CharacterAspect.$row.assoc_character_id");
         $characterName = $this->Form->input("CharacterAspect.$row.assoc_character_name", array('class' => 'character-search', 'label' => 'Guest Starring'));
         $storyId = $this->Form->hidden("CharacterAspect.$row.story_id");
@@ -192,18 +182,8 @@ EOQ;
         $aspectType
         $aspect
     </td>
-    <td>
+    <td colspan="2">
         $description
-    </td>
-    <td>
-        <span>
-            $storyId
-            $storyName
-        </span>
-        <span>
-            $characterId
-            $characterName
-        </span>
     </td>
 </tr>
 EOQ;

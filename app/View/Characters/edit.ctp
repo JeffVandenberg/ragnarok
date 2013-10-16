@@ -21,10 +21,10 @@
                 <?php echo $this->Form->input('template_id'); ?>
             </td>
             <td style="width:130px">
-                <?php echo $this->Form->input('power_level', array('value' => 8, 'readonly' => true, 'style' => 'width: 50px;')); ?>
+                    <?php echo $this->Form->input('power_level', array('value' => 10, 'readonly' => true, 'style' => 'width: 50px;')); ?>
             </td>
             <td style="width:100px;">
-                <?php echo $this->Form->input('max_fate', array('label' => 'Refresh', 'readonly' => true, 'value' => 10, 'style' => 'width: 50px;')); ?>
+                <?php echo $this->Form->input('max_fate', array('label' => 'Refresh', 'readonly' => true, 'value' => 12, 'style' => 'width: 50px;')); ?>
             </td>
             <!--<td style="width:100px;">
                 <?php echo $this->Form->input('current_fate', array('label' => 'Fate')); ?>
@@ -43,9 +43,9 @@
             <li><a href="#powers2">Power Notes</a></li>
             <li><a href="#stress">Stress</a></li>
             <li><a href="#description">Public</a></li>
-            <li><a href="#stories">Stories</a></li>
+            <!--<li><a href="#stories">Stories</a></li>
             <li><a href="#advancement">Advancement</a></li>
-            <li><a href="#notes">Notes</a></li>
+            <li><a href="#notes">Notes</a></li>-->
         </ul>
         <div id="aspects">
             <?php echo $this->Aspect->MakeEditTable($this->data); ?>
@@ -54,7 +54,7 @@
             <div class="paragraph">
                 Points Remaining:
             <span class="input">
-                <input type="text" readonly value="30" id="skill-points"/>
+                <input type="text" readonly value="35" id="skill-points"/>
             </span>
             </div>
             <div class="paragraph">
@@ -65,8 +65,8 @@
             </div>
             <div class="paragraph">
                 <ul id="skill-list">
-                    <?php $maxSize = (count($this->request->data['CharacterSkill']) > 15 ? count($this->request->data['CharacterSkill']) : 15); ?>
-                    <?php foreach (range(0, $maxSize) as $i): ?>
+                    <?php $maxSize = (count($this->request->data['CharacterSkill']) > 20 ? count($this->request->data['CharacterSkill']) : 20); ?>
+                    <?php foreach (range(0, ($maxSize-1)) as $i): ?>
                         <li>
                             <div class="input">
                                 <?php
@@ -164,17 +164,6 @@
                 Public Character Page. Put anything and everything you want people to know about your character here.
                 <?php echo $this->Form->textarea('public_information', array('class' => 'full-editor')); ?>
             </div>
-        </div>
-        <div id="stories">
-            Stories your character has been, or is, involved in.<br/>
-            Also story management area where you can decide if people can have
-            you as a connection.
-        </div>
-        <div id="advancement">
-            A log of your character's Advancement
-        </div>
-        <div id="notes">
-            Administrative Notes Area
         </div>
     </div>
 </div>

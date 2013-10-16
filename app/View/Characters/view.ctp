@@ -198,7 +198,7 @@
                 <div class="paragraph">
                     Public Character Page. Put anything and everything you want people to know about your character here.
                 </div>
-                <?php Sanitize::stripScripts($character['Character']['public_information']); ?>
+                <?php echo Sanitize::stripScripts($character['Character']['public_information']); ?>
             </div>
         </div>
         <div id="stories">

@@ -17,7 +17,7 @@ class StuntsController extends AppController
         if ($this->Auth->loggedIn()) {
             $actions['add'] = true;
         }
-        if ($this->RagnarokPermissions->CheckPermission($this->Session->read('user_id'), Permission::$EditDatabase)) {
+        if ($this->RagnarokPermissions->CheckPermission($this->Auth->user('user_id'), Permission::$EditDatabase)) {
             $actions['edit'] = true;
         }
         $this->set('actions', $actions);
@@ -78,7 +78,7 @@ class StuntsController extends AppController
         }
         $options = array('conditions' => array('Stunt.' . $this->Stunt->primaryKey => $id));
         $this->set('stunt', $this->Stunt->find('first', $options));
-        $this->set('isGm', $this->RagnarokPermissions->CheckPermission($this->Session->read('user_id'), Permission::$GameMaster));
+        $this->set('isGm', $this->RagnarokPermissions->CheckPermission($this->Auth->user('user_id'), Permission::$GameMaster));
         $this->set('isAjax', $this->request->is('ajax'));
     }
 
@@ -103,8 +103,8 @@ class StuntsController extends AppController
                 {
                     $this->request->data['Stunt']['is_official'] = false;
                 }
-                $this->request->data['Stunt']['created_by_id'] = $this->Session->read('user_id');
-                $this->request->data['Stunt']['updated_by_id'] = $this->Session->read('user_id');
+                $this->request->data['Stunt']['created_by_id'] = $this->Auth->user('user_id');
+                $this->request->data['Stunt']['updated_by_id'] = $this->Auth->user('user_id');
                 if ($this->Stunt->save($this->request->data)) {
                     if($this->request->is('ajax')) {
                         $options = array(
@@ -147,7 +147,7 @@ class StuntsController extends AppController
         $createdBies = $this->Stunt->CreatedBy->find('list');
         $updatedBies = $this->Stunt->UpdatedBy->find('list');
         $isAjax = $this->request->is('ajax');
-        $showAdmin = $this->RagnarokPermissions->CheckPermission($this->Session->read('user_id'), Permission::$EditDatabase);
+        $showAdmin = $this->RagnarokPermissions->CheckPermission($this->Auth->user('user_id'), Permission::$EditDatabase);
         $this->set(compact('skills', 'createdBies', 'updatedBies', 'isAjax', 'showAdmin'));
     }
 
@@ -167,7 +167,7 @@ class StuntsController extends AppController
             if ($this->request->data['action'] == 'Cancel') {
                 $this->redirect(array('action' => 'view', $id));
             } else {
-                $this->request->data['Stunt']['updated_by_id'] = $this->Session->read('user_id');
+                $this->request->data['Stunt']['updated_by_id'] = $this->Auth->user('user_id');
                 if ($this->Stunt->save($this->request->data)) {
                     $this->Session->setFlash(__('The stunt has been saved'));
                     $this->redirect(array('action' => 'index'));
@@ -215,7 +215,7 @@ class StuntsController extends AppController
                 break;
             case 'edit':
             case 'delete':
-                return $this->RagnarokPermissions->CheckPermission($this->Session->Read('user_id'), Permission::$EditDatabase);
+                return $this->RagnarokPermissions->CheckPermission($this->Auth->user('user_id'), Permission::$EditDatabase);
                 break;
         }
         return false;

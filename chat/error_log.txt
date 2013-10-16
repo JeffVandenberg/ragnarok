@@ -1,0 +1,4 @@
+Function: db_connect
+File: functions.php
+PDOException: 1045-SQLSTATE[28000] [1045] Access denied for user 'gamingsa'@'localhost' (using password: NO)
+

@@ -5,6 +5,7 @@ App::uses('AppController', 'Controller');
  *
  * @property Character $Character
  * @property Skill $Skill
+ * @property RagnarokPermissionsComponent RagnarokPermissions
  */
 class CharactersController extends AppController
 {
@@ -16,9 +17,13 @@ class CharactersController extends AppController
     public function beforeFilter()
     {
         parent::beforeFilter();
+        $this->Auth->deny();
+        $this->Auth->allow(array('publicView'));
+
         $this->Paginator->settings = array(
             'Character' => array(
-                'limit' => 20
+                'limit' => 20,
+                'order' => 'Character.character_name'
             )
         );
     }
@@ -34,7 +39,35 @@ class CharactersController extends AppController
         $characters = $this->Paginator->paginate(
             'Character',
             array(
-                'Character.created_by_id' => $this->Session->read('user_id')
+                'Character.created_by_id' => $this->Auth->user('user_id')
+            )
+        );
+        $this->set('characters', $characters);
+    }
+
+    /**
+     * cast of sanctioned characters
+     *
+     * @return void
+     */
+    public function cast()
+    {
+        App::uses('CharacterStatus', 'Model');
+        $this->Character->recursive = 0;
+        $this->Paginator->settings = array(
+            'Character' => array(
+                'limit' => 20,
+                'contain' => array(
+                    'Template',
+                    'CreatedBy'
+                ),
+                'order' => 'Character.character_name'
+            )
+        );
+        $characters = $this->Paginator->paginate(
+            'Character',
+            array(
+                'Character.character_status_id' => CharacterStatus::Approved
             )
         );
         $this->set('characters', $characters);
@@ -52,8 +85,98 @@ class CharactersController extends AppController
         if (!$this->Character->exists($id)) {
             throw new NotFoundException(__('Invalid character'));
         }
+        if(!$this->validateUserCharacter($id))
+        {
+            $this->Session->setFlash('You are not authorized to view that character.');
+            $this->redirect(array('controller' => 'characters', 'action' => '/'));
+        }
         $this->set('character', $this->Character->LoadCharacter($id));
     }
+
+    /**
+     * tools method
+     *
+     * @throws NotFoundException
+     * @param string $id
+     * @return void
+     */
+    public function tools($id = null)
+    {
+        if (!$this->Character->exists($id)) {
+            throw new NotFoundException(__('Invalid character'));
+        }
+        if(!$this->validateUserCharacter($id))
+        {
+            $this->Session->setFlash('You are not authorized to view that character.');
+            $this->redirect(array('controller' => 'characters', 'action' => '/'));
+        }
+        $this->set('character', $this->Character->LoadCharacter($id));
+    }
+
+    public function publicView($id = null)
+    {
+        if (!$this->Character->exists($id)) {
+            throw new NotFoundException(__('Invalid character'));
+        }
+        $this->set('character', $this->Character->LoadCharacter($id));
+    }
+
+    public function gmView()
+    {
+        if($this->request->is('put') || $this->request->is('post'))
+        {
+            if(isset($this->request->data['Character']['id']))
+            {
+                $this->request->data['Character']['updated_by_id'] = $this->Auth->user('user_id');
+                if(isset($this->request->data['CharacterGmNote']))
+                {
+                    $this->request->data['CharacterGmNote'][-1]['created_by_id'] = $this->Auth->user('user_id');
+                }
+                if ($this->Character->SaveCharacter($this->request->data)) {
+                    $this->Session->setFlash(__('The character has been saved'));
+                    $this->redirect(array('action' => 'gmView'));
+                } else {
+                    $this->Session->setFlash(__('The character could not be saved. Please, try again.'));
+                }
+            }
+            if(isset($this->request->data['lookup_id']))
+            {
+                $character = $this->Character->LoadCharacter($this->request->data['lookup_id']);
+                $this->request->data = $character;
+            }
+            $characterStatuses = $this->Character->CharacterStatus->find('list');
+            $this->set('characterStatuses', $characterStatuses);
+            $this->SetCharacterLists();
+        }
+    }
+
+    /**
+     * Retrieve a JSON list of powers from the database.
+     */
+    public function getList()
+    {
+        $characters = $this->Character->find(
+            'list',
+            array(
+                'conditions' => array(
+                    'Character.character_name like' => $this->request->query['term'] . '%'
+                ),
+                'contain' => false,
+                'order' => 'character_name'
+            )
+        );
+
+        $items = array();
+        foreach($characters as $value => $label)
+        {
+            $output['value'] = $value;
+            $output['label'] = $label;
+            $items[] = $output;
+        }
+        echo json_encode($items);
+        die();
+    }
+
 
     /**
      * add method
@@ -64,8 +187,8 @@ class CharactersController extends AppController
     {
         if ($this->request->is('post')) {
             $this->Character->create();
-            $this->request->data['Character']['created_by_id'] = $this->Session->read('user_id');
-            $this->request->data['Character']['updated_by_id'] = $this->Session->read('user_id');
+            $this->request->data['Character']['created_by_id'] = $this->Auth->user('user_id');
+            $this->request->data['Character']['updated_by_id'] = $this->Auth->user('user_id');
             $this->request->data['Character']['game_id'] = 1;
             $this->request->data['Character']['current_fate'] = $this->request->data['Character']['max_fate'];
             $this->request->data['Character']['character_status_id'] = 1;
@@ -87,16 +210,8 @@ class CharactersController extends AppController
             $character['Character']['available_major_milestones'] = 0;
             $this->request->data = $character;
         }
-        $skillSpreads = array(
-            1 => '5/5/5',
-            2 => '2/3/4/5',
-            3 => '3/3/3/3',
-            4 => '2/2/2/2/2'
-        );
-        $templates = $this->Character->Template->find('list');
-        $skills = $this->Skill->find('list');
 
-        $this->set(compact('templates', 'skillSpreads', 'skills'));
+        $this->SetCharacterLists();
     }
 
     /**
@@ -111,8 +226,13 @@ class CharactersController extends AppController
         if (!$this->Character->exists($id)) {
             throw new NotFoundException(__('Invalid character'));
         }
+        if(!$this->validateUserCharacter($id))
+        {
+            $this->Session->setFlash('You are not authorized to edit that character.');
+            $this->redirect(array('controller' => 'characters', 'action' => '/'));
+        }
         if ($this->request->is('post') || $this->request->is('put')) {
-            $this->request->data['Character']['updated_by_id'] = $this->Session->read('user_id');
+            $this->request->data['Character']['updated_by_id'] = $this->Auth->user('user_id');
             if ($this->Character->SaveCharacter($this->request->data)) {
                 $this->Session->setFlash(__('The character has been saved'));
                 $this->redirect(array('action' => 'index'));
@@ -120,20 +240,48 @@ class CharactersController extends AppController
                 $this->Session->setFlash(__('The character could not be saved. Please, try again.'));
             }
         } else {
-            $this->request->data = $this->Character->LoadCharacter($id);
+            $character = $this->Character->LoadCharacter($id);
+            App::uses('CharacterStatus', 'Model');
+            if($character['Character']['character_status_id'] != CharacterStatus::NewCharacter) {
+                $this->redirect(array('action' => 'editLimited', $id));
+            }
+            $this->request->data = $character;
         }
-        $games = $this->Character->Game->find('list');
-        $templates = $this->Character->Template->find('list');
-        $skillSpreads = array(
-            1 => '5/5/5',
-            2 => '2/3/4/5',
-            3 => '3/3/3/3',
-            4 => '2/2/2/2/2'
-        );
-        $templates[-1] = 'Custom';
-        $skills = $this->Skill->find('list');
-        $characterStatuses = $this->Character->CharacterStatus->find('list');
-        $this->set(compact('games', 'characterStatuses', 'createdBies', 'updatedBies', 'templates', 'skillSpreads', 'skills'));
+
+        $this->SetCharacterLists();
+    }
+
+    /**
+     * edit sanctioned character method
+     *
+     * @throws NotFoundException
+     * @param string $id
+     * @return void
+     */
+    public function editLimited($id = null)
+    {
+        if (!$this->Character->exists($id)) {
+            throw new NotFoundException(__('Invalid character'));
+        }
+        if(!$this->validateUserCharacter($id))
+        {
+            $this->Session->setFlash('You are not authorized to edit that character.');
+            $this->redirect(array('controller' => 'characters', 'action' => '/'));
+        }
+        if ($this->request->is('post') || $this->request->is('put')) {
+            $this->request->data['Character']['updated_by_id'] = $this->Auth->user('user_id');
+            if ($this->Character->SaveLimitedCharacter($this->request->data)) {
+                $this->Session->setFlash(__('The character has been saved'));
+                $this->redirect(array('action' => 'index'));
+            } else {
+                $this->Session->setFlash(__('The character could not be saved. Please, try again.'));
+            }
+        } else {
+            $character = $this->Character->LoadLimitedCharacter($id);
+            $this->request->data = $character;
+        }
+
+        $this->SetCharacterLists();
     }
 
     /**
@@ -150,6 +298,11 @@ class CharactersController extends AppController
             throw new NotFoundException(__('Invalid character'));
         }
         $this->request->onlyAllow('post', 'delete');
+        if(!$this->validateUserCharacter($id))
+        {
+            $this->Session->setFlash('You are not authorized to delete that character.');
+            $this->redirect(array('controller' => 'characters', 'action' => '/'));
+        }
         if ($this->Character->delete()) {
             $this->Session->setFlash(__('Character deleted'));
             $this->redirect(array('action' => 'index'));
@@ -160,6 +313,40 @@ class CharactersController extends AppController
 
     public function isAuthorized($user = null)
     {
-        return true;
+        switch ($this->request->params['action']) {
+            case 'index':
+            case 'view':
+            case 'tools':
+            case 'edit':
+            case 'editLimited':
+            case 'delete':
+            case 'add':
+                return $this->Auth->loggedIn();
+                break;
+            case 'getList':
+            case 'gmView':
+                return $this->RagnarokPermissions->CheckPermission($this->Auth->user('user_id'), Permission::$GameMaster);
+                break;
+            case 'cast':
+                return true;
+                break;
+        }
+        return false;
+    }
+
+    /**
+     * @return array
+     */
+    private function SetCharacterLists()
+    {
+        $skillSpreads = array(
+            1 => '5/6/8',
+            2 => '3/3/3/8',
+            3 => '1/2/3/4/5',
+            4 => '2/2/2/3/5'
+        );
+        $templates = $this->Character->Template->find('list');
+        $skills = $this->Skill->find('list');
+        $this->set(compact('templates', 'skillSpreads', 'skills'));
     }
 }
