@@ -199,7 +199,12 @@ function updateUserStatusMes(id,status)
 		showStatus = "&nbsp;["+decodeURI(userStatusMes[status])+"]";
 	}
 
-	document.getElementById("ustatusID_"+id).innerHTML = showStatus;
+    if(document.getElementById("ustatusID_"+id) != null) {
+        document.getElementById("ustatusID_"+id).innerHTML = showStatus;
+    }
+    else {
+        console.debug("User ID: " + id + " does not exist.");
+    }
 }
 
 /*
@@ -226,9 +231,13 @@ function updateWebcamStatus(id,status)
 
 function updateUserRoomCount(uRoom, value)
 {
-	var newCount = document.getElementById("room_"+uRoom).children.length - 1;
-	
-	document.getElementById("userCount_"+uRoom).innerHTML = newCount;
+    if(document.getElementById("room_"+uRoom) == null) {
+        console.debug('Room: ' + uRoom + ' does not exist.');
+    }
+    else {
+        var newCount = document.getElementById("room_"+uRoom).children.length - 1;
+        document.getElementById("userCount_"+uRoom).innerHTML = newCount;
+    }
 }
 
 /*
@@ -240,7 +249,13 @@ function updateAvatar(uID, uAvatar, uRoom)
 {
 	// get path to current avatar
 	// split path into array
-	var avatarFilePath = document.getElementById("avatar_"+uID).src.split("/");
+    if(document.getElementById("avatar_"+uID) != null) {
+        var avatarFilePath = document.getElementById("avatar_"+uID).src.split("/");
+    }
+    else {
+        console.debug("User ID: " + uID + " does not exist.");
+        return false;
+    }
 
 	// get length of path array
 	var avatarFileName = avatarFilePath.length;
