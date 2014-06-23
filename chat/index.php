@@ -23,7 +23,17 @@ include("includes/ini.php");
 include("includes/session.php");
 include("includes/config.php");
 include("includes/functions.php");
+/* @var array $CONFIG */
 
+if(!isset($_SESSION['user_id'])) {
+    unset($_SESSION['username']);
+    unset($_SESSION['display_name']);
+    unset($_SESSION['userid']);
+    unset($_SESSION['user_id']);
+    unset($_SESSION['user_type_id']);
+    unset($_SESSION['room']);
+    unset($_SESSION['guest']);
+}
 /*
 * include language file
 *
@@ -80,23 +90,15 @@ if($CONFIG['CMS'] && !isset($_GET['logout']))
 		}
 	}
 
-	if(!$_SESSION['username'])
+	// session login
+	if(!$_SESSION['user_id'])
 	{
 		// include files
 		include("cms.php");
-
-		// session login
-		if(C_CUSTOM_LOGIN && $uname)
-		{
-			// assign user details
-			$_SESSION['username'] = $uname;
-			$_SESSION['userid'] = $uid;
-		}
-
 	}
 
 	// add user
-	addUser('');
+	addUser(C_CUSTOM_AVATAR, $_SESSION['user_type_id']);
 
 	// assign default room login
 	if(!$_REQUEST['roomID'])
@@ -223,9 +225,9 @@ if($_SESSION['eCreditsInit'])
 *
 */
 
-if(isset($_REQUEST['logout']) && isset($_SESSION['username']))
+if(isset($_REQUEST['logout']) && isset($_SESSION['user_id']))
 {
-	logoutUser($_SESSION['username'],$_SESSION['room']);
+	logoutUser($_SESSION['user_id'],$_SESSION['room']);
 
 	if($_REQUEST['logout'] == 'kick')
 	{
@@ -233,22 +235,13 @@ if(isset($_REQUEST['logout']) && isset($_SESSION['username']))
 	}
 
 	unset($_SESSION['username']);
+    unset($_SESSION['display_name']);
 	unset($_SESSION['userid']);
+	unset($_SESSION['user_id']);
+	unset($_SESSION['user_type_id']);
 	unset($_SESSION['room']);
 	unset($_SESSION['guest']);
-
-	$loginError = C_LANG5;
-
-	if($CONFIG['CMS'])
-	{
-        header('location:http://ragnarok.gamingsandbox.com/');
-		die($loginError);
-	}
-	else
-	{
-		include("templates/".$CONFIG['template']."/login.php");
-		die;
-	}
+    header('location:/');
 }
 
 /*
@@ -340,12 +333,12 @@ $prevRoom = prevRoom();
 
 if(isset($_SESSION['username']))
 {
-		$_REQUEST['userName'] = $_SESSION['username'];
+    $_REQUEST['userName'] = $_SESSION['username'];
 }
 
 if(isset($_SESSION['userid']))
 {
-		$_REQUEST['userId'] = $_SESSION['userid'];
+    $_REQUEST['userId'] = $_SESSION['userid'];
 }
 
 if(empty($_REQUEST['userId']))
@@ -353,14 +346,15 @@ if(empty($_REQUEST['userId']))
 	$_REQUEST['userId'] = '-1';
 }
 
-list($username,$userid,$loginError) = createUser(
-                     $_REQUEST['userName'],
-                     $_REQUEST['userId'],
-                     $_REQUEST['userPass'],
-                     $_REQUEST['genderID'],
-                     isset($_REQUEST['login']),
-                     isset($_POST['isGuest'])
-                  );
+list($displayName,$username,$userid,$loginError) =
+    createUser(
+        $_REQUEST['userName'],
+        $_REQUEST['userId'],
+        $_REQUEST['userPass'],
+        $_REQUEST['genderID'],
+        isset($_REQUEST['login']),
+        isset($_POST['isGuest'])
+    );
 
 if(isset($_REQUEST['login']) && $loginError)
 {
@@ -377,7 +371,7 @@ $roomPass = '';
 
 if(isset($_REQUEST['roomPass']))
 {
-		$roomPass = $_REQUEST['roomPass'];		
+    $roomPass = $_REQUEST['roomPass'];
 }
 
 list($roomID,$roomOwnerID) = chatRoomID($_REQUEST['roomID'],$roomPass);
@@ -393,10 +387,10 @@ $guestUser = '0';
 
 if($_POST['isGuest'])
 {
-	updateGuestAvatar($_REQUEST['genderID']);
+	//updateGuestAvatar($_REQUEST['genderID']);
 }
 
-list($id,$avatar,$loginError,$blockedList,$guestUser) = getUser($prevRoom,$roomID);
+list($id,$avatar,$loginError,$blockedList,$guestUser, $userTypeId) = getUser($prevRoom,$roomID);
 
 /*
 * assign user group
@@ -456,5 +450,3 @@ $lastMessageID = getLastMessageID($roomID);
 */
 
 include("templates/".$CONFIG['template']."/main.php");
-
-?>

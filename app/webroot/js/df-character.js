@@ -689,6 +689,10 @@ $(function () {
         .on('blur', '.refresh-cost', function () {
             checkRefresh();
         });
+    $("#CharacterPowerLevel")
+        .change(function() {
+            checkRefresh();
+        });
 
     $(document)
         .off('click', '.skill-delete')
@@ -754,7 +758,7 @@ function checkSkills() {
 }
 
 function checkRefresh() {
-    var remainingRefresh = dfCharacter.powerLevel;
+    var remainingRefresh = parseInt($("#CharacterPowerLevel").val());
 
     var hasPower = false;
     $('.refresh-cost')

@@ -102,6 +102,14 @@ class MenuComponent extends Component {
                 'action' => 'index'
             );
         }
+
+        if($this->RagnarokPermissions->CheckPermission($this->Auth->user('user_id'), Permission::$Admin))
+        {
+            $this->menu['Tools']['menu']['Game Configuration'] = array(
+                'controller' => 'configuration',
+                'action' => 'index'
+            );
+        }
     }
 
     public function GetMenu()

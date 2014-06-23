@@ -89,12 +89,14 @@ EOQ;
     $_SESSION['userid'] = C_CUSTOM_USERID;
     $_SESSION['userGroup'] = 2;
     $_SESSION['is_invisible'] = 0;
-    addUser($icon);
+    $userTypeId = 3;
+    addUser($icon, $userTypeId);
 
     $query = <<<EOQ
 UPDATE
     prochatrooms_users
 SET
+    display_name = :name,
     usergroup = '2',
     admin = '0',
     moderator = '0',
@@ -108,6 +110,7 @@ EOQ;
     $action->bindValue('userid', C_CUSTOM_USERID, PDO::PARAM_INT);
     $action->bindValue('username', C_CUSTOM_USERNAME);
     $action->bindValue('icon', $icon);
+    $action->bindValue('name', C_CUSTOM_USERNAME);
     $action->execute();
 
     $loggedIn = true;
@@ -129,8 +132,7 @@ else if(isset($_GET['gm_login']) || ($_GET['action'] == 'gm_login')) {
 
         $row = $action->fetch(PDO::FETCH_ASSOC);
         $icon = 'gm.png';
-
-        addUser($icon);
+        $userTypeId = 4;
 
         $admin = 0; //($row['Is_Admin'] == 'Y') ? 1 : 0;
         $action = $dbh->prepare($query);
@@ -138,6 +140,7 @@ else if(isset($_GET['gm_login']) || ($_GET['action'] == 'gm_login')) {
         if($action->rowCount() > 0) {
             $admin = 1;
             $icon = 'admin.png';
+            $userTypeId = 6;
         }
 
         if(!$admin) {
@@ -145,8 +148,11 @@ else if(isset($_GET['gm_login']) || ($_GET['action'] == 'gm_login')) {
             $action->execute(array($userdata['user_id'], 6));
             if($action->rowCount() > 0) {
                 $icon = 'wiki.png';
+                $userTypeId = 7;
             }
         }
+
+        addUser($icon, $userTypeId);
 
         $mod = 1;
 
@@ -154,6 +160,7 @@ else if(isset($_GET['gm_login']) || ($_GET['action'] == 'gm_login')) {
 UPDATE
     prochatrooms_users
 SET
+    display_name = :name,
     usergroup = '3',
     guest = '0',
     admin = '$admin',
@@ -167,6 +174,7 @@ EOQ;
         $action = $dbh->prepare($query);
         $action->bindValue('userid', $userdata['user_id'], PDO::PARAM_INT);
         $action->bindValue('username', $userdata['username']);
+        $action->bindValue('name', C_CUSTOM_USERNAME);
         $action->execute();
         $loggedIn = true;
     }
@@ -205,25 +213,29 @@ else if($userdata['username'] !== 'Anonymous') {
 
     $dbh = db_connect();
 
-    addUser($icon);
+    $userTypeId = 2;
+    addUser($icon, $userTypeId);
 
     $query = <<<EOQ
 UPDATE
     prochatrooms_users
 SET
+    display_name = :name,
     usergroup = '2',
     admin = '0',
     moderator = '0',
     guest = '0',
     avatar = '$icon'
 WHERE
-    username = ?
-    AND userid = ?
+    username = :username
+    AND userid = :userid
 EOQ;
 
     $action = $dbh->prepare($query);
-    $parameters = array(C_CUSTOM_USERNAME, C_CUSTOM_USERID);
-    $action->execute($parameters);
+    $action->bindValue('userid', C_CUSTOM_USERID, PDO::PARAM_INT);
+    $action->bindValue('username', C_CUSTOM_USERNAME);
+    $action->bindValue('name', C_CUSTOM_USERNAME);
+    $action->execute();
     $loggedIn = true;
 }
 else if(isset($_POST['data']['username']) && (trim($_POST['data']['username']) !== '')) {
@@ -235,7 +247,8 @@ else if(isset($_POST['data']['username']) && (trim($_POST['data']['username']) !
     $_SESSION['userid'] = C_CUSTOM_USERID;
     $_SESSION['userGroup'] = 1;
     $_SESSION['is_invisible'] = 0;
-    addUser('ooc.png');
+    $userTypeId = 1;
+    addUser('ooc.png', $userTypeId);
 
     $query = <<<EOQ
 UPDATE
@@ -268,6 +281,29 @@ if(!$loggedIn)
     die("Not Logged In.");
 }
 
+$sql = <<<EOQ
+SELECT
+    id
+FROM
+    prochatrooms_users
+WHERE
+    `username` = ?
+    AND `userid` = ?
+    AND `user_type_id` = ?
+EOQ;
+
+$statement = $dbh->prepare($sql);
+$params = array(C_CUSTOM_USERNAME, C_CUSTOM_USERID, $userTypeId);
+$statement->execute($params);
+$result = $statement->fetch(PDO::FETCH_ASSOC);
+
+// set chat information
+// session login
+$_SESSION['username'] = C_CUSTOM_USERNAME;
+$_SESSION['userid'] = C_CUSTOM_USERID;
+$_SESSION['display_name'] = C_CUSTOM_USERNAME;
+$_SESSION['user_id'] = $result['id'];
+$_SESSION['user_type_id'] = $userTypeId;
 
 ## DO NOT EDIT BELOW THIS LINE ##############
 

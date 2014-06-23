@@ -42,7 +42,7 @@ class CharacterHelper extends AppHelper
             <tr>
                 <td>
                     <?php echo $this->Form->input('id'); ?>
-                    <?php echo $this->Form->input('character_name', array('style' => 'width:500px;')); ?>
+                    <?php echo $this->Form->input('character_name', array('style' => 'width:400px;')); ?>
                 </td>
                 <td>
                     <?php echo $this->Form->input('template_id'); ?>
@@ -85,18 +85,22 @@ class CharacterHelper extends AppHelper
                 <div class="paragraph">
 
                     <span class="input">
-                        <label for="skill-points">Points Remaining:</label><input type="text" readonly value="30" id="skill-points"/>
+                        <label for="skill-points">Points Remaining:</label>
+                        <input type="text" readonly value="30" id="skill-points"/>
                     </span>
                 </div>
                 <div class="paragraph">
                     <div id="add-skill" class='simple-button'>Add Skill</div>
                     <div id="sort-skills" class='simple-button'>Sort Skills</div>
-                    <label>Default Skill Spread</label>
-                    <?php echo $this->Form->select('skill_spread', $skillSpreads); ?>
+                    <?php if($this->request->data['Character']['character_status_id'] == 1): ?>
+                        <label>Default Skill Spread</label>
+                        <?php echo $this->Form->select('skill_spread', $skillSpreads); ?>
+                    <?php endif; ?>
                 </div>
                 <div class="paragraph">
                     <ul id="skill-list">
-                        <?php foreach(range(0, 15) as $i): ?>
+                        <?php $maxSize = (count($this->request->data['CharacterSkill']) > 20 ? count($this->request->data['CharacterSkill']) : 20); ?>
+                        <?php foreach(range(0, $maxSize) as $i): ?>
                             <li>
                                 <div class="input">
                                     <?php
@@ -119,7 +123,8 @@ class CharacterHelper extends AppHelper
                 </div>
                 <div class="paragraph">
                     <ul id="stunt-list">
-                        <?php for ($i = 0; $i < 5; $i++): ?>
+                        <?php $maxSize = (count($this->request->data['CharacterStunt']) > 5 ? count($this->request->data['CharacterStunt']) : 5); ?>
+                        <?php for ($i = 0; $i < $maxSize; $i++): ?>
                             <li>
                                 <div class="input">
                                     <?php
@@ -139,11 +144,14 @@ class CharacterHelper extends AppHelper
                 <div class="paragraph">
                     <div id="add-power" class='simple-button'>Add Power</div>
                     <div id="sort-powers" class='simple-button'>Sort Powers</div>
-                    <div id="apply-template" class='simple-button'>Apply Template</div>
+                    <?php if($this->request->data['Character']['character_status_id'] == 1): ?>
+                        <div id="apply-template" class='simple-button'>Apply Template</div>
+                    <?php endif; ?>
                 </div>
                 <div class="paragraph">
                     <ul id="power-list">
-                        <?php for ($i = 0; $i < 5; $i++): ?>
+                        <?php $maxSize = (count($this->request->data['CharacterPower']) > 5 ? count($this->request->data['CharacterPower']) : 5); ?>
+                        <?php for ($i = 0; $i < $maxSize; $i++): ?>
                             <li>
                                 <div class="input">
                                     <?php

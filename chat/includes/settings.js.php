@@ -451,9 +451,9 @@ if(isset($_SESSION['adminUser']))
 *
 */
 
-echo "var admin = ".getAdmin($_SESSION['username'])."; ";
-echo "var moderator = ".getModerator($_SESSION['username'])."; ";
-echo "var speaker = ".getSpeaker($_SESSION['username'])."; ";
+echo "var admin = ".getAdmin($_SESSION['user_id'])."; ";
+echo "var moderator = ".getModerator($_SESSION['user_id'])."; ";
+echo "var speaker = ".getSpeaker($_SESSION['user_id'])."; ";
 
 /* 
 * user messages 
@@ -570,3 +570,21 @@ echo "var version = '".$CONFIG['version']."'; ";
 echo "var dispLastMess = '".$CONFIG['dispLastMess']."'; "; 
 
 ?>
+// set variables
+var intelliBot = <?php echo $CONFIG['intelliBot'];?>;
+var intelliBotName = '<?php echo $CONFIG['intelliBotName'];?>';
+var intelliBotAvi = '<?php echo $CONFIG['intelliBotAvi'];?>';
+var intellibotRoomID = '<?php echo $CONFIG['intellibotRoomID'];?>';
+var maxTextLength = <?php echo $CONFIG['maxChars'];?>;
+var hasSharePlugin = <?php echo (file_exists("../plugins/share/index.php")) ? 'true' : 'false'; ?>;
+var hasGamesPlugin = <?php echo (file_exists("../plugins/games/index.php")) ? 'true' : 'false'; ?>;
+<?php
+$room = '';
+
+if(isset($_SESSION['room']) && $CONFIG['singleRoom'])
+{
+    $room = "roomID=".$_SESSION['room']."&";
+}
+?>
+var roomText = '<?php echo $room; ?>';
+var textScale = 100;

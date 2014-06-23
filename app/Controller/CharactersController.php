@@ -1,17 +1,23 @@
 <?php
 App::uses('AppController', 'Controller');
+
 /**
  * Characters Controller
  *
  * @property Character $Character
  * @property Skill $Skill
  * @property RagnarokPermissionsComponent RagnarokPermissions
+ * @property ConfigComponent Config
  */
 class CharactersController extends AppController
 {
     public $uses = array(
         'Character',
         'Skill'
+    );
+
+    public $components = array(
+        'Config'
     );
 
     public function beforeFilter()
@@ -121,9 +127,9 @@ class CharactersController extends AppController
         $this->set('character', $this->Character->LoadCharacter($id));
     }
 
-    public function gmView()
+    public function gmView($characterId = null)
     {
-        if($this->request->is('put') || $this->request->is('post'))
+        if($this->request->is('put') || $this->request->is('post') || $this->request->is('get'))
         {
             if(isset($this->request->data['Character']['id']))
             {
@@ -139,9 +145,10 @@ class CharactersController extends AppController
                     $this->Session->setFlash(__('The character could not be saved. Please, try again.'));
                 }
             }
-            if(isset($this->request->data['lookup_id']))
+            if(isset($this->request->data['lookup_id']) || $characterId)
             {
-                $character = $this->Character->LoadCharacter($this->request->data['lookup_id']);
+                $characterId = (isset($this->request->data['lookup_id'])) ? $this->request->data['lookup_id'] : $characterId;
+                $character = $this->Character->LoadCharacter($characterId);
                 $this->request->data = $character;
             }
             $characterStatuses = $this->Character->CharacterStatus->find('list');
@@ -208,6 +215,8 @@ class CharactersController extends AppController
             $character['Character']['hunger_stress_skill_id'] = Configure::read('character.HungerStressSkillId');
             $character['Character']['available_significant_milestones'] = 0;
             $character['Character']['available_major_milestones'] = 0;
+            $character['Character']['power_level'] = $this->Config->Read('POWER_LEVEL');
+            $character['Character']['skill_points'] = $this->Config->Read('SKILL_POINTS ');
             $this->request->data = $character;
         }
 

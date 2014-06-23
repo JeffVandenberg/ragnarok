@@ -7,7 +7,7 @@
 <?php echo $this->Html->script('tinymce/tinymce.min'); ?>
 <?php echo $this->Html->script('tinymce/jquery.tinymce.min'); ?>
 <?php $this->end(); ?>
-
+<?php $skillPoints = $this->request->data['Character']['skill_points']; ?>
 <?php echo $this->Form->create('Character'); ?>
 <table style="width:100%;">
     <tr>
@@ -19,10 +19,10 @@
             <?php echo $this->Form->input('template_id'); ?>
         </td>
         <td style="width:130px">
-            <?php echo $this->Form->input('power_level', array('value' => 10, 'readonly' => true, 'style' => 'width: 50px;')); ?>
+            <?php echo $this->Form->input('power_level', array('readonly' => true, 'style' => 'width: 50px;')); ?>
         </td>
         <td style="width:100px;">
-            <?php echo $this->Form->input('max_fate', array('label' => 'Refresh', 'readonly' => true, 'value' => 12, 'style' => 'width: 50px;')); ?>
+            <?php echo $this->Form->input('max_fate', array('label' => 'Refresh', 'readonly' => true, 'style' => 'width: 50px;')); ?>
         </td>
     </tr>
 </table>
@@ -46,7 +46,7 @@
         <div class="paragraph">
             Points Remaining:
             <span class="input">
-                <input type="text" readonly value="35" id="skill-points" />
+                <input type="text" readonly value="<?php echo $skillPoints; ?>" id="skill-points" />
             </span>
         </div>
         <div class="paragraph">
@@ -160,6 +160,9 @@
 
 <?php $this->start('javascript'); ?>
 <script type="text/javascript">
+    dfCharacter.skillPoints = <?php echo $skillPoints; ?>;
+    dfCharacter.powerLevel = <?php echo $this->request->data['Character']['power_level']; ?>;
+    initializeCharacter();
     $(function () {
         $("#tabs").tabs();
     });

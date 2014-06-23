@@ -696,6 +696,7 @@ function updateAdminGames($data)
 
 		return "Success! - New game has been added.";
 	}
+    return '';
 }
 
 /*
@@ -709,29 +710,70 @@ function getAdminRooms($id)
 	
 	try {
 		$dbh = db_connect();
-		
+
+        $params = null;
 		if($id != '0')
 		{
 			$params = array(
-			'id' => $id
+			    'id' => $id
 			);
-			$query = "SELECT * FROM prochatrooms_rooms WHERE id = :id";
+
+            $query = <<<EOQ
+SELECT
+    R.*
+FROM
+    prochatrooms_rooms AS R
+    INNER JOIN prochatrooms_room_types AS RT ON R.room_type_id = RT.id
+WHERE
+    R.id = :id
+EOQ;
 		}
 		else
 		{
 			$params = array('');
-			$query = "SELECT * FROM prochatrooms_rooms";		
+			$query = <<<EOQ
+SELECT
+    R.*,
+    RT.name AS room_type_name
+FROM
+    prochatrooms_rooms AS R
+    INNER JOIN prochatrooms_room_types AS RT ON R.room_type_id = RT.id
+ORDER BY
+    roomname
+EOQ;
+
 		}
 				
 		$action = $dbh->prepare($query);
 		$action->execute($params);
-		
+
+        $roomTypeSql = <<<EOQ
+SELECT
+    *
+FROM
+    prochatrooms_room_types
+ORDER BY
+    name
+EOQ;
+
+        $ids = array();
+        $names = array();
+        require_once(__DIR__.'/../../../cgi-bin/buildSelect.php');
+
+        $roomAction = $dbh->prepare($roomTypeSql);
+        $roomAction->execute();
+		foreach($roomAction as $i) {
+            $ids[] = $i['id'];
+            $names[] = $i['name'];
+        }
+
 		if($id == '0')
 		{
 			$html .= '<tr><td class="header" colspan="2">Add New Room</td></tr>';
 			$html .= '<tr><td colspan="2">&nbsp;</td></tr>';
 			$html .= '<input type="hidden" name="addRoom" value="1">';
 			$html .= '<tr><td width="70">RoomName: </td><td><input type="text" name="room" value=""></td></tr>';
+			$html .= '<tr><td width="70">Type: </td><td>' . buildSelect('', $ids, $names, 'roomtypeid') . '</td></tr>';
 			$html .= '<tr><td>Password: </td><td><input type="text" name="pass" value=""> (optional)</td></tr>';
 			$html .= '<tr><td>Background: </td><td><input type="text" name="bg" value=""> (upload image to folder <i>/images/</i> or enter <i>url</i> to image)</td></tr>';
 			$html .= '<tr><td>Description: </td><td><textarea name="desc"></textarea></td></tr>';
@@ -767,7 +809,8 @@ function getAdminRooms($id)
 				}
 				
 				$html .= '<tr><td>RoomName: </td><td><input type="text" name="room" value="'.urldecode($i['roomname']).'"></td></tr>';
-				$html .= '<tr><td>Password: </td><td><input type="text" name="pass" value="'.$password.'"> (leave blank if no change)</td></tr>';
+                $html .= '<tr><td width="70">Type: </td><td>' . buildSelect($i['room_type_id'], $ids, $names, 'roomtypeid') . '</td></tr>';
+				$html .= '<tr><td>Password: </td><td><input type="text" name="pass" value=""> (leave blank if no change)</td></tr>';
 				$html .= '<tr><td>Background: </td><td><input type="text" name="bg" value="'.$i['roombg'].'"> (upload image to folder <i>/images/</i> or enter <i>url</i> to image)</td></tr>';
 				$html .= '<tr><td>Description: </td><td><textarea name="desc">'.stripslashes(urldecode($i['roomdesc'])).'</textarea></td></tr>';
 				$html .= '<tr><td>&nbsp;</td><td><input class="submit" type="submit" name="update" value="Update Rooms"></td></tr>';
@@ -784,6 +827,7 @@ function getAdminRooms($id)
 
 				$html .= '<tr><td width="70">RoomID: </td><td>'.$i['id'].'</td></tr>';
 				$html .= '<tr><td>RoomName: </td><td>'.urldecode($i['roomname']).'</td></tr>';
+                $html .= '<tr><td width="70">Type: </td><td>' . $i['room_type_name']. '</td></tr>';
 				$html .= '<tr><td>OwnerID: </td><td>'.$i['roomowner'].'</td></tr>';
 				$html .= '<tr><td>Password: </td><td>'.$password.'</td></tr>';
 				$html .= '<tr><td>Background: </td><td>'.$i['roombg'].'</td></tr>';
@@ -830,7 +874,7 @@ function updateAdminRooms($data)
 			try {
 				$dbh = db_connect();
 				$params = array(
-				'id' => $id
+				    'id' => $id
 				);
 				$query = "DELETE FROM prochatrooms_rooms WHERE id = :id";							
 				$action = $dbh->prepare($query);
@@ -859,11 +903,6 @@ function updateAdminRooms($data)
 			
 		if(!empty($data['updateRoom']))
 		{
-			if(!empty($data['pass']))
-			{
-				$updatePass = "roompassword = '".md5($data['pass'])."',";
-			}
-
 			$data['desc'] = preg_replace( "/\r/", "", $data['desc']);
 			$data['desc'] = preg_replace( "/\n/", "", $data['desc']);
 
@@ -873,14 +912,15 @@ function updateAdminRooms($data)
 				if(!empty($data['pass']))
 				{
 					$params = array(
-					'roomID' => $data['roomID'],
-					'roomname' => urlencode($data['room']),
-					'roomowner' => '1',
-					'roompassword' => md5($data['pass']),
-					'roomcreated' => '0',
-					'roombg' => $data['bg'],	
-					'roomdesc' => urlencode(),	
-					'updateRoom' => $data['updateRoom']						
+                        'roomID' => $data['roomID'],
+                        'roomname' => $data['room'],
+                        'roomowner' => '1',
+                        'roompassword' => md5($data['pass']),
+                        'roomcreated' => '0',
+                        'roombg' => $data['bg'],
+                        'roomdesc' => $data['desc'],
+                        'updateRoom' => $data['updateRoom'],
+                        'roomtypeid' => $data['roomtypeid']
 					);
 					$query = "UPDATE prochatrooms_rooms
 							  SET id = :roomID,
@@ -889,20 +929,22 @@ function updateAdminRooms($data)
 							  roompassword = :roompassword,
 							  roomcreated = :roomcreated, 
 							  roombg = :roombg,
-							  roomdesc = :roomdesc 
+							  roomdesc = :roomdesc,
+							  room_type_id = :roomtypeid
 							  WHERE id = :updateRoom
 							  ";
 				}
 				else
 				{
 					$params = array(
-					'roomID' => $data['roomID'],
-					'roomname' => urlencode($data['room']),
-					'roomowner' => '1',
-					'roomcreated' => '0',
-					'roombg' => $data['bg'],	
-					'roomdesc' => urlencode(preg_replace( "/\r/\n", "", $data['desc'])),	
-					'updateRoom' => $data['updateRoom']						
+                        'roomID' => $data['roomID'],
+                        'roomname' => $data['room'],
+                        'roomowner' => '1',
+                        'roomcreated' => '0',
+                        'roombg' => $data['bg'],
+                        'roomdesc' => $data['desc'],
+                        'updateRoom' => $data['updateRoom'],
+                        'roomtypeid' => $data['roomtypeid']
 					);
 					$query = "UPDATE prochatrooms_rooms
 							  SET id = :roomID,
@@ -910,7 +952,8 @@ function updateAdminRooms($data)
 							  roomowner = :roomowner,
 							  roomcreated = :roomcreated, 
 							  roombg = :roombg,
-							  roomdesc = :roomdesc 
+							  roomdesc = :roomdesc,
+							  room_type_id = :roomtypeid
 							  WHERE id = :updateRoom
 							  ";			
 				}
@@ -989,6 +1032,7 @@ function updateAdminRooms($data)
 			return "Success! - New room has been added.";
 		}
 	}
+    return false;
 }
 
 /*
@@ -1075,6 +1119,7 @@ function getAdminGroups()
 
 		// include files
 		include("../includes/config.php");
+        /* @var array $CONFIG */
 
 		$html .= '<tr><td colspan="11"><b>Default Group ID: '.$CONFIG['userGroup'].'</b></td></tr>';
 		$html .= '<tr><td colspan="11">This is the Group ID a user is assigned to the first time they login to the chat room.</td></tr>';
@@ -1167,6 +1212,7 @@ function editAdminGroups($data)
 
 		return $html;
 	}
+    return false;
 }
 
 /*
@@ -1296,6 +1342,7 @@ function updateAdminGroups($data)
 		
 		return "Success! - Group(s) has been deleted.";
 	}
+    return false;
 }
 
 /*
@@ -1310,7 +1357,7 @@ function getAdminBans()
 	try {
 		$dbh = db_connect();
 		$params = array(
-		'loginname' => makeSafe($loginName)
+		    'loginname' => makeSafe($loginName)
 		);
 		$query = "SELECT id, username, userIP   
 				  FROM prochatrooms_users
@@ -1938,14 +1985,23 @@ function getAdminTranscripts($findUser,$findRoom,$page)
 		if(!empty($findUser))
 		{
 			$params = array(
-			'findUser' => $findUser,			
-			);			
-			$query = "SELECT *   
-					  FROM prochatrooms_message
-					  WHERE username = :findUser OR tousername = :findUser 
-					  ORDER by id DESC 
-					  ";
-				  
+			    'findUser' => $findUser,
+			);
+			$query = <<<EOQ
+SELECT
+    M.*,
+    TU.username AS to_username,
+    FU.username AS from_username
+FROM
+    prochatrooms_message AS M
+    LEFT JOIN prochatrooms_users AS TU ON M.to_user_id = TU.id
+    LEFT JOIN prochatrooms_users AS FU ON M.uid = FU.id
+WHERE
+    TU.username = :findUser
+    OR FU.username = :findUser
+ORDER BY
+    M.id DESC
+EOQ;
 			$action = $dbh->prepare($query);	
 			$action->execute($params);
 		}
@@ -1955,14 +2011,24 @@ function getAdminTranscripts($findUser,$findRoom,$page)
 			'room' => $findRoom,
 			'page' => $page,	
 			'results' => $results				
-			);		
-			$query = "SELECT *   
-					  FROM prochatrooms_message
-					  WHERE room = :room
-					  ORDER by id DESC 
-					  LIMIT :page,:results
-					  ";	
-					  
+			);
+            $query = <<<EOQ
+SELECT
+    M.*,
+    TU.username AS to_username,
+    FU.username AS from_username
+FROM
+    prochatrooms_message AS M
+    LEFT JOIN prochatrooms_users AS TU ON M.to_user_id = TU.id
+    LEFT JOIN prochatrooms_users AS FU ON M.uid = FU.id
+WHERE
+    M.room = :room
+ORDER BY
+    M.id DESC
+LIMIT
+    :page,:results
+EOQ;
+
 			$dbh->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);					  
 			$action = $dbh->prepare($query);				
 			$action->execute($params);			  
@@ -1992,7 +2058,7 @@ function getAdminTranscripts($findUser,$findRoom,$page)
 		}
 		else
 		{
-			$html .= '<tr><td>ID</td><td>RoomID</td><td>Time</td><td>Username</td><td>To</td><td>Message</td></tr>';
+			$html .= '<tr><td>ID</td><td>RoomID</td><td>Time</td><td>Username</td><td>To</td><td style="max-width: 700px;">Message</td></tr>';
 		}
 
 		foreach ($action as $i) 
@@ -2029,8 +2095,8 @@ function getAdminTranscripts($findUser,$findRoom,$page)
 				$html .= '<td width="50">'.$i['id'].'</td>';
 				$html .= '<td width="80">'.$i['room'].'</td>';
 				$html .= '<td width="170">'.date("d M Y, H:i:s",$i['messtime']).'</td>';
-				$html .= '<td width="100">'.urldecode($i['username']).'</td>';
-				$html .= '<td width="100">'.urldecode($i['tousername']).'</td>';
+				$html .= '<td width="100">'.urldecode($i['from_username']).'</td>';
+				$html .= '<td width="100">'.urldecode($i['to_username']).'</td>';
 				$html .= '<td>'.$message.'</td>';
 				$html .= '</tr>';
 			}
@@ -2055,7 +2121,7 @@ function getAdminTranscripts($findUser,$findRoom,$page)
 		$error  = "Function: ".__FUNCTION__."\n";
 		$error .= "File: ".basename(__FILE__)."\n";	
 		$error .= 'PDOException: '.$e->getCode(). '-'. $e->getMessage()."\n\n";
-		
+		var_dump($error);
 		debugError($error);
 	}					
 				

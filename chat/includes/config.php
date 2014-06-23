@@ -21,7 +21,7 @@ $CONFIG['template'] = 'default';
 * 0 - do not show
 */
 
-$CONFIG['dispLastMess'] = '1';
+$CONFIG['dispLastMess'] = '20';
 
 /*
 * set maximum chat room users
@@ -180,7 +180,7 @@ $CONFIG['text']['family'] = 'verdana';
 * prevents users from sending huge walls of text
 */
 
-$CONFIG['maxChars'] = '1000';
+$CONFIG['maxChars'] = '2000';
 
 /*
 * idle timeout
@@ -208,14 +208,14 @@ $CONFIG['adminArea'] = '0'; // 0 No, 1 Yes
 * random security code
 */
 
-$CONFIG['salt'] = '!$*_3214125412'; // use random characters
+$CONFIG['salt'] = '!$*_3214'; // use random characters
 
 /*
 * activity timeout
 * auto updates user online/offline
 */
 
-$CONFIG['activeTimeout'] = '300'; // seconds
+$CONFIG['activeTimeout'] = '60'; // seconds
 
 /*
 * display the 'reset password' link

@@ -371,16 +371,16 @@ class Character extends AppModel
     private function HasAspectType($CharacterAspect, $aspectTypeId)
     {
         $hasAspectType = false;
-
-        foreach ($CharacterAspect as $aspect)
-        {
-            if ($aspect['aspect_type_id'] == $aspectTypeId)
+        if($CharacterAspect) {
+            foreach ($CharacterAspect as $aspect)
             {
-                $hasAspectType = true;
-                continue;
+                if ($aspect['aspect_type_id'] == $aspectTypeId)
+                {
+                    $hasAspectType = true;
+                    continue;
+                }
             }
         }
-
         return $hasAspectType;
     }
 
@@ -447,7 +447,6 @@ class Character extends AppModel
         $this->CharacterPower->deleteAll(array(
             'CharacterPower.character_id' => $character['Character']['id']
         ));
-        //debug($character);
         $success = $this->saveAssociated($character);
         if ($success)
         {
