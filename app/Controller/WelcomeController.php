@@ -20,6 +20,7 @@ class WelcomeController extends AppController {
     }
 
     public function home () {
+        $this->redirect('/wiki/');
     }
 
     public function chat () {
