@@ -1,16 +1,22 @@
 <?php
+
 /**
  * Created by JetBrains PhpStorm.
  * User: JeffVandenberg
  * Date: 4/14/13
  * Time: 11:40 AM
  * To change this template use File | Settings | File Templates.
+ * @property ConfigComponent Config
  */
 
 class WelcomeController extends AppController {
     public $helpers = array(
         'AddOnChat',
         'ParaChat',
+    );
+
+    public $components = array(
+        'Config'
     );
 
     public function beforeFilter()
@@ -20,7 +26,8 @@ class WelcomeController extends AppController {
     }
 
     public function home () {
-        $this->redirect('/wiki/');
+        $frontPage = $this->Config->Read('FRONT_PAGE');
+        $this->set(compact('frontPage'));
     }
 
     public function chat () {

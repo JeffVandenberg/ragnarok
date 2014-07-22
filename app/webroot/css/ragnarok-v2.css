@@ -670,3 +670,17 @@ dd {
 .full-editor {
     min-height: 600px;
 }
+
+.tinymce-content {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+}
+
+.tinymce-content p {
+    padding-bottom: 10px;
+}
+
+.tinymce-content ul, .tinymce-content ol {
+    padding-left: 40px;
+    margin: 11px 0;
+}
