@@ -27,6 +27,7 @@
  * to use (in this case, /app/View/Pages/index.ctp)...
  */
 	Router::connect('/', array('controller' => 'welcome', 'action' => 'home'));
+    Router::connect('/gsNews', array('controller' => 'welcome', 'action' => 'gsNews'));
 /**
  * ...and connect the rest of 'Pages' controller's urls.
  */

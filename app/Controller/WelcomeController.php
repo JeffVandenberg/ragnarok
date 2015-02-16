@@ -47,4 +47,9 @@ class WelcomeController extends AppController {
         );
         $this->set(compact('skillSpreads'));
     }
+
+    public function gsNews() {
+        echo $this->Config->read('gs_frontpage');
+        die();
+    }
 }
