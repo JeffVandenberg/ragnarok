@@ -1512,7 +1512,7 @@ class session
 *
 * @package phpBB3
 */
-class user extends session
+class phpbb_user extends session
 {
 	var $lang = array();
 	var $help = array();
@@ -1533,7 +1533,7 @@ class user extends session
 	/**
 	* Constructor to set the lang path
 	*/
-	function user()
+	function phpbb_user()
 	{
 		global $phpbb_root_path;
 

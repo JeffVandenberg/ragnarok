@@ -29,11 +29,12 @@ App::uses('Permission', 'Model');
  * Add your application-wide methods in the class below, your controllers
  * will inherit them.
  *
- * @package		app.Controller
+ * @package        app.Controller
  * @property MenuComponent Menu
- * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
+ * @link        http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
-class AppController extends Controller {
+class AppController extends Controller
+{
     public $components = array(
         'DebugKit.Toolbar',
         'Session',
@@ -57,10 +58,15 @@ class AppController extends Controller {
 
     public function beforeFilter()
     {
+        if ($this->request->params['action'] !== 'down') {
+            $this->redirect(array(
+                                'controller' => 'welcome',
+                                'action' => 'down'
+                            ));
+        }
         $this->Auth->authenticate = array('Ragnarok');
-        $this->Auth->authorize = array('Controller');
-        if(!$this->Auth->loggedIn())
-        {
+        $this->Auth->authorize    = array('Controller');
+        if (!$this->Auth->loggedIn()) {
             $this->Auth->login();
         }
 //        $this->Auth->logout();
@@ -69,15 +75,15 @@ class AppController extends Controller {
         $this->Auth->deny();
     }
 
-    public function beforeRender() {
+    public function beforeRender()
+    {
         $this->layout = ($this->request->is("ajax")) ? "ajax" : "default";
         $this->set('menu', $this->Menu->GetMenu());
     }
 
     public function isAuthorized($user = null)
     {
-        if($user == null)
-        {
+        if ($user == null) {
             return false;
         }
 
@@ -92,13 +98,14 @@ class AppController extends Controller {
     {
         App::uses('Character', 'Model');
         $characterRepository = new Character();
-        $character = $characterRepository->find('first', array(
+        $character           = $characterRepository->find('first', array(
             'conditions' => array(
-                'Character.id' => $characterId,
+                'Character.id'            => $characterId,
                 'Character.created_by_id' => $this->Auth->user('user_id')
             ),
-            'contain' => false
+            'contain'    => false
         ));
+
         return (count($character) > 0);
     }
 

@@ -52,4 +52,8 @@ class WelcomeController extends AppController {
         echo $this->Config->read('gs_frontpage');
         die();
     }
+
+    public function down() {
+
+    }
 }

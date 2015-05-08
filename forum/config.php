@@ -2,10 +2,10 @@
 // phpBB 3.0.x auto-generated configuration file
 // Do not change anything in this file!
 $dbms = 'mysqli';
-$dbhost = 'localhost';
+$dbhost = 'mysql.gamingsandbox.com';
 $dbport = '';
-$dbname = 'gamingsa_ragnarok';
-$dbuser = 'gamingsa_ragnaro';
+$dbname = 'gamingsandbox_ragnarok';
+$dbuser = 'gs_ragnarok';
 $dbpasswd = 'R@gN0r0k';
 $table_prefix = 'pinky_';
 $acm_type = 'file';
