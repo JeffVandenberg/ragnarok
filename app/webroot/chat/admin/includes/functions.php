@@ -1981,12 +1981,15 @@ function getAdminTranscripts($findUser,$findRoom,$page)
 		
 	try {
 		$dbh = db_connect();
-	
+
 		if(!empty($findUser))
 		{
 			$params = array(
-			    'findUser' => $findUser,
-			);
+			    $findUser,
+			    $findUser,
+                $page,
+                $results
+            );
 			$query = <<<EOQ
 SELECT
     M.*,
@@ -1997,12 +2000,14 @@ FROM
     LEFT JOIN prochatrooms_users AS TU ON M.to_user_id = TU.id
     LEFT JOIN prochatrooms_users AS FU ON M.uid = FU.id
 WHERE
-    TU.username = :findUser
-    OR FU.username = :findUser
+    TU.username = ?
+    OR FU.username = ?
 ORDER BY
     M.id DESC
+LIMIT
+    ?, ?
 EOQ;
-			$action = $dbh->prepare($query);	
+			$action = $dbh->prepare($query);
 			$action->execute($params);
 		}
 		else
