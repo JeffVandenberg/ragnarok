@@ -58,7 +58,6 @@
             <li><a href="#powers2">Power Notes</a></li>
             <li><a href="#stress">Stress</a></li>
             <li><a href="#description">Public</a></li>
-            <li><a href="#notes">Admin</a></li>
         </ul>
         <div id="aspects">
             <?php echo $this->Aspect->MakeViewTable($character); ?>
@@ -198,42 +197,6 @@
                 </div>
                 <?php echo Sanitize::stripScripts($character['Character']['public_information']); ?>
             </div>
-        </div>
-        <div id="stories">
-            <div id="create-story" class="simple-button">Create Personal Story</div>
-            <h3>
-                Site Stories
-            </h3>
-
-            <h3>
-                GM Stories
-            </h3>
-
-            <h3>
-                Personal Stories
-            </h3>
-
-            <div class="input">
-                <label>Character History</label>
-                <?php echo Sanitize::stripScripts($character['Character']['history']); ?>
-            </div>
-        </div>
-        <div id="advancement">
-            <div id="create-minor-milestone" class="simple-button">Create Minor Milestone</div>
-            <div id="use-significant-milestone" class="simple-button">Use Significant Milestone</div>
-            <div id="use-major-milestone" class="simple-button">Use Major Milestone</div>
-            <div class="paragraph">
-                <label>Available Significant Milestones</label><br />
-                <?php echo $character['Character']['available_significant_milestones']; ?><br/>
-            </div>
-            <div class="paragraph">
-                <label>Available Major Milestones</label><br />
-                <?php echo $character['Character']['available_major_milestones']; ?><br/>
-            </div>
-            <h3>Previous Milestones</h3>
-        </div>
-        <div id="notes">
-            Administrative Notes Area
         </div>
     </div>
     <div id="sheet-subview" style="display:none;"></div>
