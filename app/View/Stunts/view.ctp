@@ -24,12 +24,7 @@
 		</dd>
 		<dt><?php echo __('Stunt Rules'); ?></dt>
 		<dd>
-            <?php if($isGm): ?>
-			    <?php echo h($stunt['Stunt']['stunt_rules']); ?>
-            <?php else: ?>
-                <?php echo h(substr($stunt['Stunt']['stunt_rules'], 0, 10)); ?>
-            <?php endif; ?>
-			&nbsp;
+			<?php echo h($stunt['Stunt']['stunt_rules']); ?>
 		</dd>
 		<dt><?php echo __('Is Official'); ?></dt>
 		<dd>

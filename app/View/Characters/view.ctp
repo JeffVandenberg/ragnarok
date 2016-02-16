@@ -58,8 +58,6 @@
             <li><a href="#powers2">Power Notes</a></li>
             <li><a href="#stress">Stress</a></li>
             <li><a href="#description">Public</a></li>
-            <li><a href="#stories">Stories</a></li>
-            <li><a href="#advancement">Advancement</a></li>
             <li><a href="#notes">Admin</a></li>
         </ul>
         <div id="aspects">
