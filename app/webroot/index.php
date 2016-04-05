@@ -19,6 +19,8 @@
  * @since         CakePHP(tm) v 0.2.9
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+use phpbb\request\request;
+
 /**
  * Use the DS to separate the directories in other defines
  */
@@ -103,13 +105,15 @@ if (!empty($failed)) {
 App::uses('Dispatcher', 'Routing');
 
 define('IN_PHPBB', true);
-$phpbb_root_path = (defined('PHPBB_ROOT_PATH')) ? PHPBB_ROOT_PATH : '../../forum/';
+$phpbb_root_path = (defined('PHPBB_ROOT_PATH')) ? PHPBB_ROOT_PATH : WWW_ROOT . '/forum/';
 $phpEx = substr(strrchr(__FILE__, '.'), 1);
 include($phpbb_root_path . 'common.' . $phpEx);
+$request = $phpbb_container->get('request');
+/* @var request $request */
+$request->enable_super_globals();
 
-//
 // Start session management
-//
+
 
 $user->session_begin();
 $auth->acl($user->data);
