@@ -1,22 +1,3 @@
-<?php
-/**
- *
- * PHP 5
- *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       cake.libs.view.templates.pages
- * @since         CakePHP(tm) v 0.10.0.1076
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
- */
-?>
 <p>
 	<!--nocache-->
 	<span class="notice">
@@ -66,13 +47,13 @@
 		<?php
 			echo __d('cake', 'Your database configuration file is ');
 			$filePresent = null;
-			if (file_exists(APP . 'Config'.'database.php')):
+			if (file_exists(APP . 'Config' . 'database.php')):
 				echo __d('cake', 'present.');
 				$filePresent = true;
 			else:
 				echo __d('cake', 'NOT present.');
 				echo '<br/>';
-				echo __d('cake', 'Rename config/database.php to config/database.php');
+				echo __d('cake', 'Rename config/database.php.default to config/database.php');
 			endif;
 		?>
 	</span>
@@ -80,13 +61,13 @@
 <?php
 if (!empty($filePresent)):
 	App::uses('ConnectionManager', 'Model');
- 	$connected = ConnectionManager::getDataSource('default');
+	$connected = ConnectionManager::getDataSource('default');
 ?>
 <p>
 	<span class="notice">
 		<?php echo __d('cake', 'Cake');
 			if ($connected->isConnected()):
-		 		__d('cake', ' is able to ');
+				__d('cake', ' is able to ');
 			else:
 				__d('cake', ' is NOT able to ');
 			endif;
@@ -99,8 +80,8 @@ if (!empty($filePresent)):
 <a href="https://trac.cakephp.org/wiki/notes/1.2.x.x"><?php echo __d('cake', 'Read the release notes and get the latest version'); ?> </a>
 <h2><?php echo __d('cake', 'Editing this Page'); ?></h2>
 <p>
-<?php echo __d('cake', 'To change the content of this page, create: /app/View/Pages/index.ctp.'); ?><br />
-<?php echo __d('cake', 'To change its layout, create: /app/View/Layouts/default-cake.ctp.'); ?><br />
+<?php echo __d('cake', 'To change the content of this page, create: /app/View/Pages/home.ctp.'); ?><br />
+<?php echo __d('cake', 'To change its layout, create: /app/View/Layouts/default.ctp.'); ?><br />
 <a href="http://manual.cakephp.org/"><?php echo __d('cake', 'See the views section of the manual for more info.'); ?> </a><br />
 <?php echo __d('cake', 'You can also add some CSS styles for your pages at: app/webroot/css/.'); ?>
 </p>
@@ -110,7 +91,7 @@ if (!empty($filePresent)):
 <a href="http://www-128.ibm.com/developerworks/edu/os-dw-os-php-cake1.html"><?php echo __d('cake', 'Cook up Web sites fast with CakePHP'); ?></a><br />
 <a href="http://www-128.ibm.com/developerworks/edu/os-dw-os-php-wiki1.html"><?php echo __d('cake', 'Create an interactive production wiki using PHP'); ?></a>
 </p>
-<h2><?php echo __d('cake', 'More about Cake'); ?></h2>
+<h2><?php echo __d('cake', 'More about CakePHP'); ?></h2>
 <p>
 <?php echo __d('cake', 'CakePHP is a rapid development framework for PHP which uses commonly known design patterns like Active Record, Association Data Mapping, Front Controller and MVC.'); ?>
 </p>

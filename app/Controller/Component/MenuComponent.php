@@ -75,7 +75,7 @@ class MenuComponent extends Component {
 
         );
 
-        if($this->Auth->loggedIn())
+        if($this->Auth->user())
         {
             $this->menu['Characters']['menu']['Your Characters'] = array(
                 'controller' => 'characters',

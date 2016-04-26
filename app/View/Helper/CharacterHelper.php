@@ -42,13 +42,16 @@ class CharacterHelper extends AppHelper
             <tr>
                 <td>
                     <?php echo $this->Form->input('id'); ?>
-                    <?php echo $this->Form->input('character_name', array('style' => 'width:400px;')); ?>
+                    <?php echo $this->Form->input('character_name', array('style' => 'width:250px;')); ?>
                 </td>
                 <td>
                     <?php echo $this->Form->input('template_id'); ?>
                 </td>
                 <td style="width:110px">
                     <?php echo $this->Form->input('power_level', array('readonly' => !$this->CheckOption($options, 'gm_edit'), 'style' => 'width: 50px;')); ?>
+                </td>
+                <td style="width:110px">
+                    <?php echo $this->Form->input('skill_level', array('readonly' => !$this->CheckOption($options, 'gm_edit'), 'style' => 'width: 50px;')); ?>
                 </td>
                 <td style="width:80px;">
                     <?php echo $this->Form->input('max_fate', array('label' => 'Refresh', 'readonly' => true, 'style' => 'width: 50px;')); ?>

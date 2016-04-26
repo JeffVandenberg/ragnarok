@@ -139,10 +139,10 @@ class CharactersController extends AppController
                     $this->request->data['CharacterGmNote'][-1]['created_by_id'] = $this->Auth->user('user_id');
                 }
                 if ($this->Character->SaveCharacter($this->request->data)) {
-                    $this->Session->setFlash(__('The character has been saved'));
+                    $this->Flash->set(__('The character has been saved'));
                     $this->redirect(array('action' => 'gmView'));
                 } else {
-                    $this->Session->setFlash(__('The character could not be saved. Please, try again.'));
+                    $this->Flash->set(__('The character could not be saved. Please, try again.'));
                 }
             }
             if(isset($this->request->data['lookup_id']) || $characterId)

@@ -25,6 +25,10 @@ class ConfigurationController extends AppController {
         if($this->request->is('post')) {
             // try to save
             if($this->Configuration->saveAll($this->request->data)) {
+                // alert characters of new skill levels
+                App::uses('Character', 'Model');
+                $charRepo = new Character();
+                $charRepo->updateSkillLevelOnCharacters($this->request->data['Configuration']['skill_level']);
                 $this->Session->setFlash('Updated Configuration');
                 $this->redirect(array('action' => 'index'));
             }

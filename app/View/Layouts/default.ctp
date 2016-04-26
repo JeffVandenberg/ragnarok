@@ -18,6 +18,7 @@
 
 /* @var View $this */
 /* @var string $title_for_layout */
+/* @var array $currentUser */
 
 $cakeDescription = __d('ragnarok', 'Ragnarok NYC');
 ?>
@@ -43,7 +44,7 @@ $cakeDescription = __d('ragnarok', 'Ragnarok NYC');
     <script type="text/javascript">
         var baseUrl = '<?php echo $this->Html->url('/'); ?>';
     </script>
-    <script src="http://gamingsandbox.api.oneall.com/socialize/library.js" type="text/javascript"></script>
+<!--    <script src="http://gamingsandbox.api.oneall.com/socialize/library.js" type="text/javascript"></script>-->
 </head>
 <body>
 <div id="container">
@@ -62,9 +63,9 @@ $cakeDescription = __d('ragnarok', 'Ragnarok NYC');
                 </select>
             </div>
             <div id="header-user">
-                <?php if (AuthComponent::user('username') !== null): ?>
-                    <?php echo AuthComponent::user('username'); ?>
-                    <a href="<?php echo $this->Html->url('/'); ?>forum/ucp.php?mode=logout&sid=<?php echo AuthComponent::user('session_id'); ?>">Logout</a>
+                <?php if (isset($currentUser) && $currentUser['username'] !== null): ?>
+                    <?php echo $currentUser['username']; ?>
+                    <a href="<?php echo $this->Html->url('/'); ?>forum/ucp.php?mode=logout&sid=<?php echo $currentUser['session_id']; ?>">Logout</a>
                 <?php else: ?>
                     Guest
                 <?php endif; ?>

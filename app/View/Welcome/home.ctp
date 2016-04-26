@@ -1,5 +1,12 @@
 <?php /* @var View $this */ ?>
-<?php $this->set('title_for_layout', 'Welcome'); ?>
+<?php
+$this->set('title_for_layout', 'Welcome');
+$this->set('breadcrumbs', [
+    'Home' => ['current' => true, 'url' => '#'],
+    'News' => ['url' => '/home/news']
+]);
+
+?>
 
 <div class="tinymce-content">
     <?php echo $frontPage; ?>

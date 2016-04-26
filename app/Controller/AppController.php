@@ -58,19 +58,11 @@ class AppController extends Controller
 
     public function beforeFilter()
     {
-        if ($this->request->params['action'] !== 'down') {
-            $this->redirect(array(
-                                'controller' => 'welcome',
-                                'action' => 'down'
-                            ));
-        }
         $this->Auth->authenticate = array('Ragnarok');
         $this->Auth->authorize    = array('Controller');
-        if (!$this->Auth->loggedIn()) {
+        if (!$this->Auth->user()) {
             $this->Auth->login();
         }
-//        $this->Auth->logout();
-//        $this->Auth->login();
         $this->Menu->InitializeMenu();
         $this->Auth->deny();
     }
@@ -78,7 +70,11 @@ class AppController extends Controller
     public function beforeRender()
     {
         $this->layout = ($this->request->is("ajax")) ? "ajax" : "default";
+        if(isset($this->request->query['foundation'])) {
+            $this->layout = 'foundation';
+        }
         $this->set('menu', $this->Menu->GetMenu());
+        $this->set('currentUser', $this->Auth->user());
     }
 
     public function isAuthorized($user = null)

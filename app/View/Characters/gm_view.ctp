@@ -68,9 +68,11 @@
             .autocomplete({
                 source: baseUrl + 'characters/getList.json',
                 minLength: 2,
+                autoFocus: true,
                 select: function (e, ui) {
                     $("#lookup_id").val(ui.item.value);
                     $("#lookup_name").val(ui.item.label);
+                    $(this).closest('form').submit();
                     return false;
                 },
                 focus: function() {

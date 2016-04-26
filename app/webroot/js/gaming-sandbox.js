@@ -3,11 +3,9 @@ $.fn.classList = function() {
 };
 
 $(function() {
-    $("#game-selector").change(function() {
-        if($(this).val() != '') {
-            document.location = 'http://' + $(this).val() + ".gamingsandbox.com";
-        }
-    });
+    if(typeof $(document).foundation != 'undefined') {
+        $(document).foundation();
+    }
 
     $('input.required').each(function() {
         $(this).closest('div').addClass('required');

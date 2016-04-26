@@ -1,5 +1,6 @@
 <?php
 App::uses('AppModel', 'Model');
+
 /**
  * Character Model
  *
@@ -65,6 +66,9 @@ class Character extends AppModel
                 //'on' => 'create', // Limit validation to 'create' or 'update' operations
             ),
         ),
+        'skill_level' => [
+            'numeric'
+        ],
         'max_fate' => array(
             'numeric' => array(
                 'rule' => array('numeric'),
@@ -352,13 +356,10 @@ class Character extends AppModel
 
     private function CheckAspects(&$character)
     {
-        if (count($character['CharacterAspect']) < 7)
-        {
+        if (count($character['CharacterAspect']) < 7) {
             $aspectTypeId = 1;
-            for ($i = count($character['CharacterAspect']); $i < 7; $i++)
-            {
-                while ($this->HasAspectType($character['CharacterAspect'], $aspectTypeId))
-                {
+            for ($i = count($character['CharacterAspect']); $i < 7; $i++) {
+                while ($this->HasAspectType($character['CharacterAspect'], $aspectTypeId)) {
                     $aspectTypeId++;
                 }
                 $aspect = $this->CharacterAspect->create();
@@ -371,11 +372,9 @@ class Character extends AppModel
     private function HasAspectType($CharacterAspect, $aspectTypeId)
     {
         $hasAspectType = false;
-        if($CharacterAspect) {
-            foreach ($CharacterAspect as $aspect)
-            {
-                if ($aspect['aspect_type_id'] == $aspectTypeId)
-                {
+        if ($CharacterAspect) {
+            foreach ($CharacterAspect as $aspect) {
+                if ($aspect['aspect_type_id'] == $aspectTypeId) {
                     $hasAspectType = true;
                     continue;
                 }
@@ -391,47 +390,35 @@ class Character extends AppModel
         //$character['Character']['public_information'] = Sanitize::stripScripts($character['Character']['public_information']);
         //debug($character['Character']['public_information']);
 
-        if (isset($character['CharacterSkill']))
-        {
-            foreach ($character['CharacterSkill'] as $row => $item)
-            {
-                if (($item['skill_id'] == '0') || ($item['skill_id'] == ''))
-                {
+        if (isset($character['CharacterSkill'])) {
+            foreach ($character['CharacterSkill'] as $row => $item) {
+                if (($item['skill_id'] == '0') || ($item['skill_id'] == '')) {
                     unset($character['CharacterSkill'][$row]);
                 }
             }
-            if (count($character['CharacterSkill']) == 0)
-            {
+            if (count($character['CharacterSkill']) == 0) {
                 unset($character['CharacterSkill']);
             }
         }
 
-        if (isset($character['CharacterStunt']))
-        {
-            foreach ($character['CharacterStunt'] as $row => $item)
-            {
-                if (($item['stunt_id'] == '0') || ($item['stunt_id'] == ''))
-                {
+        if (isset($character['CharacterStunt'])) {
+            foreach ($character['CharacterStunt'] as $row => $item) {
+                if (($item['stunt_id'] == '0') || ($item['stunt_id'] == '')) {
                     unset($character['CharacterStunt'][$row]);
                 }
             }
-            if (count($character['CharacterStunt']) == 0)
-            {
+            if (count($character['CharacterStunt']) == 0) {
                 unset($character['CharacterStunt']);
             }
         }
 
-        if (isset($character['CharacterPower']))
-        {
-            foreach ($character['CharacterPower'] as $row => $item)
-            {
-                if (($item['power_id'] == '0') || ($item['power_id'] == ''))
-                {
+        if (isset($character['CharacterPower'])) {
+            foreach ($character['CharacterPower'] as $row => $item) {
+                if (($item['power_id'] == '0') || ($item['power_id'] == '')) {
                     unset($character['CharacterPower'][$row]);
                 }
             }
-            if (count($character['CharacterPower']) == 0)
-            {
+            if (count($character['CharacterPower']) == 0) {
                 unset($character['CharacterPower']);
             }
         }
@@ -448,12 +435,9 @@ class Character extends AppModel
             'CharacterPower.character_id' => $character['Character']['id']
         ));
         $success = $this->saveAssociated($character);
-        if ($success)
-        {
+        if ($success) {
             $datasource->commit();
-        }
-        else
-        {
+        } else {
             $datasource->rollback();
         }
         return $success;
@@ -465,5 +449,17 @@ class Character extends AppModel
 
         $success = $this->save($character);
         return $success;
+    }
+
+    public function updateSkillLevelOnCharacters($skill_level)
+    {
+        $this->updateAll(
+            [
+                'skill_level' => $skill_level
+            ],
+            [
+                'skill_level <' => $skill_level
+            ]
+        );
     }
 }

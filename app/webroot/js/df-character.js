@@ -585,6 +585,10 @@ $(function () {
         updateStuntElements();
     });
 
+    $("#CharacterSkillLevel").change(function() {
+        checkSkills();
+    });
+
     $("#CharacterSkillSpread").change(function () {
         // initialize
         $('.skill-id').val(0);
@@ -728,7 +732,7 @@ $(function () {
 });
 
 function checkSkills() {
-    var remainingPoints = dfCharacter.skillPoints;
+    var remainingPoints = $("#CharacterSkillLevel").val();//dfCharacter.skillPoints;
 
     var levels = [0, 0, 0, 0, 0, 0, 0, 0];
     $('.skill-level')

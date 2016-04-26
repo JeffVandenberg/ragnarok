@@ -1,3 +1,6 @@
 .idea/
-forum/config.php
+app/webroot/forum/config.php
 app/Config/database.php
+app/webroot/forum/cache
+app/tmp
+vendor
