@@ -42,8 +42,8 @@ class RequestCharacter extends AppModel {
 			),
 		),
 		'notes' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
+			'notblank' => array(
+				'rule' => array('notblank'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,

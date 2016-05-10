@@ -2,9 +2,12 @@
 <?php
 $this->set('title_for_layout', 'Welcome');
 $this->set('breadcrumbs', [
-    'Home' => ['current' => true, 'url' => '#'],
-    'News' => ['url' => '/home/news']
+    'Home' => ['current' => true, 'url' => '/'],
 ]);
+//$this->set('breadcrumbs', [
+//    'Home' => ['current' => true, 'url' => '#'],
+//    'News' => ['url' => '/home/news']
+//]);
 
 ?>
 

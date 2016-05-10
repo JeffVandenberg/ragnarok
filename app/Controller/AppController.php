@@ -42,7 +42,8 @@ class AppController extends Controller
         'Paginator',
         'Auth',
         'RagnarokPermissions',
-        'Menu'
+        'Menu',
+        'Flash'
     );
 
     public $helpers = array(
@@ -60,8 +61,16 @@ class AppController extends Controller
     {
         $this->Auth->authenticate = array('Ragnarok');
         $this->Auth->authorize    = array('Controller');
-        if (!$this->Auth->user()) {
+        if(!$this->Auth->user())
+        {
             $this->Auth->login();
+        }
+        else {
+            global $userdata;
+            if($userdata['user_id'] != $this->Auth->user('user_id')) {
+                $this->Auth->logout();
+                $this->Auth->login();
+            }
         }
         $this->Menu->InitializeMenu();
         $this->Auth->deny();

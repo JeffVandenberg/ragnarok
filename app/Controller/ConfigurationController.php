@@ -22,22 +22,24 @@ class ConfigurationController extends AppController {
     }
 
     public function edit() {
+        $configs = $this->Configuration->find('all');
         if($this->request->is('post')) {
             // try to save
             if($this->Configuration->saveAll($this->request->data)) {
+                $event = new CakeEvent('config.update', $this, [
+                    'old_config' => $configs,
+                    'new_config' => $this->request->data
+                ]);
                 // alert characters of new skill levels
-                App::uses('Character', 'Model');
-                $charRepo = new Character();
-                $charRepo->updateSkillLevelOnCharacters($this->request->data['Configuration']['skill_level']);
-                $this->Session->setFlash('Updated Configuration');
+                $this->getEventManager()->dispatch($event);
+                $this->Flash->set('Updated Configuration');
                 $this->redirect(array('action' => 'index'));
             }
             else {
-                debug($this->Configuration->validationErrors);
-                $this->Session->setFlash('Error Saving');
+                $this->Flash->set('Error Saving');
             }
         }
-        $this->set('configs', $this->Configuration->find('all'));
+        $this->set('configs', $configs);
     }
 
     public function isAuthorized($user = null)

@@ -109,3 +109,6 @@ CakeLog::config('error', array(
 ));
 
 CakePlugin::load('DebugKit');
+
+// load event listeners
+require_once APP . 'Config' . DS . 'events.php';

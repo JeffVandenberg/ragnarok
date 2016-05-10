@@ -45,8 +45,8 @@ class Bluebook extends AppModel {
 			),
 		),
 		'title' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
+			'notblank' => array(
+				'rule' => array('notblank'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -55,8 +55,8 @@ class Bluebook extends AppModel {
 			),
 		),
 		'body' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
+			'notblank' => array(
+				'rule' => array('notblank'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,

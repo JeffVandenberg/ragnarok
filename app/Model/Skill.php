@@ -22,8 +22,8 @@ class Skill extends AppModel {
  */
 	public $validate = array(
 		'skill_name' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
+			'notblank' => array(
+				'rule' => array('notblank'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,

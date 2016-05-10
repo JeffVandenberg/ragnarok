@@ -13,13 +13,16 @@
     <tr>
         <td>
             <?php echo $this->Form->input('id'); ?>
-            <?php echo $this->Form->input('character_name', array('style' => 'width:500px;')); ?>
+            <?php echo $this->Form->input('character_name', array('style' => 'width:350px;')); ?>
         </td>
         <td>
             <?php echo $this->Form->input('template_id'); ?>
         </td>
         <td style="width:130px">
             <?php echo $this->Form->input('power_level', array('readonly' => true, 'style' => 'width: 50px;')); ?>
+        </td>
+        <td style="width:130px">
+            <?php echo $this->Form->input('skill_level', array('readonly' => true, 'style' => 'width: 50px;')); ?>
         </td>
         <td style="width:100px;">
             <?php echo $this->Form->input('max_fate', array('label' => 'Refresh', 'readonly' => true, 'style' => 'width: 50px;')); ?>

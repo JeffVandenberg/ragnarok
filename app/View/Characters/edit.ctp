@@ -1,6 +1,5 @@
 <?php /* @var View $this */ ?>
 <?php /* @var array $skillSpreads */ ?>
-
 <?php $this->set('title_for_layout', 'Edit ' . $this->request->data['Character']['character_name']); ?>
 <?php $this->start('script'); ?>
 <?php echo $this->Html->script('df-character'); ?>
@@ -8,20 +7,22 @@
 <?php echo $this->Html->script('tinymce/jquery.tinymce.min'); ?>
 <?php $this->end(); ?>
 
-<?php //debug($this->request->data); ?>
 <?php echo $this->Form->create('Character'); ?>
 <div class="characters form">
     <table style="width:100%;">
         <tr>
             <td>
                 <?php echo $this->Form->input('id'); ?>
-                <?php echo $this->Form->input('character_name', array('style' => 'width:500px;')); ?>
+                <?php echo $this->Form->input('character_name', array('style' => 'width:350px;')); ?>
             </td>
             <td>
                 <?php echo $this->Form->input('template_id'); ?>
             </td>
             <td style="width:130px">
-                    <?php echo $this->Form->input('power_level', array('value' => 10, 'readonly' => true, 'style' => 'width: 50px;')); ?>
+                    <?php echo $this->Form->input('power_level', array('readonly' => true, 'style' => 'width: 50px;')); ?>
+            </td>
+            <td style="width:130px">
+                    <?php echo $this->Form->input('skill_level', array('readonly' => true, 'style' => 'width: 50px;')); ?>
             </td>
             <td style="width:100px;">
                 <?php echo $this->Form->input('max_fate', array('label' => 'Refresh', 'readonly' => true, 'value' => 12, 'style' => 'width: 50px;')); ?>

@@ -93,7 +93,7 @@ class CharactersController extends AppController
         }
         if(!$this->validateUserCharacter($id))
         {
-            $this->Session->setFlash('You are not authorized to view that character.');
+            $this->Flash->set('You are not authorized to view that character.');
             $this->redirect(array('controller' => 'characters', 'action' => '/'));
         }
         $this->set('character', $this->Character->LoadCharacter($id));
@@ -113,7 +113,7 @@ class CharactersController extends AppController
         }
         if(!$this->validateUserCharacter($id))
         {
-            $this->Session->setFlash('You are not authorized to view that character.');
+            $this->Flash->set('You are not authorized to view that character.');
             $this->redirect(array('controller' => 'characters', 'action' => '/'));
         }
         $this->set('character', $this->Character->LoadCharacter($id));
@@ -200,11 +200,11 @@ class CharactersController extends AppController
             $this->request->data['Character']['current_fate'] = $this->request->data['Character']['max_fate'];
             $this->request->data['Character']['character_status_id'] = 1;
             if ($this->Character->SaveCharacter($this->request->data)) {
-                $this->Session->setFlash(__('The character has been saved'));
+                $this->Flash->set(__('The character has been saved'));
                 $this->redirect(array('action' => 'index'));
             } else {
                 //debug($this->Character->validationErrors);
-                $this->Session->setFlash(__('The character could not be saved. Please, try again.'));
+                $this->Flash->set(__('The character could not be saved. Please, try again.'));
             }
         }
         else {
@@ -216,7 +216,8 @@ class CharactersController extends AppController
             $character['Character']['available_significant_milestones'] = 0;
             $character['Character']['available_major_milestones'] = 0;
             $character['Character']['power_level'] = $this->Config->Read('POWER_LEVEL');
-            $character['Character']['skill_points'] = $this->Config->Read('SKILL_POINTS ');
+            $character['Character']['skill_points'] = $this->Config->Read('SKILL_POINTS');
+            $character['Character']['skill_level'] = $this->Config->Read('SKILL_POINTS');
             $this->request->data = $character;
         }
 
@@ -237,16 +238,16 @@ class CharactersController extends AppController
         }
         if(!$this->validateUserCharacter($id))
         {
-            $this->Session->setFlash('You are not authorized to edit that character.');
+            $this->Flash->set('You are not authorized to edit that character.');
             $this->redirect(array('controller' => 'characters', 'action' => '/'));
         }
         if ($this->request->is('post') || $this->request->is('put')) {
             $this->request->data['Character']['updated_by_id'] = $this->Auth->user('user_id');
             if ($this->Character->SaveCharacter($this->request->data)) {
-                $this->Session->setFlash(__('The character has been saved'));
+                $this->Flash->set(__('The character has been saved'));
                 $this->redirect(array('action' => 'index'));
             } else {
-                $this->Session->setFlash(__('The character could not be saved. Please, try again.'));
+                $this->Flash->set(__('The character could not be saved. Please, try again.'));
             }
         } else {
             $character = $this->Character->LoadCharacter($id);
@@ -274,16 +275,16 @@ class CharactersController extends AppController
         }
         if(!$this->validateUserCharacter($id))
         {
-            $this->Session->setFlash('You are not authorized to edit that character.');
+            $this->Flash->set('You are not authorized to edit that character.');
             $this->redirect(array('controller' => 'characters', 'action' => '/'));
         }
         if ($this->request->is('post') || $this->request->is('put')) {
             $this->request->data['Character']['updated_by_id'] = $this->Auth->user('user_id');
             if ($this->Character->SaveLimitedCharacter($this->request->data)) {
-                $this->Session->setFlash(__('The character has been saved'));
+                $this->Flash->set(__('The character has been saved'));
                 $this->redirect(array('action' => 'index'));
             } else {
-                $this->Session->setFlash(__('The character could not be saved. Please, try again.'));
+                $this->Flash->set(__('The character could not be saved. Please, try again.'));
             }
         } else {
             $character = $this->Character->LoadLimitedCharacter($id);
@@ -309,14 +310,14 @@ class CharactersController extends AppController
         $this->request->onlyAllow('post', 'delete');
         if(!$this->validateUserCharacter($id))
         {
-            $this->Session->setFlash('You are not authorized to delete that character.');
+            $this->Flash->set('You are not authorized to delete that character.');
             $this->redirect(array('controller' => 'characters', 'action' => '/'));
         }
         if ($this->Character->delete()) {
-            $this->Session->setFlash(__('Character deleted'));
+            $this->Flash->set(__('Character deleted'));
             $this->redirect(array('action' => 'index'));
         }
-        $this->Session->setFlash(__('Character was not deleted'));
+        $this->Flash->set(__('Character was not deleted'));
         $this->redirect(array('action' => 'index'));
     }
 

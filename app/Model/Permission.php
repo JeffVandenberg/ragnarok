@@ -26,8 +26,8 @@ class Permission extends AppModel {
  */
 	public $validate = array(
 		'permission_name' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
+			'notblank' => array(
+				'rule' => array('notblank'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,

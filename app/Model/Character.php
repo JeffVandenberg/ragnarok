@@ -17,7 +17,6 @@ App::uses('AppModel', 'Model');
  */
 class Character extends AppModel
 {
-
     /**
      * Display field
      *
@@ -386,9 +385,6 @@ class Character extends AppModel
     public function SaveCharacter($character)
     {
         App::uses('Sanitize', 'Utility');
-        //debug($character['Character']['public_information']);
-        //$character['Character']['public_information'] = Sanitize::stripScripts($character['Character']['public_information']);
-        //debug($character['Character']['public_information']);
 
         if (isset($character['CharacterSkill'])) {
             foreach ($character['CharacterSkill'] as $row => $item) {
@@ -449,17 +445,5 @@ class Character extends AppModel
 
         $success = $this->save($character);
         return $success;
-    }
-
-    public function updateSkillLevelOnCharacters($skill_level)
-    {
-        $this->updateAll(
-            [
-                'skill_level' => $skill_level
-            ],
-            [
-                'skill_level <' => $skill_level
-            ]
-        );
     }
 }

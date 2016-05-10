@@ -35,8 +35,8 @@ class CharacterStunt extends AppModel {
 			),
 		),
 		'note' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
+			'notblank' => array(
+				'rule' => array('notblank'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
