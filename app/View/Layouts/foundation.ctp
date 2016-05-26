@@ -45,7 +45,7 @@ $siteDescription = __d('gaming_sandbox', 'Gaming Sandbox');
 <div class="title-bar" data-responsive-toggle="main-menu" data-hide-for="medium">
     <button class="menu-icon" type="button" data-toggle></button>
     <div class="title-bar-title">
-        <span style="color: #f26522; ">Gaming</span><span style="color: #00a99d; ">Sandbox</span>
+        <span style="color: #f26522; ">Dominium</span><span style="color: #00a99d; ">Fuego</span>
     </div>
 </div>
 <div class="top-bar" id="main-menu">

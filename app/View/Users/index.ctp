@@ -23,7 +23,8 @@
                 <td><?php echo h($user['User']['group_id']); ?>&nbsp;</td>
                 <td><?php echo h($user['User']['username']); ?>&nbsp;</td>
                 <td><?php echo h($user['User']['user_email']); ?>&nbsp;</td>
-                <td><?php echo ($user['User']['user_lastvisit']) ? date('Y-m-d', $user['User']['user_lastvisit']) : ''; ?>&nbsp;</td>
+                <td><?php echo ($user['User']['user_lastvisit']) ? date('Y-m-d', $user['User']['user_lastvisit']) : ''; ?>
+                    &nbsp;</td>
                 <td><?php echo h($user['User']['user_rank']); ?>&nbsp;</td>
                 <td class="actions">
                     <?php echo $this->Html->link(__('View'), array('action' => 'view', $user['User']['user_id'])); ?>
@@ -40,11 +41,39 @@
     </p>
 
     <div class="paging">
-        <?php
-        echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
-        echo $this->Paginator->numbers(array('separator' => ''));
-        echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
-        ?>
+        <ul class="pagination" role="navigation" aria-label="Pagination">
+            <?php
+            echo $this->Paginator->prev(
+                __('Previous'),
+                [
+                    'class' => 'pagination-previous',
+                    'tag' => 'li'
+                ],
+                null,
+                [
+                    'class' => 'prev disabled',
+                    'tag' => 'li'
+                ]
+            );
+            echo $this->Paginator->numbers([
+                'before' => false,
+                'after' => false,
+                'tag' => 'li',
+                'separator' => ''
+            ]);
+            echo $this->Paginator->next(
+                __('Next'),
+                [
+                    'class' => 'pagination-next',
+                    'tag' => 'li'
+                ],
+                null,
+                [
+                    'class' => 'next disabled',
+                    'tag' => 'li'
+                ]);
+            ?>
+        </ul>
     </div>
 </div>
 <?php $this->start('context-navigation'); ?>

@@ -147,7 +147,7 @@ div#main-logo {
     float: left;
     margin: 0;
     position: relative;
-    padding: 0px 1px 0px 0px;
+    padding: 0 1px 0 0;
     line-height: 16px;
     list-style-type: none;
 }
@@ -176,7 +176,7 @@ div#main-logo {
 }
 
 #vnav li.chosen a {
-    background: url('../img/vnav-chosen.png') 50% 0 no-repeat;
+    background: url('../img/topnav-chosen.png') 50% 0 no-repeat;
     color: #fff;
 }
 
@@ -191,8 +191,8 @@ div#main-logo {
 #vnav li li {
     width: 170px;
     height: auto;
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
     border-bottom: 1px solid #313131;
 }
 
@@ -238,7 +238,7 @@ div#main-logo {
     float: left;
     height: 61px;
     padding-left: 5px;
-    margin: 0px;
+    margin: 0;
     z-index: 100;
 }
 
@@ -250,7 +250,7 @@ div#main-logo {
 #vnav2 li {
     float: left;
     margin: 0;
-    padding: 0px;
+    padding: 0;
     position: relative;
     line-height: 61px;
     list-style-type: none;
@@ -271,7 +271,7 @@ div#main-logo {
 }
 
 #vnav2 li a.chosen {
-    background: url('../img/vnav-chosen.png') 50% 0 no-repeat;
+    background: url('../img/topnav-chosen.png') 50% 0 no-repeat;
     color: #fff;
     font-weight: bold;
 }
@@ -305,7 +305,6 @@ p.error,
     background-image: -webkit-linear-gradient(top, #ffcc00, #E6B800);
     background-image: -o-linear-gradient(top, #ffcc00, #E6B800);
     background-image: linear-gradient(top, #ffcc00, #E6B800);
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
     border: 1px solid rgba(0, 0, 0, 0.2);
     margin-bottom: 18px;
     padding: 7px 14px;
@@ -392,7 +391,7 @@ div#footer-bar {
     box-shadow: 2px 4px 3px rgba(0, 0, 0, .7);
     color: #cccccc;
     position: fixed;
-    bottom: 0px;
+    bottom: 0;
     width: 100%;
 }
 
@@ -461,7 +460,7 @@ div.submit {
 
 .submit > input, .button {
     padding: 4px 10px;
-    text-shadow: 0px 1px 1px rgba(0, 0, 0, .5);
+    text-shadow: 0 1px 1px rgba(0, 0, 0, .5);
     color: rgba(256, 256, 256, .9);
     background: linear-gradient(to bottom, #227788 0%, #225566 100%);
     border-radius: 4px;
@@ -624,10 +623,10 @@ dd {
 
 .paging .current,
 .paging .disabled,
-.paging a {
+.paging li {
     text-decoration: none;
     padding: 5px 8px;
-    display: inline-block
+    display: inline-block;
 }
 
 .paging > span {

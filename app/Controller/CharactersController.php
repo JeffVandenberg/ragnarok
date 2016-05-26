@@ -24,7 +24,10 @@ class CharactersController extends AppController
     {
         parent::beforeFilter();
         $this->Auth->deny();
-        $this->Auth->allow(array('publicView'));
+        $this->Auth->allow([
+            'publicView',
+            'cast'
+        ]);
 
         $this->Paginator->settings = array(
             'Character' => array(
@@ -91,8 +94,7 @@ class CharactersController extends AppController
         if (!$this->Character->exists($id)) {
             throw new NotFoundException(__('Invalid character'));
         }
-        if(!$this->validateUserCharacter($id))
-        {
+        if (!$this->validateUserCharacter($id)) {
             $this->Flash->set('You are not authorized to view that character.');
             $this->redirect(array('controller' => 'characters', 'action' => '/'));
         }
@@ -111,8 +113,7 @@ class CharactersController extends AppController
         if (!$this->Character->exists($id)) {
             throw new NotFoundException(__('Invalid character'));
         }
-        if(!$this->validateUserCharacter($id))
-        {
+        if (!$this->validateUserCharacter($id)) {
             $this->Flash->set('You are not authorized to view that character.');
             $this->redirect(array('controller' => 'characters', 'action' => '/'));
         }
@@ -129,13 +130,10 @@ class CharactersController extends AppController
 
     public function gmView($characterId = null)
     {
-        if($this->request->is('put') || $this->request->is('post') || $this->request->is('get'))
-        {
-            if(isset($this->request->data['Character']['id']))
-            {
+        if ($this->request->is('put') || $this->request->is('post') || $this->request->is('get')) {
+            if (isset($this->request->data['Character']['id'])) {
                 $this->request->data['Character']['updated_by_id'] = $this->Auth->user('user_id');
-                if(isset($this->request->data['CharacterGmNote']))
-                {
+                if (isset($this->request->data['CharacterGmNote'])) {
                     $this->request->data['CharacterGmNote'][-1]['created_by_id'] = $this->Auth->user('user_id');
                 }
                 if ($this->Character->SaveCharacter($this->request->data)) {
@@ -145,8 +143,7 @@ class CharactersController extends AppController
                     $this->Flash->set(__('The character could not be saved. Please, try again.'));
                 }
             }
-            if(isset($this->request->data['lookup_id']) || $characterId)
-            {
+            if (isset($this->request->data['lookup_id']) || $characterId) {
                 $characterId = (isset($this->request->data['lookup_id'])) ? $this->request->data['lookup_id'] : $characterId;
                 $character = $this->Character->LoadCharacter($characterId);
                 $this->request->data = $character;
@@ -174,8 +171,7 @@ class CharactersController extends AppController
         );
 
         $items = array();
-        foreach($characters as $value => $label)
-        {
+        foreach ($characters as $value => $label) {
             $output['value'] = $value;
             $output['label'] = $label;
             $items[] = $output;
@@ -206,8 +202,7 @@ class CharactersController extends AppController
                 //debug($this->Character->validationErrors);
                 $this->Flash->set(__('The character could not be saved. Please, try again.'));
             }
-        }
-        else {
+        } else {
             $character = array();
             $character['Character']['physical_stress_skill_id'] = Configure::read('character.PhysicalStressSkillId');
             $character['Character']['mental_stress_skill_id'] = Configure::read('character.MentalStressSkillId');
@@ -236,8 +231,7 @@ class CharactersController extends AppController
         if (!$this->Character->exists($id)) {
             throw new NotFoundException(__('Invalid character'));
         }
-        if(!$this->validateUserCharacter($id))
-        {
+        if (!$this->validateUserCharacter($id)) {
             $this->Flash->set('You are not authorized to edit that character.');
             $this->redirect(array('controller' => 'characters', 'action' => '/'));
         }
@@ -252,7 +246,7 @@ class CharactersController extends AppController
         } else {
             $character = $this->Character->LoadCharacter($id);
             App::uses('CharacterStatus', 'Model');
-            if($character['Character']['character_status_id'] != CharacterStatus::NewCharacter) {
+            if ($character['Character']['character_status_id'] != CharacterStatus::NewCharacter) {
                 $this->redirect(array('action' => 'editLimited', $id));
             }
             $this->request->data = $character;
@@ -273,8 +267,7 @@ class CharactersController extends AppController
         if (!$this->Character->exists($id)) {
             throw new NotFoundException(__('Invalid character'));
         }
-        if(!$this->validateUserCharacter($id))
-        {
+        if (!$this->validateUserCharacter($id)) {
             $this->Flash->set('You are not authorized to edit that character.');
             $this->redirect(array('controller' => 'characters', 'action' => '/'));
         }
@@ -308,8 +301,7 @@ class CharactersController extends AppController
             throw new NotFoundException(__('Invalid character'));
         }
         $this->request->onlyAllow('post', 'delete');
-        if(!$this->validateUserCharacter($id))
-        {
+        if (!$this->validateUserCharacter($id)) {
             $this->Flash->set('You are not authorized to delete that character.');
             $this->redirect(array('controller' => 'characters', 'action' => '/'));
         }
