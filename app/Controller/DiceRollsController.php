@@ -16,7 +16,7 @@ class DiceRollsController extends AppController
         $this->Auth->allow(array('index', 'view'));
         $this->Paginator->settings = array(
             'DiceRoll' => array(
-                'limit' => 10,
+                'limit' => 50,
                 'order' => array(
                     'DiceRoll.created' => 'desc'
                 )

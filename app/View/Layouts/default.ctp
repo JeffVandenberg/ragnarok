@@ -33,8 +33,8 @@ $cakeDescription = __d('ragnarok', 'Ragnarok NYC');
     <?php
     echo $this->Html->meta('icon');
     echo $this->Html->script('jquery-1.9.1');
-    echo $this->Html->script('jquery-ui-1.10.2.custom.min');
-    echo $this->Html->css('humanity/jquery-ui-1.10.2.custom.min');
+    echo $this->Html->script('jquery-ui.min');
+    echo $this->Html->css('df/jquery-ui.min');
     echo $this->Html->script('gaming-sandbox');
     echo $this->Html->css('ragnarok-v2');
     echo $this->fetch('meta');

@@ -9,14 +9,14 @@ html {
 }
 
 body {
-    background: #000022 url(../img/brick-background.png);
+    background: #000022 url(../img/dresdenfiles_bg.jpg);
     color: #ffffff;
     font-family: "Verdana", sans-serif;
     font-size: 13px;
 }
 
 a {
-    color: #333B7F;
+    color: #ed3a1c;
     text-decoration: none;
     font-weight: bold;
     text-transform: none;
@@ -36,7 +36,7 @@ h1 {
 }
 
 h2, h3 {
-    color: #0074c7;
+    color: #f6db60;
     margin-bottom: 10px;
 }
 
@@ -46,7 +46,7 @@ table {
 }
 
 table tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: #333333;
 }
 
 tr {
@@ -68,7 +68,7 @@ table.undecorated-table tr:nth-child(even) {
 div#header-bar {
     height: 30px;
     line-height: 30px;
-    background-color: #003663;
+    background-color: #aa321e;
     /*background: linear-gradient(to bottom, #ccccaa 0%, #aaaacc 100%);*/
     border-bottom-right-radius: 6px;
     -moz-border-radius-bottomright: 6px;
@@ -120,8 +120,8 @@ div#header-user {
 
 div#main-logo {
     margin-top: 30px;
-    background: url('../img/ragny_sitelogo.png') no-repeat top;
-    height: 114px;
+    background: url('../img/dfo_sitelogo.png') no-repeat top;
+    height: 100px;
 }
 
 /* Navigation Menu */
@@ -165,7 +165,7 @@ div#main-logo {
 }
 
 #vnav li a span {
-    color: #000;
+    color: #f6db60;
     font-size: 11px;
     font-weight: normal;
     font-family: "Segoe UI", Arial, Helvetica, sans-serif;
@@ -204,7 +204,7 @@ div#main-logo {
     padding: 0 0 0 22px;
     width: 148px;
     float: none;
-    color: #999;
+    color: #f6db60;
     font-size: 13px;
     text-decoration: none;
     font-family: "Segoe UI", Arial, Helvetica, sans-serif;
@@ -325,13 +325,15 @@ div#content {
     /*background: #bbbbbb;*/
     margin: 5px auto 20px auto;
     height: auto;
-    color: #000000;
+    color: #fff;
+    /*color: #000000;*/
     overflow: hidden;
     clear: both;
 }
 
 div#content-body {
-    background-color: #EEDDAA;
+    background-color: #222222;
+    /*background-color: #EEEEEE;*/
     padding: 10px;
     border-radius: 3px;
     display: block;
@@ -352,15 +354,15 @@ div#context-navigation {
     margin: 5px;
     padding: 5px;
     width: 180px;
-    background: #225566;
+    background: #240000;
     border-radius: 5px;
     box-shadow: 3px 3px 10px rgba(0, 0, 0, .7) inset;
 }
 
 div.context-group h3 {
     text-align: center;
-    color: #000000;
-    border-bottom: 2px solid #000000;
+    color: #f6db60;
+    border-bottom:1px solid #f6db60;
 }
 
 .context-group ul {
@@ -372,7 +374,7 @@ div.context-group h3 {
 }
 
 div.context-group {
-    background-color: #EEDDAA;
+    background-color: #222222;
     padding: 4px;
     border-radius: 3px;
     box-shadow: 3px 3px 2px rgba(0, 0, 0, .5);
@@ -383,7 +385,7 @@ div#footer-bar {
     height: 20px;
     line-height: 20px;
     font-size: 10px;
-    background-color: #003663;
+    background-color: #240000;
     border-top-right-radius: 6px;
     -moz-border-radius-topright: 6px;
     border-top-left-radius: 6px;
@@ -424,7 +426,7 @@ div.submit {
 
 #content-body label {
     font-weight: bold;
-    color: #613b17;
+    color: #f6db60;
     margin-right: 5px;
 }
 
@@ -462,7 +464,7 @@ div.submit {
     padding: 4px 10px;
     text-shadow: 0 1px 1px rgba(0, 0, 0, .5);
     color: rgba(256, 256, 256, .9);
-    background: linear-gradient(to bottom, #227788 0%, #225566 100%);
+    background: linear-gradient(to bottom, #a0410d 0%, #7b2e00 100%);
     border-radius: 4px;
 }
 
@@ -575,10 +577,6 @@ dd {
     overflow-y: auto;
     /* prevent horizontal scrollbar */
     overflow-x: hidden;
-}
-
-.ui-widget table tr:nth-child(even) {
-    background: #ccc;
 }
 
 /* cake styles */
