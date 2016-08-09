@@ -100,19 +100,45 @@
                 </tr>
             <?php endforeach; ?>
         </table>
-        <div class="paging">
+        <div class="paging pagination">
             <?php
             echo $this->Paginator->counter(array(
                 'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
             ));
             ?>
-            <p>
+            <ul class="pagination" role="navigation" aria-label="Pagination">
                 <?php
-                echo $this->Paginator->prev('< ' . __('Previous'), array(), null, array('class' => 'prev disabled'));
-                echo $this->Paginator->numbers(array('separator' => ''));
-                echo $this->Paginator->next(__('Next') . ' >', array(), null, array('class' => 'next disabled'));
+                echo $this->Paginator->prev(
+                    __('Previous'),
+                    [
+                        'class' => 'pagination-previous',
+                        'tag' => 'li'
+                    ],
+                    null,
+                    [
+                        'class' => 'prev disabled',
+                        'tag' => 'li'
+                    ]
+                );
+                echo $this->Paginator->numbers([
+                    'before' => false,
+                    'after' => false,
+                    'tag' => 'li',
+                    'separator' => ''
+                ]);
+                echo $this->Paginator->next(
+                    __('Next'),
+                    [
+                        'class' => 'pagination-next',
+                        'tag' => 'li'
+                    ],
+                    null,
+                    [
+                        'class' => 'next disabled',
+                        'tag' => 'li'
+                    ]);
                 ?>
-            </p>
+            </ul>
         </div>
     </div>
     <div id="roll-detail" style="display:none;"></div>

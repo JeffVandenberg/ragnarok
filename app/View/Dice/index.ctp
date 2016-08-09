@@ -19,6 +19,7 @@
     <input type="button" class="button" value="roll" id="roll-dice" />
 </div>
 
+<?php $this->start('script'); ?>
 <script type="text/javascript">
     function getRoll() {
         return Math.ceil(Math.random() * 3) - 2;
@@ -90,3 +91,4 @@
         });
     });
 </script>
+<?php $this->end(); ?>

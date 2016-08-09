@@ -6,7 +6,7 @@
 var share = 0;
 
 /*
-* create users div 
+* create users div
 *
 */
 
@@ -49,7 +49,7 @@ function createUsersDiv(uuID, userID, uUser, uDisplay, uAvatar, uWebcam, uPrevRo
 			var newdiv = document.createElement('div');
 			newdiv.setAttribute("id","userlist_"+uuID+uRoom);
 			newdiv.className = "userlist";
-			
+
 			// show username
 			if(webcamsOn)
 			{
@@ -57,8 +57,31 @@ function createUsersDiv(uuID, userID, uUser, uDisplay, uAvatar, uWebcam, uPrevRo
 			}
 			else
 			{
-                newdiv.innerHTML =
-                    "<div class='scrollable-container user-div'>" +
+                // var userDiv = $('<div />').append(
+                //     $('<div />').addClass('scrollable-container user-div')
+                //         .append(
+                //             $('<div />').addClass('scrollable')
+                //                 .append(
+                //                     $('<img />')
+                //                         .attr('id', 'avatar_' + uuID)
+                //                         .css('vertical-align', 'middle')
+                //                         .attr('src', 'avatars/' + uAvatar)
+                //                 )
+                //                 .append('&nbsp;')
+                //                 .append(
+                //                     $('<span />')
+                //                         .addClass(userClass)
+                //                         .append(
+                //                             $('<span />')
+                //                                 .addClass('username')
+                //                                 .html(decodeURI(uUser))
+                //                         )
+                //                         .append(showAdminID)
+                //                 )
+                //         )
+                // );
+                // newdiv.innerHTML = userDiv.html();
+                 newdiv.innerHTML = "<div class='scrollable-container user-div'>" +
                         "<div class='scrollable'>" +
                             "<img id='avatar_" + uuID + "' style='vertical-align:middle;' src='avatars/" + uAvatar + "'>" +
                             "&nbsp;" +
@@ -161,7 +184,7 @@ function createUsersDiv(uuID, userID, uUser, uDisplay, uAvatar, uWebcam, uPrevRo
 /*
 * update watching webcam status
 *
-*/ 
+*/
 
 function updateWatchingWebcamStatus(id,status)
 {
@@ -178,7 +201,7 @@ function updateWatchingWebcamStatus(id,status)
 /*
 * update user status
 *
-*/ 
+*/
 
 function updateUserStatusMes(id,status)
 {
@@ -200,7 +223,7 @@ function updateUserStatusMes(id,status)
 /*
 * update webcam status
 *
-*/ 
+*/
 
 function updateWebcamStatus(id,status)
 {
@@ -271,7 +294,7 @@ function updateDisplayName(userId, displayName, roomID)
 }
 
 /*
-* delete users div 
+* delete users div
 *
 */
 
@@ -306,13 +329,13 @@ function createSelectRoomdiv(room, roomid, roomdel)
 
 		if(roomID == roomid)
 		{
-			opt.setAttribute('selected','selected');	
+			opt.setAttribute('selected','selected');
 		}
 
-  		try 
+  		try
 		{
 			// standards compliant; doesn't work in IE
-    		sel.add(opt, null); 
+    		sel.add(opt, null);
   		}
   		catch(ex)
 		{
@@ -368,7 +391,7 @@ function createRoomsdiv(room,roomid,icon)
 }
 
 /*
-* delete room div 
+* delete room div
 *
 */
 
@@ -422,7 +445,7 @@ function userPanel(userName,targetUserName,targetUserId,roomId,userID,uAvatar,uB
 
 		// private chat
 		if(privateOn && uID != targetUserId)
-		{		
+		{
 			// if user has no eCredits
 			// disable option to send PM requests
 			if(eCredits == 1 && document.getElementById("eCreditsID").innerHTML == '0')
@@ -448,7 +471,7 @@ function userPanel(userName,targetUserName,targetUserId,roomId,userID,uAvatar,uB
 				}
 			}
 		}
-		
+
 		// whisper
         // disable whispering completely.
 		if(false)//whisperOn && uID != targetUserId)
@@ -496,7 +519,7 @@ function userPanel(userName,targetUserName,targetUserId,roomId,userID,uAvatar,uB
 				}
 			}
 		}
-		
+
 		// profile
         var profileID;
 		if(profileRef)
@@ -616,13 +639,13 @@ function adminControls(targetUserId,doAction)
 	param += '&uid=' + escape(uID);
 	param += '&uname=' + escape(userName);
 	param += '&to_user_id=' + escape(targetUserId);
-	param += '&umessage=' + escape(doAction);	
+	param += '&umessage=' + escape(doAction);
 	param += '&uroom=' + roomID;
 	param += '&usfx=' + escape(sfx);
-	param += '&umid=' + displayMDiv;	
+	param += '&umid=' + displayMDiv;
 
 	// if ready to send message to DB
-	if (sendReq.readyState == 4 || sendReq.readyState == 0) 
+	if (sendReq.readyState == 4 || sendReq.readyState == 0)
 	{
 		if(admin && userName != targetUserId || moderator && userName != targetUserId || roomOwner && userName != targetUserId)
 		{
@@ -664,7 +687,7 @@ function viewRequests(characterId) {
 
 /*
 * delete div
-* 
+*
 */
 
 function deleteDiv(divID,divContainer)

@@ -48,7 +48,7 @@ EOQ;
 
     private function BuildSubmenu($menu)
     {
-        $subMenu = "<ul>";
+        $subMenu = "<ul class='menu'>";
 
         foreach ($menu as $name => $menuItem) {
             $subMenu .= '<li>' . $this->Html->link($name, $menuItem) . '</li>';
@@ -60,17 +60,6 @@ EOQ;
 
     public function foundationMenu($menu)
     {
-        /*
-        <ul class="menu" data-responsive-menu="drilldown medium-dropdown">
-            <li class="active">
-                <a href="/forum">Forum</a>
-            </li>
-            <li>
-                <a href="/">News</a>
-            </li>
-        </ul>
-
-        */
         $renderedMenu = <<<EOQ
 <ul class="menu" data-responsive-menu="drilldown medium-dropdown">
 EOQ;

@@ -20,7 +20,7 @@
 /* @var string $title_for_layout */
 /* @var array $currentUser */
 
-$cakeDescription = __d('ragnarok', 'Ragnarok NYC');
+$cakeDescription = __d('ragnarok', 'Dominium Fuego');
 ?>
 <!DOCTYPE html>
 <html>
@@ -84,7 +84,7 @@ $cakeDescription = __d('ragnarok', 'Ragnarok NYC');
                 <div class="right-logo"></div>
             </div>
         <?php endif; ?>
-        <?php echo $this->Session->flash(); ?>
+        <?php echo $this->Flash->render(); ?>
         <div id="content-body">
             <?php echo $this->fetch('content'); ?>
         </div>

@@ -3168,7 +3168,6 @@ UPDATE prochatrooms_rooms AS R set roomusers = (
     WHERE
         U.room = R.id
         AND U.online = 1
-        AND U.is_invisible = 0
 )
 EOQ;
 

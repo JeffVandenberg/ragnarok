@@ -116,6 +116,4 @@ class MenuComponent extends Component {
     {
         return $this->menu;
     }
-
-
 }

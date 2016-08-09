@@ -16,7 +16,9 @@ body {
 }
 
 a {
-    color: #ed3a1c;
+    color: #8f8fff;
+    /*color: #ed3a1c;*/
+    /*color: #2e9118;*/
     text-decoration: none;
     font-weight: bold;
     text-transform: none;
@@ -483,7 +485,7 @@ dl {
 
 dl dd:nth-child(4n+2),
 dl dt:nth-child(4n+1) {
-    background: #f4f4f4;
+    /*background: #f4f4f4;*/
 }
 
 dt {

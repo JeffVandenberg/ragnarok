@@ -80,7 +80,9 @@ EOQ;
     if($character === false) {
         die('Not allowed');
     }
-    define('C_CUSTOM_USERNAME', $character['character_name']); // username
+    $encoded = htmlspecialchars($character['character_name']);
+    $cleanName = str_replace("'", '&#39;', $encoded);
+    define('C_CUSTOM_USERNAME', $cleanName); // username
     define('C_CUSTOM_USERID', $characterId); // userid
     define('C_CUSTOM_ACTION', 'CHARACTER LOGIN');
 
@@ -113,10 +115,13 @@ EOQ;
 
     $action = $dbh->prepare($query);
     $action->bindValue('userid', C_CUSTOM_USERID, PDO::PARAM_INT);
-    $action->bindValue('username', C_CUSTOM_USERNAME);
+    $action->bindValue('username', makeSafe(C_CUSTOM_USERNAME));
     $action->bindValue('icon', $icon);
-    $action->bindValue('name', C_CUSTOM_USERNAME);
-    $action->execute();
+    $action->bindValue('name', makeSafe(C_CUSTOM_USERNAME));
+    if(!$action->execute()) {
+        var_dump($action->errorInfo());
+        die();
+    }
 
     $loggedIn = true;
 }
@@ -139,6 +144,7 @@ else if(isset($_GET['gm_login']) || ($_GET['action'] == 'gm_login')) {
         $icon = 'gm.png';
         $userTypeId = 4;
 
+        // check if they are an admin
         $admin = 0; //($row['Is_Admin'] == 'Y') ? 1 : 0;
         $action = $dbh->prepare($query);
         $action->execute(array($userdata['user_id'], 2));
@@ -148,14 +154,16 @@ else if(isset($_GET['gm_login']) || ($_GET['action'] == 'gm_login')) {
             $userTypeId = 6;
         }
 
-        if(!$admin) {
-            $action = $dbh->prepare($query);
-            $action->execute(array($userdata['user_id'], 6));
-            if($action->rowCount() > 0) {
-                $icon = 'wiki.png';
-                $userTypeId = 7;
-            }
-        }
+        // check if they are a wiki manager
+        // temporary deprecate
+//        if(!$admin) {
+//            $action = $dbh->prepare($query);
+//            $action->execute(array($userdata['user_id'], 6));
+//            if($action->rowCount() > 0) {
+//                $icon = 'wiki.png';
+//                $userTypeId = 7;
+//            }
+//        }
 
         addUser($icon, $userTypeId);
 
@@ -298,7 +306,7 @@ WHERE
 EOQ;
 
 $statement = $dbh->prepare($sql);
-$params = array(C_CUSTOM_USERNAME, C_CUSTOM_USERID, $userTypeId);
+$params = array(makeSafe(C_CUSTOM_USERNAME), C_CUSTOM_USERID, $userTypeId);
 $statement->execute($params);
 $result = $statement->fetch(PDO::FETCH_ASSOC);
 

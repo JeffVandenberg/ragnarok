@@ -6,63 +6,66 @@
 <?php echo $this->Html->script('df-character'); ?>
 <?php $this->end(); ?>
 
-    <?php //debug($character); ?>
-    <table style="width:100%;">
-        <tr>
-            <td>
-                <label>Character Name</label><br/>
-                <?php echo $character['Character']['character_name']; ?>
-            </td>
-            <td>
-                <label>Template</label><br/>
-                <?php echo $character['Template']['template_name']; ?>
-            </td>
-            <td style="width:100px">
-                <label>Power Level</label><br/>
-                <?php echo $character['Character']['power_level']; ?>
-            </td>
-            <td style="width:100px;">
-                <label>Refresh</label><br/>
-                <?php echo $character['Character']['max_fate']; ?>
-            </td>
-            <td style="width:100px;">
-                <label>Fate Points</label><br/>
-                <?php echo $character['Character']['current_fate']; ?>
-            </td>
-            <td style="width:100px;">
-                <label>Status</label><br/>
-                <?php echo $character['CharacterStatus']['name']; ?>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label>Updated By</label><br/>
-                <?php echo $character['UpdatedBy']['username']; ?>
-            </td>
-            <td>
-                <label>Updated On</label><br/>
-                <?php echo $character['Character']['updated']; ?>
-            </td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-    </table>
-    <div id="tabs">
-        <ul>
-            <li><a href="#aspects">Aspects</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#stunts">Stunts</a></li>
-            <li><a href="#powers">Powers</a></li>
-            <li><a href="#powers2">Power Notes</a></li>
-            <li><a href="#stress">Stress</a></li>
-            <li><a href="#description">Public</a></li>
-        </ul>
-        <div id="aspects">
+<?php //debug($character); ?>
+<table style="width:100%;">
+    <tr>
+        <td>
+            <label>Character Name</label><br/>
+            <?php echo $character['Character']['character_name']; ?>
+        </td>
+        <td>
+            <label>Template</label><br/>
+            <?php echo $character['Template']['template_name']; ?>
+        </td>
+        <td style="width:100px">
+            <label>Power Level</label><br/>
+            <?php echo $character['Character']['power_level']; ?>
+        </td>
+        <td style="width:100px;">
+            <label>Refresh</label><br/>
+            <?php echo $character['Character']['max_fate']; ?>
+        </td>
+        <td style="width:100px;">
+            <label>Fate Points</label><br/>
+            <?php echo $character['Character']['current_fate']; ?>
+        </td>
+        <td style="width:100px;">
+            <label>Status</label><br/>
+            <?php echo $character['CharacterStatus']['name']; ?>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label>Updated By</label><br/>
+            <?php echo $character['UpdatedBy']['username']; ?>
+        </td>
+        <td>
+            <label>Updated On</label><br/>
+            <?php echo $character['Character']['updated']; ?>
+        </td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+<div id="tabs">
+    <ul class="tabs" data-tabs id="character-sheet-tabs">
+        <li class="tabs-title is-active"><a href="#aspects">Aspects</a></li>
+        <li class="tabs-title"><a href="#skills">Skills</a></li>
+        <li class="tabs-title"><a href="#stunts">Stunts</a></li>
+        <li class="tabs-title"><a href="#powers">Powers</a></li>
+        <li class="tabs-title"><a href="#powers2">Power Notes</a></li>
+        <li class="tabs-title"><a href="#stress">Stress</a></li>
+        <li class="tabs-title"><a href="#description">Public</a></li>
+    </ul>
+    <?php if ($this->layout === 'foundation'): ?>
+    <div class="tabs-content" data-tabs-content="character-sheet-tabs">
+        <?php endif; ?>
+        <div class="tabs-panel is-active" id="aspects">
             <?php echo $this->Aspect->MakeViewTable($character); ?>
         </div>
-        <div id="skills">
+        <div class="tabs-panel" id="skills">
             <table>
                 <tr>
                     <th>
@@ -90,12 +93,12 @@
                 <?php endforeach; ?>
             </table>
         </div>
-        <div id="stunts">
+        <div class="tabs-panel" id="stunts">
             <table>
                 <tr>
                     <th>
                         Stunt
-                   </th>
+                    </th>
                     <th>
                         Note
                     </th>
@@ -120,7 +123,7 @@
                 <?php endforeach; ?>
             </table>
         </div>
-        <div id="powers">
+        <div class="tabs-panel" id="powers">
             <table>
                 <tr>
                     <th>
@@ -157,70 +160,79 @@
                 <?php endforeach; ?>
             </table>
         </div>
-        <div id="powers2">
+        <div class="tabs-panel" id="powers2">
             <div class="paragraph">
-                This section is for notes which have a more complexity, such as your wereform's alternate skills and various
+                This section is for notes which have a more complexity, such as your wereform's alternate skills and
+                various
                 magical bonuses, foci, etc.
             </div>
             <?php echo str_replace("\n", "<br />", $character['Character']['additional_power_notes']); ?>
         </div>
-        <div id="stress">
+        <div class="tabs-panel" id="stress">
             <div class="paragraph">
-                <label>Physical Stress Skill</label><br />
-                <?php echo $character['PhysicalStressSkill']['skill_name']; ?><br />
-                Physical Stress: <?php echo $character['Character']['physical_stress']; ?><br />
+                <label>Physical Stress Skill</label><br/>
+                <?php echo $character['PhysicalStressSkill']['skill_name']; ?><br/>
+                Physical Stress: <?php echo $character['Character']['physical_stress']; ?><br/>
                 Extra Physical Consequences: <?php echo $character['Character']['additional_physical_consequences']; ?>
             </div>
             <div class="paragraph">
-                <label>Mental Stress Skill</label><br />
-                <?php echo $character['MentalStressSkill']['skill_name']; ?><br />
-                Mental Stress: <?php echo $character['Character']['mental_stress']; ?><br />
+                <label>Mental Stress Skill</label><br/>
+                <?php echo $character['MentalStressSkill']['skill_name']; ?><br/>
+                Mental Stress: <?php echo $character['Character']['mental_stress']; ?><br/>
                 Extra Mental Consequences: <?php echo $character['Character']['additional_mental_consequences']; ?>
             </div>
             <div class="paragraph">
-                <label>Social Stress Skill</label><br />
-                <?php echo $character['SocialStressSkill']['skill_name']; ?><br />
-                Social Stress: <?php echo $character['Character']['social_stress']; ?><br />
+                <label>Social Stress Skill</label><br/>
+                <?php echo $character['SocialStressSkill']['skill_name']; ?><br/>
+                Social Stress: <?php echo $character['Character']['social_stress']; ?><br/>
                 Extra Social Consequences: <?php echo $character['Character']['additional_social_consequences']; ?>
             </div>
             <div class="paragraph">
-                <label>Hunger Stress Skill</label><br />
-                <?php echo $character['HungerStressSkill']['skill_name']; ?><br />
-                Hunger Stress: <?php echo $character['Character']['hunger_stress']; ?><br />
+                <label>Hunger Stress Skill</label><br/>
+                <?php echo $character['HungerStressSkill']['skill_name']; ?><br/>
+                Hunger Stress: <?php echo $character['Character']['hunger_stress']; ?><br/>
                 Extra Hunger Consequences: <?php echo $character['Character']['additional_hunger_consequences']; ?>
             </div>
         </div>
-        <div id="description">
+        <div class="tabs-panel" id="description">
             <div class="input">
                 <div class="paragraph">
-                    Public Character Page. Put anything and everything you want people to know about your character here.
+                    Public Character Page. Put anything and everything you want people to know about your character
+                    here.
                 </div>
-                <?php echo Sanitize::stripScripts($character['Character']['public_information']); ?>
+                <?php echo $this->Html->clean('test'); ?>
+                <?php echo $character['Character']['public_information']; ?>
             </div>
         </div>
+        <?php if ($this->layout === 'foundation'): ?>
     </div>
-    <div id="sheet-subview" style="display:none;"></div>
+<?php endif; ?>
+</div>
+<div id="sheet-subview" style="display:none;"></div>
 
 <?php $this->start('javascript'); ?>
-    <script type="text/javascript">
-        $(function () {
-            $("#tabs").tabs();
-        });
-    </script>
-    <script type="text/javascript">
-        tinymce.init({
-            selector: "textarea.full-editor",
-            theme: "modern",
-            plugins: [
-                "advlist autolink lists link image charmap print preview hr anchor pagebreak",
-                "searchreplace wordcount visualblocks visualchars code fullscreen",
-                "insertdatetime media nonbreaking save table contextmenu directionality",
-                "emoticons template paste textcolor"
-            ],
-            toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
-            toolbar2: "print preview media | forecolor backcolor emoticons",
-            image_advtab: true,
-            height: 600
-        });
-    </script>
+<script type="text/javascript">
+    <?php if($this->layout === 'foundation'): ?>
+    alert('foundation!');
+
+    <?php else: ?>
+    $(function () {
+        $("#tabs").tabs();
+    });
+    <?php endif; ?>
+    tinymce.init({
+        selector: "textarea.full-editor",
+        theme: "modern",
+        plugins: [
+            "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+            "searchreplace wordcount visualblocks visualchars code fullscreen",
+            "insertdatetime media nonbreaking save table contextmenu directionality",
+            "emoticons template paste textcolor"
+        ],
+        toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+        toolbar2: "print preview media | forecolor backcolor emoticons",
+        image_advtab: true,
+        height: 600
+    });
+</script>
 <?php $this->end(); ?>

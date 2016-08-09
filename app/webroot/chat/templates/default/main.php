@@ -8,12 +8,12 @@
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <link type="text/css" rel="stylesheet"
-          href="/css/sunny/jquery-ui-1.10.2.custom.min.css?v=<?php echo $CONFIG['version']; ?>">
+          href="/css/df/jquery-ui.css?v=<?php echo $CONFIG['version']; ?>">
     <link type="text/css" rel="stylesheet"
           href="templates/<?php echo $CONFIG['template']; ?>/style.css?v=<?php echo $CONFIG['version']; ?>">
     <script type="text/javascript" src="/js/jquery-1.9.1.js?v=<?php echo $CONFIG['version']; ?>"></script>
     <script type="text/javascript" src="/chat/js/sortelements.js?v=<?php echo $CONFIG['version']; ?>"></script>
-    <script type="text/javascript" src="/js/jquery-ui-1.10.2.custom.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/chat/includes/lang.js.php?v=<?php echo $CONFIG['version']; ?>"></script>
     <script type="text/javascript" src="/chat/includes/settings.js.php?v=<?php echo $CONFIG['version']; ?>"></script>
     <script type="text/javascript" src="/chat/js/XmlHttpRequest.js?v=<?php echo $CONFIG['version']; ?>"></script>
@@ -124,7 +124,7 @@
         <br></span>
             <span><?php echo C_LANG129; ?> <span
                     title="Use () to designate a district location for the room, like (HD). Use [] if the room is located in another world, like [Hedge]."><img
-                        src="/chat/images/menu/help_small.png"
+                        src="/chat/images/menu/help_small.gif"
                         height="15px"></span><input class="roomInput" type="text" id="roomName" name="roomName"
                                                     value=""></span>
             <!--<span><select name="room_type_id" id="room_type_id"><option value="1">General</option><option value="5">Changeling</option><option value="6">Geist</option><option value="3">Mage</option><option value="8">Mortal</option><option value="2">Vampire</option><option value="4">Werewolf</option><option value="7">ST Scene (ST only)</option></select></span>-->

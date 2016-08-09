@@ -35,6 +35,7 @@ $siteDescription = __d('gaming_sandbox', 'Gaming Sandbox');
     <?php
     echo $this->Html->meta('icon');
     echo $this->Html->css('foundation');
+    echo $this->Html->css('df/jquery-ui.min');
 //    echo $this->Html->css('app');
     //    echo $this->Html->css('gaming-sandbox');
     echo $this->fetch('meta');
@@ -81,10 +82,16 @@ $siteDescription = __d('gaming_sandbox', 'Gaming Sandbox');
     </div>
 <?php endif; ?>
 <div class="row" id="breadcrumbs">
-    <div class="small-12 columns">
+    <div class="small-12 medium-9 columns">
         <?php echo $this->Flash->render(); ?>
         <?php echo $this->fetch('content'); ?>
     </div>
+    <?php if(in_array('context-navigation', $this->blocks())): ?>
+        <div class="small-12 medium-3 columns callout">
+            <?php echo $this->fetch('context-navigation'); ?>
+            <div class="right-logo"></div>
+        </div>
+    <?php endif; ?>
 </div>
 <footer class="footer">
     <div class="row">
@@ -96,7 +103,7 @@ $siteDescription = __d('gaming_sandbox', 'Gaming Sandbox');
 <?php
 // echo $this->element('sql_dump');
 echo $this->Html->script('jquery-1.9.1');
-echo $this->Html->script('jquery-ui-1.10.2.custom');
+echo $this->Html->script('jquery-ui.min');
 echo $this->Html->script('foundation');
 echo $this->Html->script('gaming-sandbox');
 echo $this->fetch('script');
