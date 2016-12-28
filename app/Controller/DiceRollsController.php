@@ -33,7 +33,7 @@ class DiceRollsController extends AppController
 
         if(!$this->validateUserCharacter($characterId))
         {
-            $this->Session->setFlash('You are not authorized for that character dice roller.');
+            $this->Flash->set('You are not authorized for that character dice roller.');
             $this->redirect(array('controller' => 'diceRolls', 'action' => '/'));
         }
 
@@ -260,7 +260,7 @@ class DiceRollsController extends AppController
             case 'scene':
             case 'rollDiceScene':
             case 'rollDiceCharacter':
-                return $this->Auth->loggedIn();
+                return $this->Auth->user();
                 break;
         }
         return false;

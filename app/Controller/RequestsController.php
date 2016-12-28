@@ -38,7 +38,7 @@ class RequestsController extends AppController
     public function character($id)
     {
         if (!$this->validateUserCharacter($id)) {
-            $this->Session->setFlash('You are not authorized for that character.');
+            $this->Flash->set('You are not authorized for that character.');
             $this->redirect(array('controller' => 'welcome', 'action' => 'home'));
         }
 
