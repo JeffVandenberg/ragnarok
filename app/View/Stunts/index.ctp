@@ -12,7 +12,7 @@
             <tr>
                 <th><?php echo $this->Paginator->sort('stunt_name'); ?></th>
                 <th><?php echo $this->Paginator->sort('cost'); ?></th>
-                <th><?php echo $this->Paginator->sort('skill_id'); ?></th>
+                <th><?php echo $this->Paginator->sort('Skill.skill_name', 'Skill'); ?></th>
                 <th><?php echo $this->Paginator->sort('is_official'); ?></th>
                 <th><?php echo $this->Paginator->sort('is_approved'); ?></th>
                 <th><?php echo $this->Paginator->sort('created_by_id'); ?></th>
@@ -50,9 +50,9 @@
 
         <div class="paging">
             <?php
-            echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
-            echo $this->Paginator->numbers(array('separator' => ''));
-            echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
+            echo $this->Paginator->prev('< ' . __('Previous'), array(), null, array('class' => 'prev disabled'));
+            echo $this->Paginator->numbers(array('separator' => '', 'class' => 'item'));
+            echo $this->Paginator->next(__('Next') . ' >', array(), null, array('class' => 'next disabled'));
             ?>
         </div>
     </div>

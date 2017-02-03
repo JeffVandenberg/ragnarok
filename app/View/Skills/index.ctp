@@ -5,44 +5,48 @@
     'evalScripts' => true
 )); ?>
 
-    <div class="skills index" id="page-content">
-        <h2><?php echo __('Skills'); ?></h2>
-        <table>
+<div class="skills index" id="page-content">
+    <h2><?php echo __('Skills'); ?></h2>
+    <table>
+        <tr>
+            <th><?php echo $this->Paginator->sort('skill_name'); ?></th>
+            <th><?php echo $this->Paginator->sort('is_official'); ?></th>
+            <th class="actions"><?php echo __('Actions'); ?></th>
+        </tr>
+        <?php foreach ($skills as $skill): ?>
             <tr>
-                <th><?php echo $this->Paginator->sort('skill_name'); ?></th>
-                <th><?php echo $this->Paginator->sort('is_official'); ?></th>
-                <th class="actions"><?php echo __('Actions'); ?></th>
+                <td><?php echo h($skill['Skill']['skill_name']); ?>&nbsp;</td>
+                <td><?php echo ($skill['Skill']['is_official']) ? __('Yes') : __('No'); ?>&nbsp;</td>
+                <td class="actions">
+                    <?php echo $this->Html->link(__('View'), array('action' => 'view', $skill['Skill']['id'])); ?>
+                    <?php if (isset($actions['edit'])): ?>
+                        <?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $skill['Skill']['id'])); ?>
+                        <?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $skill['Skill']['id']), null, __('Are you sure you want to delete # %s?', $skill['Skill']['id'])); ?>
+                    <?php endif; ?>
+                </td>
             </tr>
-            <?php foreach ($skills as $skill): ?>
-                <tr>
-                    <td><?php echo h($skill['Skill']['skill_name']); ?>&nbsp;</td>
-                    <td><?php echo ($skill['Skill']['is_official']) ? __('Yes') : __('No'); ?>&nbsp;</td>
-                    <td class="actions">
-                        <?php echo $this->Html->link(__('View'), array('action' => 'view', $skill['Skill']['id'])); ?>
-                        <?php if (isset($actions['edit'])): ?>
-                            <?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $skill['Skill']['id'])); ?>
-                            <?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $skill['Skill']['id']), null, __('Are you sure you want to delete # %s?', $skill['Skill']['id'])); ?>
-                        <?php endif; ?>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </table>
-        <p>
-            <?php
-            echo $this->Paginator->counter(array(
-                'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
-            ));
-            ?>
-        </p>
+        <?php endforeach; ?>
+    </table>
+    <p>
+        <?php
+        echo $this->Paginator->counter(array(
+            'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
+        ));
+        ?>
+    </p>
 
-        <div class="paging">
-            <?php
-            echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
-            echo $this->Paginator->numbers(array('separator' => ''));
-            echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
-            ?>
-        </div>
+    <div class="paging">
+        <?php
+        echo $this->Paginator->prev('< ' . __('Previous'), array(), null, array('class' => 'prev disabled'));
+        echo $this->Paginator->numbers(
+            [
+                'separator' => '',
+                'class' => 'item'
+            ]);
+        echo $this->Paginator->next(__('Next') . ' >', array(), null, array('class' => 'next disabled'));
+        ?>
     </div>
+</div>
 <?php if (isset($actions['add'])): ?>
     <?php $this->start('context-navigation'); ?>
     <div class="context-group">

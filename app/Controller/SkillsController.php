@@ -14,7 +14,7 @@ class SkillsController extends AppController
         parent::beforeFilter();
         $this->Auth->allow('index', 'view', 'getList');
         $actions = array('list' => true);
-        if ($this->Auth->loggedIn()) {
+        if ($this->Auth->user()) {
             $actions['add'] = true;
         }
         if ($this->RagnarokPermissions->CheckPermission($this->Auth->user('user_id'), Permission::$EditDatabase)) {
@@ -31,6 +31,12 @@ class SkillsController extends AppController
     public function index()
     {
         $this->Skill->recursive = 0;
+        $this->Paginator->settings = [
+            'Skill' => [
+                'limit' => 20,
+                'order' => 'Skill.skill_name'
+            ]
+        ];
         $this->set('skills', $this->Paginator->paginate());
     }
 

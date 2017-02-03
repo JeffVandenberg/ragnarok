@@ -621,15 +621,9 @@ dd {
     margin-top: 1em;
 }
 
-.paging .current,
-.paging .disabled,
-.paging li {
+.paging > span {
     text-decoration: none;
     padding: 5px 8px;
-    display: inline-block;
-}
-
-.paging > span {
     display: inline-block;
     border: 1px solid #ccc;
     border-left: 0;

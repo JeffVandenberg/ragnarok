@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @property HtmlHelper Html
+ */
 class MainMenuHelper extends AppHelper
 {
     public $helpers = array(
@@ -17,9 +20,14 @@ EOQ;
         if ($menu) {
             foreach ($menu as $menuName => $menuItem) {
                 if (count($menuItem) > 0) {
-                    $link = (isset($menuItem['link']))
-                        ? $this->Html->url($menuItem['link'])
-                        : "#";
+                    $link = '#';
+                    if(isset($menuItem['link'])) {
+                        if(is_array($menuItem['link'])) {
+                            $link = $this->Html->url($menuItem['link']);
+                        } else {
+                            $link = $menuItem['link'];
+                        }
+                    }
                     $link .= (isset($menuItem['append'])) ? $menuItem['append'] : "";
 
                     $target = isset($menuItem['target'])
@@ -48,14 +56,52 @@ EOQ;
 
     private function BuildSubmenu($menu)
     {
-        $subMenu = "<ul class='menu'>";
+        $menuLevel = <<<EOQ
+<ul class="menu">
+EOQ;
 
-        foreach ($menu as $name => $menuItem) {
-            $subMenu .= '<li>' . $this->Html->link($name, $menuItem) . '</li>';
+        foreach($menu as $label => $item) {
+            if($item !== 'break') {
+                if(is_array($item)) {
+                    $link = (isset($item['link'])) ? $item['link'] : '#';
+                    if(is_array($link)) {
+                        $link = $this->Html->url($link);
+                    }
+                    $icon = (isset($item['icon'])) ? '<img src="' . $item['icon'] . '" />' : '';
+                    $id = (isset($item['id'])) ? $item['id'] : null;
+                    $class = (isset($item['class'])) ? $item['class'] : null;
+                    $target = isset($item['target']) ? 'target="' . $item['target'] . '"': '';
+
+                    $liTag = "<li ";
+                    if($id !== null) {
+                        $liTag .= "id=\"$id\" ";
+                    }
+
+                    if($class !== null) {
+                        $liTag .="class=\"$class\"";
+                    }
+                    $liTag .= ">";
+
+                    $menuLevel .= $liTag . '<a href="' . $link. '" ' . $target . '>' . $icon . $label . '</a>';
+
+                    if(isset($item['submenu'])) {
+                        $menuLevel .= $this->BuildSubmenu($item['menu']);
+                    }
+
+                    $menuLevel .= '</li>';
+                }
+                else {
+                    $menuLevel .= '<li><a href="' . $item . '">' . $label . '</a></li>';
+                }
+            }
+            else {
+                $menuLevel .= "<li style=\"height: 4px;\"><hr style=\"height:4px;background-color:#003388;border:none;\"/></li>";
+            }
         }
 
-        $subMenu .= "</ul>";
-        return $subMenu;
+        $menuLevel .= "</ul>";
+
+        return $menuLevel;
     }
 
     public function foundationMenu($menu)
