@@ -93,7 +93,7 @@ class MenuComponent extends Component
             'Tools' => [
                 'menu' => [
                     'Calendar' => [
-                        'link' => 'https://calendar.google.com/calendar/embed?src=ragnaroknycgmstaff%40gmail.com&ctz=America/Los_Angeles',
+                        'link' => 'https://calendar.google.com/calendar/embed?src=ragnaroknycgmstaff%40gmail.com',
                         'target' => '_blank'
                     ]
                 ]
