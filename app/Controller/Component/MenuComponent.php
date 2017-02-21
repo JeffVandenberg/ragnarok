@@ -57,7 +57,7 @@ class MenuComponent extends Component
                 'menu' => [
                     'About Dominium Fuego' => '/wiki/GameGuide/GameGuide',
                     'New Player Guide' => '/wiki/GameGuide/NewPlayerGuide',
-                    'Game Configuration' => '/wiki/GameGuide/GameConfiguration',
+                    'Game Configuration' => '/wiki/HouseRules/GameConfiguration',
                     'Character Creation' => '/wiki/HouseRules/CharacterCreation',
                     'Magic Rules' => '/wiki/MagicRules/MagicRules',
                 ]
