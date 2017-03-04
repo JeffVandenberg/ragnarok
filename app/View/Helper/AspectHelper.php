@@ -102,12 +102,13 @@ EOQ;
 
     private function MakeHighConceptAspectEdit($row)
     {
-        $aspect = $this->Form->input("CharacterAspect.$row.aspect_text", array('label' => 'Aspect', 'class' => array('aspect-text', 'required')));
+        $aspect = $this->Form->input("CharacterAspect.$row.aspect_text", array('label' => 'Aspect', 'class' => 'aspect-text'));
         $id = $this->Form->input("CharacterAspect.$row.id");
         $aspectType = $this->Form->hidden("CharacterAspect.$row.aspect_type_id", array('value' => 1));
+        $description = $this->Form->input("CharacterAspect.$row.description");
 
         $view = <<<EOQ
-<tr>
+<tr class="row-0">
     <td colspan="3">
         <div class="aspect">
             High Concept
@@ -115,10 +116,13 @@ EOQ;
     </td>
 </tr>
 <tr class="row-0">
-    <td colspan="4">
+    <td>
         $id
         $aspectType
         $aspect
+    </td>
+    <td colspan="2">
+        $description
     </td>
 </tr>
 EOQ;
@@ -252,7 +256,8 @@ EOQ;
     {
         $aspect = $this->Form->input("CharacterAspect.$row.aspect_text", array('label' => 'Aspect', 'class' => 'aspect-text'));
         $id = $this->Form->input("CharacterAspect.$row.id");
-        $aspectType = $this->Form->hidden("CharacterAspect.$row.aspect_type_id", array('value' => 2));
+        $aspectType = $this->Form->hidden("CharacterAspect.$row.aspect_type_id", array('value' => 1));
+        $description = $this->Form->input("CharacterAspect.$row.description");
 
         $view = <<<EOQ
 <tr class="row-0">
@@ -263,10 +268,13 @@ EOQ;
     </td>
 </tr>
 <tr class="row-0">
-    <td colspan="3">
+    <td>
         $id
         $aspectType
         $aspect
+    </td>
+    <td colspan="2">
+        $description
     </td>
 </tr>
 EOQ;
