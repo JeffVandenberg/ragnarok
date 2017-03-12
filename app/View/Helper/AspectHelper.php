@@ -256,7 +256,7 @@ EOQ;
     {
         $aspect = $this->Form->input("CharacterAspect.$row.aspect_text", array('label' => 'Aspect', 'class' => 'aspect-text'));
         $id = $this->Form->input("CharacterAspect.$row.id");
-        $aspectType = $this->Form->hidden("CharacterAspect.$row.aspect_type_id", array('value' => 1));
+        $aspectType = $this->Form->hidden("CharacterAspect.$row.aspect_type_id", array('value' => 2));
         $description = $this->Form->input("CharacterAspect.$row.description");
 
         $view = <<<EOQ
