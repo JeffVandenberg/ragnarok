@@ -1,6 +1,6 @@
 <?php /* @var View $this */ ?>
 <?php
-$this->set('title_for_layout', 'Welcome');
+$this->set('title_for_layout', 'A Dresden Files Online Game');
 $this->set('breadcrumbs', [
     'Home' => ['current' => true, 'url' => '/'],
 ]);

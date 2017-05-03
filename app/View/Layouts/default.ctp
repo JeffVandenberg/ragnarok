@@ -26,6 +26,8 @@ $cakeDescription = __d('ragnarok', 'Dominium Fuego');
 <html>
 <head>
     <?php echo $this->Html->charset(); ?>
+    <?php echo $this->Html->meta('description', 'Dominum Fuego - A Dresden Files Online Game'); ?>
+    <?php echo $this->Html->meta('keywords', 'Dresden Files, Game, Online, Chat, RPG'); ?>
     <title>
         <?php echo $cakeDescription ?>:
         <?php echo $title_for_layout; ?>
