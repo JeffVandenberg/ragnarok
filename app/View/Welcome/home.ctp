@@ -4,11 +4,6 @@ $this->set('title_for_layout', 'A Dresden Files Online Game');
 $this->set('breadcrumbs', [
     'Home' => ['current' => true, 'url' => '/'],
 ]);
-//$this->set('breadcrumbs', [
-//    'Home' => ['current' => true, 'url' => '#'],
-//    'News' => ['url' => '/home/news']
-//]);
-
 ?>
 
 <div class="tinymce-content">
@@ -24,7 +19,6 @@ $this->set('breadcrumbs', [
     </div>
     <div class="context-group">
         <h3>Chat Login</h3>
-        <!--<form method="post" action="http://www.gamingsandbox.com/chatblazer">-->
         <?php if(AuthComponent::user('user_id') !== null): ?>
             <div class="paragraph">
                 <?php echo $this->Html->link('Login OOC', '/chat/'); ?>
