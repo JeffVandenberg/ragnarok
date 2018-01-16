@@ -21,10 +21,6 @@ dependencies:
   pre:
     - composer -n install
 
-test:
-  override:
-    - vendor/bin/phpunit tests
-
 deployment:
   staging:
     branch: develop
