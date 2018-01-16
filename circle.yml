@@ -19,7 +19,7 @@ machine:
 
 dependencies:
   pre:
-    - composer install
+    - composer -n install
 
 test:
   override:
