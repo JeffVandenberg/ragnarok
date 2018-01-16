@@ -199,33 +199,34 @@ Type::build('timestamp')
 //Inflector::rules('uninflected', ['dontinflectme']);
 //Inflector::rules('transliteration', ['/å/' => 'aa']);
 
-// strap in PHPBB
+if(php_sapi_name()!== 'cli') {
+    // strap in PHPBB
 // strap in phpbb
-global $phpbb_container, $phpbb_root_path, $phpEx, $user, $auth, $cache, $db, $config, $template,
-       $table_prefix, $phpbb_dispatcher, $symfony_request, $phpbb_filesystem;
-define('IN_PHPBB', true);
-$phpbb_root_path = (defined('PHPBB_ROOT_PATH')) ? PHPBB_ROOT_PATH : WWW_ROOT . '/forum/';
-$phpEx = substr(strrchr(__FILE__, '.'), 1);
-include($phpbb_root_path . 'common.' . $phpEx);
-/* @var $phpbb_container phpbb_cache_container */
-try {
-    $request = $phpbb_container->get('request');
-} catch (Exception $e) {
-}
-/* @var phpbb\request\request $request */
-$request->enable_super_globals();
+    global $phpbb_container, $phpbb_root_path, $phpEx, $user, $auth, $cache, $db, $config, $template,
+           $table_prefix, $phpbb_dispatcher, $symfony_request, $phpbb_filesystem;
+    define('IN_PHPBB', true);
+    $phpbb_root_path = (defined('PHPBB_ROOT_PATH')) ? PHPBB_ROOT_PATH : WWW_ROOT . '/forum/';
+    $phpEx = substr(strrchr(__FILE__, '.'), 1);
+    include($phpbb_root_path . 'common.' . $phpEx);
+    /* @var $phpbb_container phpbb_cache_container */
+    try {
+        $request = $phpbb_container->get('request');
+    } catch (Exception $e) {
+    }
+    /* @var phpbb\request\request $request */
+    $request->enable_super_globals();
 
 //
 // Start session management
 //
-/* @var $user session */
-/* @var $auth auth */
+    /* @var $user session */
+    /* @var $auth auth */
 
-$user->session_begin();
-$auth->acl($user->data);
-$userdata = $user->data;
-$GLOBALS['userdata'] = $userdata;
-
+    $user->session_begin();
+    $auth->acl($user->data);
+    $userdata = $user->data;
+    $GLOBALS['userdata'] = $userdata;
+}
 
 /*
  * Plugins need to be loaded manually, you can either load them one by one or all of them in a single call

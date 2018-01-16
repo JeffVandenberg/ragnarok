@@ -21,6 +21,10 @@ dependencies:
   pre:
     - composer -n install
 
+test:
+  override:
+    - echo "Hello"
+
 deployment:
   staging:
     branch: develop
