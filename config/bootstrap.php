@@ -199,7 +199,7 @@ Type::build('timestamp')
 //Inflector::rules('uninflected', ['dontinflectme']);
 //Inflector::rules('transliteration', ['/å/' => 'aa']);
 
-if(php_sapi_name()!== 'cli') {
+if(php_sapi_name() !== 'cli') {
     // strap in PHPBB
 // strap in phpbb
     global $phpbb_container, $phpbb_root_path, $phpEx, $user, $auth, $cache, $db, $config, $template,
