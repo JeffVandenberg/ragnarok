@@ -18,6 +18,7 @@ use App\View\Helper\CharacterHelper;
 use App\View\Helper\LoginHelper;
 use App\View\Helper\MainMenuHelper;
 use Cake\View\View;
+use Shrink\View\Helper\ShrinkHelper;
 
 /**
  * Application View
@@ -28,6 +29,7 @@ use Cake\View\View;
  * @property LoginHelper Login
  * @property AspectHelper Aspect
  * @property CharacterHelper Character
+ * @property ShrinkHelper Shrink
  * @link https://book.cakephp.org/3.0/en/views.html#the-app-view
  */
 class AppView extends View

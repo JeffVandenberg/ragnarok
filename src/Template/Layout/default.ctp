@@ -17,10 +17,12 @@
  */
 
 use App\View\AppView;
+use Cake\Core\Configure;
 
 /* @var AppView $this */
 /* @var string $title_for_layout */
 /* @var array $currentUser */
+/* @var string $buildNumber */
 
 $cakeDescription = __d('ragnarok', 'Dominium Fuego');
 ?>
@@ -36,15 +38,37 @@ $cakeDescription = __d('ragnarok', 'Dominium Fuego');
     </title>
     <?php
     echo $this->Html->meta('icon');
-    echo $this->Html->script('jquery.min');
-    echo $this->Html->script('jquery-ui.min');
-    echo $this->Html->script('tinymce/tinymce.min');
-    echo $this->Html->script('tinymce/jquery.tinymce.min');
-    echo $this->Html->script('ragnarok');
-    echo $this->Html->script('gaming-sandbox');
-    echo $this->Html->css('df/jquery-ui.min');
-    echo $this->Html->css('ragnarok-v2');
     echo $this->fetch('meta');
+    if (Configure::read('debug')) {
+        echo $this->Html->css([
+            'df/jquery-ui.min',
+            'ragnarok-v2'
+        ]);
+        echo $this->Html->script([
+            'jquery.min',
+            'jquery-ui.min',
+            'tinymce/tinymce.min',
+            'tinymce/jquery.tinymce.min',
+            'ragnarok',
+            'gaming-sandbox'
+        ]);
+    } else {
+        $this->Shrink->css([
+            'df/jquery-ui.min',
+            'ragnarok-v2'
+        ]);
+        echo $this->Shrink->fetch('css');
+
+        $this->Shrink->js([
+            'jquery.min',
+            'jquery-ui.min',
+            'tinymce/tinymce.min',
+            'tinymce/jquery.tinymce.min',
+            'ragnarok',
+            'gaming-sandbox'
+        ]);
+        echo $this->Shrink->fetch('js');
+    }
     echo $this->fetch('css');
     echo $this->fetch('script');
     ?>
@@ -100,6 +124,7 @@ $cakeDescription = __d('ragnarok', 'Dominium Fuego');
             Images by jarden
             Produced by Jeff Vandenberg
             Copyright <?php echo date('Y'); ?>
+            Build # <?php echo $buildNumber; ?>
         </div>
     </div>
 </div>

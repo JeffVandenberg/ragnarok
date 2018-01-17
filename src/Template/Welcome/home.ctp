@@ -28,7 +28,7 @@ $this->set('breadcrumbs', [
         </div>
     <?php else: ?>
         <form method="post" action="/chat/">
-            <?php echo $this->Form->control('username', array('value' => '')); ?>
+            <?php echo $this->Form->control('username', ['value' => '', 'id' => 'chat-username']); ?>
             <?php echo $this->Form->button('Login', array('type' => 'submit')); ?>
         </form>
     <?php endif; ?>

@@ -467,6 +467,10 @@ div.submit {
     width: 50px;
 }
 
+#context-navigation .context-group .input input {
+    max-width: 94%;
+}
+
 .submit > input, .button {
     padding: 4px 10px;
     text-shadow: 0 1px 1px rgba(0, 0, 0, .5);
