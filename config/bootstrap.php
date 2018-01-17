@@ -203,7 +203,7 @@ if(php_sapi_name() !== 'cli') {
     // strap in PHPBB
 // strap in phpbb
     global $phpbb_container, $phpbb_root_path, $phpEx, $user, $auth, $cache, $db, $config, $template,
-           $table_prefix, $phpbb_dispatcher, $symfony_request, $phpbb_filesystem;
+           $table_prefix, $phpbb_dispatcher, $symfony_request, $phpbb_filesystem, $request;
     define('IN_PHPBB', true);
     $phpbb_root_path = (defined('PHPBB_ROOT_PATH')) ? PHPBB_ROOT_PATH : WWW_ROOT . '/forum/';
     $phpEx = substr(strrchr(__FILE__, '.'), 1);
