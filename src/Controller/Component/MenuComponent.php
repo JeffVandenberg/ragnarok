@@ -10,6 +10,7 @@ namespace App\Controller\Component;
 
 
 use App\Model\Entity\Character;
+use App\Model\Entity\Permission;
 use Cake\Controller\Component;
 use Cake\ORM\TableRegistry;
 use classes\character\data\CharacterStatus;
@@ -44,6 +45,15 @@ class MenuComponent extends Component
         if ($this->Permissions->isGM()) {
             $this->menu = array_merge_recursive($this->menu, $menuComponents['GameMaster']);
         }
+
+        if($this->Permissions->CheckSitePermission($this->Auth->user('user_id'), Permission::$EditUsers)) {
+            $this->menu = array_merge_recursive($this->menu, $menuComponents['EditUsers']);
+        }
+
+        if($this->Permissions->CheckSitePermission($this->Auth->user('user_id'), Permission::$Admin)) {
+            $this->menu = array_merge_recursive($this->menu, $menuComponents['Admin']);
+        }
+
     }
 
     public function GetMenu()

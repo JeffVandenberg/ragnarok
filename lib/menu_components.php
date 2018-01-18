@@ -97,7 +97,7 @@ $menu = [
             ]
         ]
     ],
-    'ViewUsers' => [
+    'EditUsers' => [
         'Tools' => [
             'menu' => [
                 'User Management' => [
@@ -124,9 +124,11 @@ $menu = [
     'Admin' => [
         'Tools' => [
             'menu' => [
-                'link' => [
-                    'controller' => 'configuration',
-                    'action' => 'index'
+                'Game Configuration' => [
+                    'link' => [
+                        'controller' => 'configuration',
+                        'action' => 'index'
+                    ]
                 ]
             ]
         ]

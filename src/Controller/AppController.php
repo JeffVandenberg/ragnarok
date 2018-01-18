@@ -15,6 +15,7 @@
 
 namespace App\Controller;
 
+use App\Controller\Component\MenuComponent;
 use App\Model\Entity\Character;
 use Cake\Controller\Controller;
 use Cake\Event\Event;
@@ -25,6 +26,7 @@ use Cake\Event\Event;
  * Add your application-wide methods in the class below, your controllers
  * will inherit them.
  *
+ * @property MenuComponent Menu
  * @link https://book.cakephp.org/3.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller
