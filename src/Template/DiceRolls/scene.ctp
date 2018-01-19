@@ -1,10 +1,13 @@
-<?php /* @var View $this */ ?>
-<?php /* @var array $diceRolls */ ?>
-<?php /* @var bool $isAjax */ ?>
-<?php $this->Paginator->options(array(
-    'update' => '#dice-rolls',
-    'evalScripts' => true
-)); ?>
+<?php
+
+use App\Model\Entity\DiceRoll;
+use App\View\AppView;
+
+/* @var AppView $this */
+/* @var DiceRoll[] $diceRolls */
+/* @var bool $isAjax */
+
+?>
 <?php if(!$isAjax): ?>
     <?php $this->set('title_for_layout', 'Scene Interface'); ?>
     <h2>Scene Interface</h2>
@@ -13,22 +16,22 @@
     <table class="undecorated-table">
         <tr>
             <td>
-                <?php echo $this->Form->input('action_note', array('style' => 'width:90%;')); ?>
+                <?php echo $this->Form->control('action_note', array('style' => 'width:90%;')); ?>
             </td>
             <td>
-                <?php echo $this->Form->input('skill_id'); ?>
+                <?php echo $this->Form->control('skill_id'); ?>
             </td>
             <td>
-                <?php echo $this->Form->input('skill_level', array('style' => 'width:60px;', 'value' => 0)); ?>
+                <?php echo $this->Form->control('skill_level', array('style' => 'width:60px;', 'value' => 0)); ?>
             </td>
             <td>
-                <?php echo $this->Form->input('modifier', array('style' => 'width:60px', 'value' => 0)); ?>
+                <?php echo $this->Form->control('modifier', array('style' => 'width:60px', 'value' => 0)); ?>
             </td>
             <td>
-                <?php echo $this->Form->input('fate_spent', array('style' => 'width:60px;', 'value' => 0)); ?>
+                <?php echo $this->Form->control('fate_spent', array('style' => 'width:60px;', 'value' => 0)); ?>
             </td>
             <td rowspan="2">
-                <?php echo $this->Form->input('aspects_tagged'); ?>
+                <?php echo $this->Form->control('aspects_tagged'); ?>
             </td>
         </tr>
         <tr>
@@ -49,7 +52,7 @@
 
     <div class="dice-rolls index" id="dice-rolls">
         <h2><?php echo __('Past Rolls'); ?></h2>
-        <table>
+        <table id="content-table">
             <tr>
                 <th>Character</th>
                 <th>Note</th>
@@ -64,81 +67,48 @@
             <?php foreach ($diceRolls as $diceRoll): ?>
                 <tr>
                     <td>
-                        <?php if(isset($diceRoll['Character']['character_name'])): ?>
-                            <?php echo h($diceRoll['Character']['character_name']); ?>
+                        <?php if(isset($diceRoll->character)): ?>
+                            <?php echo h($diceRoll->character->character_name); ?>
                         <?php else: ?>
                             Scene Roll
                         <?php endif; ?>
                     </td>
                     <td>
-                        <?php echo h($diceRoll['DiceRoll']['action_note']); ?>
+                        <?php echo h($diceRoll->action_note); ?>
                     </td>
                     <td>
-                        <?php echo h($diceRoll['Skill']['skill_name']); ?>
+                        <?php echo h($diceRoll->skill->skill_name); ?>
                     </td>
                     <td>
-                        <?php echo h($diceRoll['DiceRoll']['skill_level']); ?>
+                        <?php echo h($diceRoll->skill_level); ?>
                     </td>
                     <td>
-                        <?php echo h($diceRoll['DiceRoll']['roll_total']); ?>
+                        <?php echo h($diceRoll->roll_total); ?>
                     </td>
                     <td>
-                        <?php echo h($diceRoll['DiceRoll']['modifier']); ?>
+                        <?php echo h($diceRoll->modifier); ?>
                     </td>
                     <td>
-                        <?php echo $diceRoll['DiceRoll']['roll_total'] + $diceRoll['DiceRoll']['skill_level'] + $diceRoll['DiceRoll']['modifier']; ?>
+                        <?php echo $diceRoll->roll_total + $diceRoll->skill_level + $diceRoll->modifier; ?>
                     </td>
                     <td>
-                        <?php echo h($diceRoll['CreatedBy']['username']); ?>
+                        <?php echo h($diceRoll->created_by->username); ?>
                     </td>
                     <td class="actions">
-                        <?php echo $this->Html->link(__('View'), array('action' => 'view', $diceRoll['DiceRoll']['id']), array('class' => 'roll-view')); ?>
-                        <?php //echo $this->Html->link(__('Edit'), array('action' => 'edit', $character['Character']['id'])); ?>
-                        <?php //echo $this->Html->link(__('Dice'), array('controller' => 'DiceRolls', 'action' => 'character', $character['Character']['id'])); ?>
-                        <?php //echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $character['Character']['id']), null, __('Are you sure you want to delete # %s?', $character['Character']['id'])); ?>
+                        <?php echo $this->Html->link(__('View'), ['action' => 'view', $diceRoll->id], ['class' => 'roll-view']); ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
         </table>
-        <div class="paging pagination">
-            <?php
-            echo $this->Paginator->counter(array(
-                'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
-            ));
-            ?>
-            <ul class="pagination" role="navigation" aria-label="Pagination">
-                <?php
-                echo $this->Paginator->prev(
-                    __('Previous'),
-                    [
-                        'class' => 'pagination-previous',
-                        'tag' => 'li'
-                    ],
-                    null,
-                    [
-                        'class' => 'prev disabled',
-                        'tag' => 'li'
-                    ]
-                );
-                echo $this->Paginator->numbers([
-                    'before' => false,
-                    'after' => false,
-                    'tag' => 'li',
-                    'separator' => ''
-                ]);
-                echo $this->Paginator->next(
-                    __('Next'),
-                    [
-                        'class' => 'pagination-next',
-                        'tag' => 'li'
-                    ],
-                    null,
-                    [
-                        'class' => 'next disabled',
-                        'tag' => 'li'
-                    ]);
-                ?>
+        <div class="paginator">
+            <ul class="pagination">
+                <?= $this->Paginator->first('<< ' . __('first')) ?>
+                <?= $this->Paginator->prev('< ' . __('previous')) ?>
+                <?= $this->Paginator->numbers() ?>
+                <?= $this->Paginator->next(__('next') . ' >') ?>
+                <?= $this->Paginator->last(__('last') . ' >>') ?>
             </ul>
+            <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
         </div>
     </div>
     <div id="roll-detail" style="display:none;"></div>
@@ -155,14 +125,14 @@
         }
 
         function updateDiceImage(dice, result) {
-            if(result == -1) {
-                $("#dice-" + dice).attr('src', '<?php echo $this->Html->url('/') . 'img/fate_magicminus.png';?>');
+            if(result === -1) {
+                $("#dice-" + dice).attr('src', '<?php echo $this->Html->Url->build('/') . 'img/fate_magicminus.png';?>');
             }
-            if(result == 0) {
-                $("#dice-" + dice).attr('src', '<?php echo $this->Html->url('/') . 'img/fate_magicblank.png';?>');
+            if(result === 0) {
+                $("#dice-" + dice).attr('src', '<?php echo $this->Html->Url->build('/') . 'img/fate_magicblank.png';?>');
             }
-            if(result == 1) {
-                $("#dice-" + dice).attr('src', '<?php echo $this->Html->url('/') . 'img/fate_magicplus.png';?>');
+            if(result === 1) {
+                $("#dice-" + dice).attr('src', '<?php echo $this->Html->Url->build('/') . 'img/fate_magicplus.png';?>');
             }
         }
         function updateRolls() {
@@ -206,18 +176,18 @@
 
                 form.find('input').attr('disabled', 'disabled');
                 $.post(
-                    '<?php echo $this->Html->url(array('action' => 'rollDiceScene')); ?>',
+                    '/dice-rolls/roll-dice-scene/.json',
                     data,
                     function (response) {
                         roll.showRolls = false;
                         var i;
-                        if(response.data.result == 'success') {
+                        if(response.data.result === 'success') {
                             for (i = 0; i < response.data.rolls.length; i++) {
                                 var result = response.data.rolls[i];
                                 updateDiceImage(i, result);
                             }
                             $("#dice-rolls").load(
-                                '<?php echo $this->Html->url(); ?>/page:1',
+                                '<?php echo $this->Html->Url->build(); ?>/page:1',
                                 null,
                                 function() {
                                     form.find('input').attr('disabled', false);

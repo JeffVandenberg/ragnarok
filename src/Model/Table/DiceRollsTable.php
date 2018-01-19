@@ -46,7 +46,7 @@ class DiceRollsTable extends Table
 
         $this->belongsTo('Characters', [
             'foreignKey' => 'character_id',
-            'joinType' => 'INNER'
+            'joinType' => 'LEFT'
         ]);
         $this->belongsTo('Skills', [
             'foreignKey' => 'skill_id',

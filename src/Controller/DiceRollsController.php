@@ -16,6 +16,10 @@ use Cake\ORM\TableRegistry;
  */
 class DiceRollsController extends AppController
 {
+    /**
+     * @param Event $event
+     * @return \Cake\Http\Response|null|void
+     */
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
@@ -23,6 +27,9 @@ class DiceRollsController extends AppController
         $this->Auth->allow(array('index', 'view'));
     }
 
+    /**
+     * @param null $characterId
+     */
     public function character($characterId = null)
     {
         $character = $this->DiceRolls->Characters->get($characterId, ['contain' => false]);
@@ -64,6 +71,9 @@ class DiceRollsController extends AppController
         $this->set(compact('characterSkills', 'character', 'skills', 'diceRolls', 'isAjax'));
     }
 
+    /**
+     *
+     */
     public function rollDiceCharacter()
     {
         if (!$this->request->is('post')) {
@@ -143,15 +153,46 @@ class DiceRollsController extends AppController
         $this->set('_serialize', array('data'));
     }
 
+    /**
+     *
+     */
     public function scene()
     {
-        $skills = $this->DiceRolls->Skill->find('list');
+        $skills = TableRegistry::get('Skills')->find('list')->cache('skill_list');
 
+        $query = $this->DiceRolls->find()
+            ->select([
+                'DiceRolls.id',
+                'DiceRolls.action_note',
+                'DiceRolls.skill_level',
+                'DiceRolls.roll_total',
+                'DiceRolls.modifier',
+                'DiceRolls.modifier',
+                'Skills.skill_name',
+                'Characters.character_name',
+            ])
+            ->contain([
+                'Characters' => [
+                    'fields' => ['character_name']
+                ],
+                'Skills' => [
+                    'fields' => ['skill_name']
+                ],
+                'CreatedBy' => [
+                    'fields' => ['username']
+                ]
+            ])
+            ->where([
+                'DiceRolls.is_official' => 1
+            ]);
         $diceRolls = $this->Paginator->paginate(
-            'DiceRoll',
-            array(
-                'DiceRoll.is_official' => 1
-            )
+            $query,
+            [
+                'limit' => 50,
+                'order' => [
+                    'created' => 'desc'
+                ]
+            ]
         );
 
         $isAjax = $this->request->is('ajax');
@@ -159,16 +200,19 @@ class DiceRollsController extends AppController
 
     }
 
+    /**
+     *
+     */
     public function rollDiceScene()
     {
         if (!$this->request->is('post')) {
             throw new MethodNotAllowedException(__('Unable to Perform Request'));
-        } elseif ($this->request->data['DiceRoll']['fate_spent'] < 0) {
+        } elseif ($this->request->getData('fate_spent') < 0) {
             $data = array(
                 'result' => 'error',
                 'message' => 'Negative Fate spend is not allowed',
             );
-        } elseif (!($this->Auth->user('user_id') > 1)) {
+        } elseif ($this->Auth->user('user_id') == 1) {
             $data = array(
                 'result' => 'error',
                 'message' => 'Please log in'
@@ -182,11 +226,12 @@ class DiceRollsController extends AppController
                 $rolls[] = $roll;
             }
 
-            $this->request->data['DiceRoll']['roll_total'] = $total;
-            $this->request->data['DiceRoll']['created_by_id'] = $this->Auth->user('user_id');
-            $this->request->data['DiceRoll']['is_official'] = 1;
+            $diceroll = $this->DiceRolls->newEntity($this->request->getData());
+            $diceroll->roll_total = $total;
+            $diceroll->created_by_id = $this->Auth->user('user_id');
+            $diceroll->is_official = 1;
 
-            if ($this->DiceRolls->save($this->request->data)) {
+            if ($this->DiceRolls->save($diceroll)) {
                 $data = array(
                     'result' => 'success',
                     'rolls' => $rolls
@@ -199,7 +244,6 @@ class DiceRollsController extends AppController
                 );
             }
         }
-        $this->viewClass = 'Json';
         $this->set(compact('data'));
         $this->set('_serialize', array('data'));
     }
@@ -218,28 +262,40 @@ class DiceRollsController extends AppController
     /**
      * view method
      *
-     * @throws NotFoundException
      * @param string $id
      * @return void
      */
     public function view($id = null)
     {
-        if (!$this->DiceRolls->exists($id)) {
-            throw new NotFoundException(__('Invalid dice roll'));
-        }
-        $options = array('conditions' => array('DiceRoll.' . $this->DiceRolls->primaryKey => $id));
-        $this->set('diceRoll', $this->DiceRolls->find('first', $options));
+        $diceRoll = $this->DiceRolls->get($id, [
+            'contain' => [
+                'Characters' => [
+                    'fields' => ['character_name']
+                ],
+                'CreatedBy' => [
+                    'fields' => ['username']
+                ],
+                'Skills' => [
+                    'fields' => ['skill_name']
+                ]
+            ]
+        ]);
+        $this->set('diceRoll', $diceRoll);
     }
 
+    /**
+     * @param null $user
+     * @return bool
+     */
     public function isAuthorized($user = null)
     {
-        switch ($this->request->params['action']) {
+        switch ($this->request->getParam('action')) {
             case 'index':
             case 'character':
             case 'scene':
             case 'rollDiceScene':
             case 'rollDiceCharacter':
-                return $this->Auth->user();
+                return $this->Auth->user('user_id') != 1;
                 break;
         }
         return false;
