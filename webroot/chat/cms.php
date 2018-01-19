@@ -87,10 +87,6 @@ EOQ;
     define('C_CUSTOM_ACTION', 'CHARACTER LOGIN');
 
     $icon = 'player.png';
-    if($character['is_sanctioned'] == 'Y') {
-    }
-    if($character['is_sanctioned'] == 'N') {
-    }
 
     $_SESSION['username'] = str_replace('\'', '\\\'', C_CUSTOM_USERNAME);
     $_SESSION['userid'] = C_CUSTOM_USERID;
@@ -323,7 +319,7 @@ $_SESSION['user_type_id'] = $userTypeId;
 
 // if remote login via CMS
 
-	if($remotely_hosted){
+	if(isset($remotely_hosted)){
 
 		// check username isset
 		if(!isset($_COOKIE["uname"])){
