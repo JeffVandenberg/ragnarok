@@ -245,3 +245,5 @@ if(php_sapi_name() !== 'cli') {
 if (Configure::read('debug')) {
     Plugin::load('DebugKit', ['bootstrap' => true]);
 }
+// load event listeners
+require_once __DIR__ . '/events.php';
