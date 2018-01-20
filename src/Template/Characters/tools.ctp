@@ -25,12 +25,6 @@ $this->set('title_for_layout', $character->character_name); ?>
     <?php echo $this->Html->link(__('Dice'), array('controller' => 'DiceRolls', 'action' => 'character', $character->id)); ?>
 </div>
 <div class="paragraph">
-    <?php echo $this->Html->link(__('Requests'), array('controller' => 'Requests', 'action' => 'character', $character->id)); ?>
-</div>
-<div class="paragraph">
-    <?php echo $this->Html->link(__('Bluebooks'), array('controller' => 'Bluebooks', 'action' => 'character', $character->id)); ?>
-</div>
-<div class="paragraph">
     <?php echo $this->Html->link(__('Public'), array('action' => 'publicView', $character->id)); ?>
 </div>
 <div class="paragraph">
