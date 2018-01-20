@@ -45,8 +45,9 @@ $cakeDescription = __d('ragnarok', 'Dominium Fuego');
             'ragnarok-v2'
         ]);
         echo $this->Html->script([
-            'jquery.min',
-            'jquery-ui.min',
+            'jquery',
+            'jquery-ui',
+            'jquery.ba-throttle-debounce',
             'tinymce/tinymce.min',
             'tinymce/jquery.tinymce.min',
             'ragnarok',
@@ -54,18 +55,19 @@ $cakeDescription = __d('ragnarok', 'Dominium Fuego');
         ]);
     } else {
         $this->Shrink->css([
-            'df/jquery-ui.min',
-            'ragnarok-v2'
+            'df/jquery-ui.min.css',
+            'ragnarok-v2.css'
         ]);
         echo $this->Shrink->fetch('css');
 
         $this->Shrink->js([
-            'jquery.min',
-            'jquery-ui.min',
-            'tinymce/tinymce.min',
-            'tinymce/jquery.tinymce.min',
-            'ragnarok',
-            'gaming-sandbox'
+            'jquery.min.js',
+            'jquery-ui.min.js',
+            'jquery.ba-throttle-debounce.min.js',
+            'tinymce/tinymce.min.js',
+            'tinymce/jquery.tinymce.min.js',
+            'ragnarok.js',
+            'gaming-sandbox.js'
         ]);
         echo $this->Shrink->fetch('js');
     }
