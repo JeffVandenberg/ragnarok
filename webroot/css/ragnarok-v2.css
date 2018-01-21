@@ -454,6 +454,15 @@ div.submit {
     color: #f6db60;
 }
 
+.input .checkbox {
+    padding: 10px;
+    width: 300px;
+    float: left;
+}
+
+.checkbox label input {
+    margin-right: 5px;
+}
 .checkbox input {
     text-align: left;
     width: auto;

@@ -56,148 +56,64 @@ class UsersController extends AppController
     /**
      * view method
      *
-     * @throws NotFoundException
      * @param string $id
      * @return void
      */
     public function view($id = null)
     {
-        if (!$this->Users->exists($id)) {
-            throw new NotFoundException(__('Invalid user'));
-        }
         $options = array(
-            'conditions' => array(
-                'User.' . $this->Users->primaryKey => $id
-            ),
             'contain' => array(
-                'Permission' => array(
-                    'order' => array(
-                        'Permission.permission_name'
+                'Permissions' => array(
+                    'sort' => array(
+                        'Permissions.permission_name'
                     )
                 )
             )
         );
-        $this->set('user', $this->Users->find('first', $options));
-        if ($this->Permissions->CheckPermission($this->Auth->user('user_id'), Permission::$EditUsers)) {
+        $this->set('user', $this->Users->get($id, $options));
+        $actions = [];
+        if ($this->Permissions->CheckSitePermission($this->Auth->user('user_id'), Permission::$EditUsers)) {
             $actions['edit'] = true;
         }
         $this->set(compact('actions'));
     }
 
-    /**
-     * add method
-     *
-     * @return void
-     */
-    public function add()
-    {
-        if ($this->request->is('post')) {
-            $this->Users->create();
-            if ($this->Users->save($this->request->data)) {
-                $this->Session->setFlash(__('The user has been saved'));
-                $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__('The user could not be saved. Please, try again.'));
-            }
-        }
-        $userStatuses = $this->Users->UserStatus->find('list');
-        $userTypes = $this->Users->UserType->find('list');
-        $games = $this->Users->Game->find('list');
-        $this->set(compact('userStatuses', 'userTypes', 'games'));
-    }
-
-    /**
-     * edit method
-     *
-     * @throws NotFoundException
-     * @param string $id
-     * @return void
-     */
-    public function edit($id = null)
-    {
-        if (!$this->Users->exists($id)) {
-            throw new NotFoundException(__('Invalid user'));
-        }
-        if ($this->request->is('post') || $this->request->is('put')) {
-            if ($this->Users->save($this->request->data)) {
-                $this->Session->setFlash(__('The user has been saved'));
-                $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__('The user could not be saved. Please, try again.'));
-            }
-        } else {
-            $options = array('conditions' => array('User.' . $this->Users->primaryKey => $id));
-            $this->request->data = $this->Users->find('first', $options);
-        }
-        $userStatuses = $this->Users->UserStatus->find('list');
-        $userTypes = $this->Users->UserType->find('list');
-        $games = $this->Users->Game->find('list');
-        $this->set(compact('userStatuses', 'userTypes', 'games'));
-    }
-
-    /**
-     * delete method
-     *
-     * @throws NotFoundException
-     * @param string $id
-     * @return void
-     */
-    public function delete($id = null)
-    {
-        $this->Users->id = $id;
-        if (!$this->Users->exists()) {
-            throw new NotFoundException(__('Invalid user'));
-        }
-        $this->request->onlyAllow('post', 'delete');
-        if ($this->Users->delete()) {
-            $this->Session->setFlash(__('User deleted'));
-            $this->redirect(array('action' => 'index'));
-        }
-        $this->Session->setFlash(__('User was not deleted'));
-        $this->redirect(array('action' => 'index'));
-    }
-
     public function login()
     {
-        if ($this->request->is('post')) {
-
-        }
     }
 
     public function editPermissions($id = null)
     {
-        if (!$this->Users->exists($id)) {
-            throw new NotFoundException(__('Invalid user'));
-        }
+        $options = [
+            'contain' => [
+                'Permissions'
+            ]
+        ];
+        $user = $this->Users->get($id, $options);
+
         if ($this->request->is('post') || $this->request->is('put')) {
-            if ($this->request->data['action'] == 'Cancel') {
+            if ($this->request->getData('action') == 'Cancel') {
                 $this->redirect(array('action' => 'view', $id));
             } else {
-                $this->request->data['User']['updated_by_id'] = $this->Auth->user('user_id');
-                if ($this->Users->save($this->request->data)) {
-                    $this->Session->setFlash(__('The user\'s permissions have been updated.'));
-                    $this->redirect(array('action' => 'view', $this->request->data['User']['user_id']));
+                $user = $this->Users->patchEntity($user, $this->request->getData());
+                if ($this->Users->save($user, [
+                    'associated' => [
+                        'Permissions'
+                    ]
+                ])) {
+                    $this->Flash->set(__('The user\'s permissions have been updated.'));
+                    $this->redirect(['action' => 'view', $id]);
                 } else {
-                    $this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+                    $this->Flash->set(__('The user could not be saved. Please, try again.'));
                 }
             }
-        } else {
-            $options = array(
-                'conditions' => array(
-                    'User.' . $this->Users->primaryKey => $id
-                ),
-                'contain' => array(
-                    'Permission'
-                )
-            );
-            $this->request->data = $this->Users->find('first', $options);
         }
-        $permissions = $this->Users->Permission->find('list', array(
+        $permissions = $this->Users->Permissions->find('list', array(
             'order' => array(
                 'permission_name'
             )
         ));
-        $this->set(compact('permissions'));
+        $this->set(compact('permissions', 'user'));
     }
 
     public function isAuthorized($user = null)
