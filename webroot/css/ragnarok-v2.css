@@ -614,6 +614,40 @@ dd {
     background-color: #a33;
 }
 
+.skill-row {
+    overflow: auto;
+}
+
+.skill-row .skill-row-level {
+    width: 30px;
+    padding: 10px 0;
+    float: left;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.skill-row-droplist {
+    padding: 5px;
+}
+
+.skill-row-droplist li {
+    list-style: none;
+}
+
+.skill-drag-handle {
+    float: right;
+}
+
+.character-skill-item {
+    padding: 5px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.skill-error {
+    border: solid 2px #900;
+}
+
 /* jquery ui overrides */
 .ui-autocomplete {
     max-height: 150px;

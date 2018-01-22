@@ -215,6 +215,7 @@ class CharactersController extends AppController
      */
     public function add()
     {
+        $character = $this->Characters->newEntity();
         if ($this->request->is('post')) {
             $character = $this->Characters->newEntity();
             $this->Characters->patchEntity($character, $this->request->getData());
@@ -230,7 +231,6 @@ class CharactersController extends AppController
                 $this->Flash->set(__('The character could not be saved. Please, try again.'));
             }
         } else {
-            $character = $this->Characters->newEntity();
             $character->physical_stress_skill_id = Configure::read('character.PhysicalStressSkillId');
             $character->mental_stress_skill_id = Configure::read('character.MentalStressSkillId');
             $character->social_stress_skill_id = Configure::read('character.SocialStressSkillId');
@@ -239,10 +239,20 @@ class CharactersController extends AppController
             $character->available_major_milestones = 0;
             $character->power_level = $this->Config->Read('POWER_LEVEL');
             $character->skill_level = $this->Config->Read('SKILL_POINTS');
+            $character->character_aspects = array_map(function($i) {
+                $aspect = $this->Characters->CharacterAspects->newEntity();
+                $aspect->aspect_type_id = $i;
+                return $aspect;
+            }, range(1, 7));
 
         }
         $skillPoints = $this->Config->Read('SKILL_POINTS');
-        $this->set(compact('character', 'skillPoints'));
+        $options = [
+            'skill_points' => $skillPoints,
+            'max_skill_level' => 5,
+            'edit_full' => true
+        ];
+        $this->set(compact('character', 'skillPoints', 'options'));
 
         $this->SetCharacterLists();
     }
@@ -317,35 +327,9 @@ class CharactersController extends AppController
         $this->SetCharacterLists();
     }
 
-    /**
-     * delete method
-     *
-     * @throws NotFoundException
-     * @param string $id
-     * @return void
-     */
-    public function delete($id = null)
-    {
-        $this->Character->id = $id;
-        if (!$this->Character->exists()) {
-            throw new NotFoundException(__('Invalid character'));
-        }
-        $this->request->onlyAllow('post', 'delete');
-        if (!$this->validateUserCharacter($id)) {
-            $this->Flash->set('You are not authorized to delete that character.');
-            $this->redirect(array('controller' => 'characters', 'action' => '/'));
-        }
-        if ($this->Character->delete()) {
-            $this->Flash->set(__('Character deleted'));
-            $this->redirect(array('action' => 'index'));
-        }
-        $this->Flash->set(__('Character was not deleted'));
-        $this->redirect(array('action' => 'index'));
-    }
-
     public function isAuthorized($user = null)
     {
-        switch ($this->request->params['action']) {
+        switch ($this->request->getParam('action')) {
             case 'index':
             case 'view':
             case 'tools':
@@ -371,9 +355,19 @@ class CharactersController extends AppController
      */
     private function SetCharacterLists()
     {
+        $skillList = TableRegistry::get('Skills')
+            ->find('list')
+            ->enableHydration(false)
+            ->cache('skill_list')
+            ->toArray();
+        $skills = [];
+        foreach($skillList as $key => $value) {
+            $skills[] = [
+                'label' => $value,
+                'value' => $key
+            ];
+        }
         $templates = $this->Characters->Templates->find('list')->cache('template_list');
-        $skillTable = TableRegistry::get('Skills');
-        $skills = $skillTable->find('list')->cache('skill_list');
         $this->set(compact('templates', 'skills'));
     }
 }

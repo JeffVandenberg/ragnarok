@@ -48,7 +48,7 @@ class CharacterHelper extends AppHelper
             $skillLevel = $this->Form->control('skill_level', array('readonly' => true, 'style' => 'width: 50px;'));
             $maxFate = $this->Form->control('max_fate', array('label' => 'Refresh', 'readonly' => true, 'style' => 'width: 50px;'));
         } else {
-            $characterName = '<label>Character Name</label><br />'.$character->character_name;
+            $characterName = '<label>Character Name</label><br />' . $character->character_name;
             $template = $character->template->template_name;
             $powerLevel = $character->power_level;
             $skillLevel = $character->skill_level;
@@ -64,7 +64,7 @@ class CharacterHelper extends AppHelper
         if ($this->isGmEdit()) {
             $characterStatus = $this->Form->control('character_status_id');
         } else {
-            $characterStatus = $character->character_status->name;
+            $characterStatus = ($character->character_status) ? $character->character_status->name : '';
         }
 
         ob_start();
@@ -127,42 +127,17 @@ class CharacterHelper extends AppHelper
                         </span>
                     </div>
                     <div class="paragraph">
+                        <input type="text" id="new-skill-name" />
+                        <input type="hidden" id="new-skill-id" />
                         <div id="add-skill" class='simple-button'>Add Skill</div>
-                        <div id="sort-skills" class='simple-button'>Sort Skills</div>
                     </div>
-                    <div class="paragraph">
-                        <ul id="skill-list">
-                            <?php $maxSize = (count($character->character_skills) > 20 ? count($character->character_skills) : 21); ?>
-                            <?php foreach (range(0, ($maxSize - 1)) as $i): ?>
-                                <li>
-                                    <div class="skill-row">
-                                        <?php
-                                        echo $this->Form->hidden("character_skills.$i.id");
-                                        echo $this->Form->hidden("character_skills.$i.skill_id", array('class' => 'skill-id'));
-                                        echo $this->Form->control(
-                                            "character_skills.$i.skill.skill_name",
-                                            [
-                                                'class' => [
-                                                    'skill-name',
-                                                ],
-                                                'placeholder' => 'Skill Name',
-                                                'label' => false,
-                                                'required' => false
-                                            ]
-                                        );
-                                        echo $this->Form->control(
-                                            "character_skills.$i.skill_level",
-                                            [
-                                                'class' => 'skill-level',
-                                                'label' => false,
-                                            ]
-                                        );
-                                        echo $this->Html->image('ragny_icon_search.png', array('class' => array('skill-view', 'clickable')));
-                                        ?>
-                                    </div>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
+                    <div id="skill-pyramid">
+                        <?php foreach(range($options['max_skill_level'], 0, -1) as $level): ?>
+                        <div id="skill-<?= $level; ?>-row" row-skill-level="<?= $level; ?>" class="skill-row">
+                            <div class="skill-row-level">+<?= $level; ?></div>
+                            <ul class="skill-row-droplist"></ul>
+                        </div>
+                        <?php endforeach; ?>
                     </div>
                 <?php else: ?>
                     <table>
@@ -584,7 +559,9 @@ class CharacterHelper extends AppHelper
                 </div>
             <?php endif; ?>
         </div>
-
+        <script>
+            dfCharacter.skills = <?php echo json_encode($options['skills']); ?>;
+        </script>
         <?php
         return ob_get_clean();
     }

@@ -82,7 +82,6 @@ function initializeCharacter() {
     checkSkills();
     updateSkills();
     checkRefresh();
-    $(".field-hint").blur();
     // lock skills
 
     $("#skill-list").find("li").each(function () {
@@ -174,6 +173,29 @@ function clearStuntRow() {
     checkRefresh();
 }
 
+function getSkillTemplate(skillData) {
+    return $('<li class="character-skill-item">')
+        .append(skillData.name)
+        .append(
+            $('<i>')
+                .addClass('ui-icon ui-icon-arrow-4 skill-drag-handle')
+        )
+        .append(
+            $('<input>')
+                .attr('type', 'hidden')
+                .attr('name', 'character_skills[][skill_id]')
+                .addClass('skill-id')
+                .val(skillData.id)
+        )
+        .append(
+            $('<input>')
+                .attr('type', 'hidden')
+                .attr('name', 'character_skills[][skill_level]')
+                .addClass('skill-level')
+                .val(0)
+        );
+}
+
 $(function () {
     initializeCharacter();
 
@@ -194,17 +216,15 @@ $(function () {
     var showSkillAlert = true;
     var selectedSkill;
     $(document)
-        .on('focus', '.skill-name:not(.ui-autocomplete-input)', function () {
+        .on('focus', '#new-skill-name:not(.ui-autocomplete-input)', function () {
             $(this).autocomplete({
-                source: baseUrl + 'skills/getList.json',
+                source: dfCharacter.skills,
+                autoFocus: true,
                 select: function (e, ui) {
                     selectedSkill = true;
-                    $(this).closest('.skill-row').find('.skill-name')
-                        .val(ui.item.label)
-                        .lockField();
-                    $(this).closest('.skill-row')
-                        .appendDelete('skill-delete');
-                    $(this).closest('.skill-row').find('.skill-id')
+                    $(this)
+                        .val(ui.item.label);
+                    $(this).closest('div').find('#new-skill-id')
                         .val(ui.item.value);
                     e.preventDefault();
                 },
@@ -215,26 +235,35 @@ $(function () {
                     return false;
                 },
                 change: function () {
-                    var skillName = $(this).closest('div').find('.skill-name').val();
-                    if (!selectedSkill && (skillName != '') && (skillName != 'Skill Name')) {
+                    var skillName = $(this).val();
+                    if (!selectedSkill && (skillName != '')) {
                         if (showSkillAlert) {
                             alert('Please select a skill from the list rather than free type.');
                             showSkillAlert = false;
                         }
                         $(this)
-                            .closest('div')
-                            .find('.skill-name')
                             .val('')
                             .blur();
                         $(this)
                             .closest('div')
-                            .find('.skill-id')
+                            .find('#new-skill-id')
                             .val(0);
                     }
                 }
             });
             $(this).autocomplete('search', $(this).val());
+        })
+        .on('keydown', "#new-skill-name", function(e) {
+            if(e.keyCode === 13) {
+                $("#add-skill").click();
+            }
         });
+
+    $(".skill-row-droplist").sortable({
+        connectWith: ".skill-row-droplist",
+        placeholder: "ui-state-highlight",
+        receive: checkSkills
+    });
 
 
     $('#form-submit').click(function() {
@@ -393,55 +422,16 @@ $(function () {
         });
 
     $("#add-skill").click(function () {
-        var list = $("#skill-list");
-        var rowNumber = list.find('li').length;
-        var newItem = $("<li></li>");
-        var newContent = $("<div></div>")
-            .addClass('skill-row');
-        var characterSkillId = $('<input />')
-            .attr('type', 'hidden')
-            .attr('name', 'character_skills[' + rowNumber + '][id]')
-            .attr('id', 'character-skills-' + rowNumber + '-id');
-        var skillId = $('<input />')
-            .attr('type', 'hidden')
-            .attr('name', 'character_skills[' + rowNumber + '][skill_id]')
-            .attr('id', 'character-skills-' + rowNumber + '-skill-id')
-            .addClass('skill-id')
-            .val(0);
-        var skillName =
-            $('<div>')
-                .addClass('input text')
-                .append(
-                    $("<input />")
-                        .addClass('skill-name')
-                        .attr('fieldname', 'Skill Name')
-                        .attr('name', 'character_skills[' + rowNumber + '][skill][skill_name]')
-                        .attr('placeholder', 'Skill Name')
-                );
-        var skillLevel =
-            $('<div>')
-                .addClass('input number')
-                .append(
-                    $("<input />")
-                        .addClass('skill-level')
-                        .attr('type', 'number')
-                        .attr('name', 'character_skills[' + rowNumber + '][skill_level]')
-                        .val(0)
-                );
-        var viewImg = $('<img />')
-            .attr('src', baseUrl + 'img/ragny_icon_search.png')
-            .addClass('skill-view')
-            .addClass('clickable');
-        newItem.append(
-            newContent
-                .append(characterSkillId)
-                .append(skillId)
-                .append(skillName)
-                .append(skillLevel)
-                .append(viewImg)
-        );
-        list.append(newItem).append(' ');
-        skillName.blur();
+        var skillData = {
+            name: $("#new-skill-name").val(),
+            id: $("#new-skill-id").val(),
+            level: 0,
+            is_shapeshifter: false
+        };
+
+        var newSkillItem = getSkillTemplate(skillData);
+        $("#skill-0-row").find('.skill-row-droplist').append(newSkillItem);
+        $("#new-skill-id, #new-skill-name").val('');
     });
 
     $("#add-power").click(addPowerRow);
@@ -791,30 +781,20 @@ function addPowerRow() {
 }
 
 function checkSkills() {
-    var remainingPoints = $("#skill-level").val();//dfCharacter.skillPoints;
+    var remainingPoints = $("#skill-level").val();
 
-    var levels = [0, 0, 0, 0, 0, 0, 0, 0];
-    $('.skill-level')
+    $('.skill-row')
         .each(function (count, item) {
-            if (!isNaN(parseInt($(item).val()))) {
-                levels[$(item).val()] = levels[$(item).val()] + 1;
-            }
-            else {
+            var numberOfSkills = $(item).find('.character-skill-item').length,
+                skillLevel = $(item).find('.skill-row-level').text().substr(1),
+                nextLevelSkills = $(item).next().find('.character-skill-item').length;
 
-            }
-        })
-        .each(function (count, item) {
-            if (!isNaN(parseInt($(item).val()))) {
-                if (($(item).val() != 1) && (levels[$(item).val()] > levels[$(item).val() - 1])) {
-                    $(this).addClass('error-item');
-                }
-                else {
-                    $(this).removeClass('error-item');
-                }
-                remainingPoints = remainingPoints - $(this).val();
-            }
-            else {
-                $(this).css('background-color', '');
+            $(item).find('.skill-level').val(skillLevel);
+            remainingPoints -= (numberOfSkills * skillLevel);
+            if((numberOfSkills > nextLevelSkills) && (skillLevel > 1)){
+                $(item).addClass('skill-error');
+            } else {
+                $(item).removeClass('skill-error');
             }
         });
     $("#skill-points").val(remainingPoints);
