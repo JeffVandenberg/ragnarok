@@ -628,6 +628,8 @@ dd {
 
 .skill-row-droplist {
     padding: 5px;
+    margin-left: 30px;
+    min-height: 27px;
 }
 
 .skill-row-droplist li {
@@ -642,6 +644,17 @@ dd {
     padding: 5px;
     display: inline-block;
     cursor: pointer;
+}
+
+.character-skill-placeholder {
+    padding: 0;
+    display: inline-block;
+    cursor: pointer;
+    background: #211;
+    border: solid 1px #564033;
+    height: 17px;
+    min-width: 100px;
+    box-shadow: 5px 5px 5px rgba(0,0,0,0.7);
 }
 
 .skill-error {

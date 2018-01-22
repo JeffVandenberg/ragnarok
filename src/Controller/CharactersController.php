@@ -250,7 +250,8 @@ class CharactersController extends AppController
         $options = [
             'skill_points' => $skillPoints,
             'max_skill_level' => 5,
-            'edit_full' => true
+            'edit_full' => true,
+            'is_new' => true
         ];
         $this->set(compact('character', 'skillPoints', 'options'));
 
@@ -289,7 +290,8 @@ class CharactersController extends AppController
         $options = [
             'skill_points' => $this->Config->Read('SKILL_POINTS'),
             'skills' => $skills,
-            'edit_full' => true
+            'edit_full' => true,
+            'is_new' => false
         ];
         $this->set(compact('character', 'skillPoints', 'options'));
 

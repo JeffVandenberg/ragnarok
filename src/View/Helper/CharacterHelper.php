@@ -127,16 +127,16 @@ class CharacterHelper extends AppHelper
                         </span>
                     </div>
                     <div class="paragraph">
-                        <input type="text" id="new-skill-name" />
-                        <input type="hidden" id="new-skill-id" />
+                        <input type="text" id="new-skill-name"/>
+                        <input type="hidden" id="new-skill-id"/>
                         <div id="add-skill" class='simple-button'>Add Skill</div>
                     </div>
                     <div id="skill-pyramid">
-                        <?php foreach(range($options['max_skill_level'], 0, -1) as $level): ?>
-                        <div id="skill-<?= $level; ?>-row" row-skill-level="<?= $level; ?>" class="skill-row">
-                            <div class="skill-row-level">+<?= $level; ?></div>
-                            <ul class="skill-row-droplist"></ul>
-                        </div>
+                        <?php foreach (range($options['max_skill_level'], 0, -1) as $level): ?>
+                            <div id="skill-<?= $level; ?>-row" class="skill-row">
+                                <div class="skill-row-level">+<?= $level; ?></div>
+                                <ul class="skill-row-droplist"></ul>
+                            </div>
                         <?php endforeach; ?>
                     </div>
                 <?php else: ?>

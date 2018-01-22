@@ -261,7 +261,7 @@ $(function () {
 
     $(".skill-row-droplist").sortable({
         connectWith: ".skill-row-droplist",
-        placeholder: "ui-state-highlight",
+        placeholder: "character-skill-placeholder",
         receive: checkSkills
     });
 
@@ -429,8 +429,13 @@ $(function () {
             is_shapeshifter: false
         };
 
-        var newSkillItem = getSkillTemplate(skillData);
-        $("#skill-0-row").find('.skill-row-droplist').append(newSkillItem);
+        if(!skillData.id) {
+            alert('Unable to add custom skills.');
+        } else {
+            var newSkillItem = getSkillTemplate(skillData);
+            $("#skill-0-row").find('.skill-row-droplist').append(newSkillItem);
+        }
+
         $("#new-skill-id, #new-skill-name").val('');
     });
 
