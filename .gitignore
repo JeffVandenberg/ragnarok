@@ -9,6 +9,9 @@
 webroot/chat/includes/db.php
 webroot/forum/
 build_number
+webroot/css/shrink*
+webroot/js/shrink*
+webroot/wiki/wiki.d/
 
 # OS generated files #
 ######################

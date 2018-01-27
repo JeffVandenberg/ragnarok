@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="/favicon.ico" type="image/x-icon" rel="icon" />
+    <link href="/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>$WikiTitle | {$Group} / {$Title} $ActionTitle</title>
+    <meta http-equiv='Content-Style-Type' content='text/css'/>
+    <link rel='stylesheet' href='$SkinDirUrl/pmwiki.css' type='text/css' />
+    <link rel='stylesheet' href='/css/ragnarok-v2.css' type='text/css'/>
+    <!--HTMLHeader-->
+<body>
+<div id="container">
+    <div id="header-bar">
+        <div id="header-inner">
+            <div id="header-logo">
+                <a href="/" id="header-logo-nav">
+                    Logo
+                </a>
+            </div>
+            <div id="header-games">
+                <select id="game-selector">
+                    <option value="www">Home</option>
+                    <option value="ragnarok" selected>Ragnarok NYC</option>
+                    <option value="wantonwicked">Wanton Wicked</option>
+                </select>
+            </div>
+            <div id="header-user">
+                {$SiteUserName}
+                <a href="/forum/ucp.php?mode=logout&sid={$SessionId}">Logout</a>
+            </div>
+        </div>
+    </div>
+    <div id="main-logo">
+    </div>
+    <div id="vbar">
+        <div id="vnav">
+        <ul>    <li>
+        <a href="/" target='_top'>
+            Home
+        </a>
+        
+    </li>    <li>
+        <a href="/forum" >
+            Forum
+        </a>
+        
+    </li>    <li>
+        <a href="#" >
+            Our World
+        </a>
+        <ul class='menu'><li><a href="/wiki/OurWorld/OurWorld">Introduction</a></li><li><a href="/wiki/OurWorld/SettingAspects">City Aspects</a></li><li><a href="/characters/cast">The Cast (PCs)</a></li><li><a href="/wiki/OurWorld/NPCs">NPCs</a></li><li><a href="/wiki/OurWorld/Locations">Locations</a></li><li><a href="/wiki/OurWorld/Factions">Factions</a></li><li><a href="https://drive.google.com/open?id=19lT_rlqzNv6iNIMqBhA1xNPMUlk&amp;usp=sharing" target="_blank">City Map</a></li></ul>
+    </li>    <li>
+        <a href="#" >
+            Game Guide
+        </a>
+        <ul class='menu'><li><a href="/wiki/GameGuide/GameGuide">About Dominium Fuego</a></li><li><a href="/wiki/GameGuide/NewPlayerGuide">New Player Guide</a></li><li><a href="/wiki/HouseRules/GameConfiguration">Game Configuration</a></li><li><a href="/wiki/HouseRules/CharacterCreation">Character Creation</a></li><li><a href="/wiki/MagicRules/MagicRules">Magic Rules</a></li></ul>
+    </li>    <li>
+        <a href="#" >
+            Database
+        </a>
+        <ul class='menu'><li><a href="/powers">Powers</a></li><li><a href="/skills">Skills</a></li><li><a href="/stunts">Stunts</a></li><li><a href="/templates">Templates</a></li></ul>
+    </li>
+                {$ToolMenu}
+            </ul>
+        </div>
+    </div>
+    <div id="content">
+        <div id="context-navigation-wrapper">
+            <div id="context-navigation">
+                <div class="context-group">
+                    <div class="right-box">
+                        <h3>Welcome</h3>
+
+                        <div class="paragraph">
+                            Username: {$SiteUserName}
+                        </div>
+                        <div class="paragraph">
+                            <a href="/forum/ucp.php?mode=logout">Logout</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="context-group">
+                    <h3>Wiki Navigation</h3>
+                    <!--wiki:{$Group}.SideBar {$SiteGroup}.SideBar-->
+                </div>
+            </div>
+            <div class="right-logo"></div>
+        </div>
+        <div id="content-body">
+            <div id='wikicmds'>
+                <!--wiki:{$Group}.PageActions {$SiteGroup}.PageActions-->
+            </div>
+            <div id='wikihead'>
+                <form action='{$ScriptUrl}'>
+                    <a href='{$ScriptUrl}/Site/AllRecentChanges'>$[All Recent Changes]</a> -
+                    <span class='headnav'>
+                        <a href='{$ScriptUrl}/$[{$Group}/RecentChanges]' accesskey='$[ak_recentchanges]'>
+                            $[Recent Changes]
+                        </a> -
+                    </span>
+                    <input type='hidden' name='n' value='{$FullName}'/>
+                    <input type='hidden' name='action' value='search'/>
+                    <a href='{$ScriptUrl}/$[{$SiteGroup}/Search]'>$[Search]</a>:
+                    <input type='text' name='q' value='' class='inputbox searchbox'/>
+                    <input type='submit' class='button inputbutton searchbutton' value='$[Go]'/>
+                </form>
+            </div>
+            <!--PageActionFmt-->
+            <!--PageTitleFmt-->
+            <div id='wikititle'>
+                <div class='pagegroup'><a href='{$ScriptUrl}/{$Group}'>{$Group}</a> /</div>
+                <h1 class='pagetitle'>{$Title}</h1></div>
+            <!--PageText-->
+        </div>
+    </div>
+    <div id="footer-bar">
+        <div id="footer-inner">
+            Images by jarden
+            Produced by Jeff Vandenberg
+            Copyright 2013
+        </div>
+    </div>
+</div>
+</body>
+</html>
