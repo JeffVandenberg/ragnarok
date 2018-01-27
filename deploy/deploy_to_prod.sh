@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo "cd ~/ragnarok" > ./deploy_script
+echo "cd ~/df" > ./deploy_script
 echo "echo $CIRCLE_BUILD_NUM > build_number" >> ./deploy_script
 echo "git pull" >> ./deploy_script
 #echo "bin/cake migrations migrate" >> ./deploy_script
