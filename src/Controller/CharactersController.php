@@ -122,7 +122,13 @@ class CharactersController extends AppController
             $this->Flash->set('You are not authorized to view that character.');
             $this->redirect(array('controller' => 'characters', 'action' => '/'));
         }
-        $this->set('character', $character);
+        $options = [
+            'max_skill_level' => 5,
+            'edit_full' => false,
+            'edit_limited' => false,
+            'is_new' => false
+        ];
+        $this->set(compact('character', 'options'));
     }
 
     /**
@@ -170,6 +176,7 @@ class CharactersController extends AppController
 
             $options = [
                 'skill_points' => $this->Config->Read('SKILL_POINTS'),
+                'max_skill_level' => 5,
                 'skills' => TableRegistry::get('Skills')->find('list')->cache('skill_list'),
                 'edit_full' => true,
                 'edit_gm' => true,
@@ -231,10 +238,10 @@ class CharactersController extends AppController
                 $this->Flash->set(__('The character could not be saved. Please, try again.'));
             }
         } else {
-            $character->physical_stress_skill_id = Configure::read('character.PhysicalStressSkillId');
-            $character->mental_stress_skill_id = Configure::read('character.MentalStressSkillId');
-            $character->social_stress_skill_id = Configure::read('character.SocialStressSkillId');
-            $character->hunger_stress_skill_id = Configure::read('character.HungerStressSkillId');
+            $character->physical_stress_skill_id = Configure::read('character.physical_stress_skill_id');
+            $character->mental_stress_skill_id = Configure::read('character.mental_stress_skill_id');
+            $character->social_stress_skill_id = Configure::read('character.social_stress_skill_id');
+            $character->hunger_stress_skill_id = Configure::read('character.hunger_stress_skill_id');
             $character->available_significant_milestones = 0;
             $character->available_major_milestones = 0;
             $character->power_level = $this->Config->Read('POWER_LEVEL');
@@ -290,6 +297,7 @@ class CharactersController extends AppController
         $options = [
             'skill_points' => $this->Config->Read('SKILL_POINTS'),
             'skills' => $skills,
+            'max_skill_level' => 5,
             'edit_full' => true,
             'is_new' => false
         ];
@@ -306,25 +314,34 @@ class CharactersController extends AppController
      */
     public function editLimited($id = null)
     {
-        if (!$this->Character->exists($id)) {
-            throw new NotFoundException(__('Invalid character'));
-        }
-        if (!$this->validateUserCharacter($id)) {
+        $character = $this->Characters->loadCharacter($id);
+        if (!$this->validateUserCharacter($character)) {
             $this->Flash->set('You are not authorized to edit that character.');
             $this->redirect(array('controller' => 'characters', 'action' => '/'));
         }
-        if ($this->request->is('post') || $this->request->is('put')) {
-            $this->request->data['Character']['updated_by_id'] = $this->Auth->user('user_id');
-            if ($this->Character->SaveLimitedCharacter($this->request->data)) {
+        if ($this->request->is(['post', 'put'])) {
+            $character = $this->Characters->patchEntity($character, $this->request->getData());
+            $character->updated_by_id = $this->Auth->user('user_id');
+            if ($this->Characters->saveCharacter($character)) {
                 $this->Flash->set(__('The character has been saved'));
                 $this->redirect(array('action' => 'index'));
             } else {
                 $this->Flash->set(__('The character could not be saved. Please, try again.'));
             }
         } else {
-            $character = $this->Character->LoadLimitedCharacter($id);
-            $this->request->data = $character;
+            if ($character->character_status_id == CharacterStatus::New) {
+                $this->redirect(array('action' => 'edit', $id));
+            }
         }
+
+        $options = [
+            'skill_points' => $this->Config->Read('SKILL_POINTS'),
+            'max_skill_level' => 5,
+            'edit_full' => false,
+            'edit_limited' => true,
+            'is_new' => false
+        ];
+        $this->set(compact('character', 'skillPoints', 'options'));
 
         $this->SetCharacterLists();
     }
@@ -357,18 +374,9 @@ class CharactersController extends AppController
      */
     private function SetCharacterLists()
     {
-        $skillList = TableRegistry::get('Skills')
+        $skills = TableRegistry::get('Skills')
             ->find('list')
-            ->enableHydration(false)
-            ->cache('skill_list')
-            ->toArray();
-        $skills = [];
-        foreach($skillList as $key => $value) {
-            $skills[] = [
-                'label' => $value,
-                'value' => $key
-            ];
-        }
+            ->cache('skill_list');
         $templates = $this->Characters->Templates->find('list')->cache('template_list');
         $this->set(compact('templates', 'skills'));
     }

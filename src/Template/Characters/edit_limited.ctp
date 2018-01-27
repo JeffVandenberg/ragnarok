@@ -1,32 +1,28 @@
-<?php /* @var View $this */ ?>
-<?php /* @var array $character */ ?>
-<?php $this->set('title_for_layout', 'Update ' . $character['Character']['character_name']); ?>
-<?php $this->start('script'); ?>
-<?php echo $this->Html->script('tinymce/tinymce.min'); ?>
-<?php echo $this->Html->script('tinymce/jquery.tinymce.min'); ?>
-<?php $this->end(); ?>
+<?php
+use App\Model\Entity\Character;
+use App\View\AppView;
 
-<?php echo $this->Form->create('Character'); ?>
-<?php echo $this->Form->input('id'); ?>
-<?php echo $this->Form->input('current_fate'); ?>
-    Public Character Page. Put anything and everything you want people to know about your character here.
-<?php echo $this->Form->textarea('public_information', array('class' => 'full-editor')); ?>
-<?php echo $this->Form->end('Save'); ?>
-<?php $this->start('javascript'); ?>
+/* @var AppView $this */
+/* @var Character $character */
+
+$this->start('script');
+echo $this->Html->script('df-character');
+$this->end();
+
+$this->set('title_for_layout', 'Update ' . $character->character_name);
+?>
+
+<?php echo $this->Form->create($character); ?>
+<div class="characters form">
+    <?php echo $this->Character->create($character, $options); ?>
+</div>
+<div>
+    <?php echo $this->Form->submit('Save', [
+        'id' => 'form-submit'
+    ]); ?>
+</div>
+<?php echo $this->Form->end(); ?>
+<div id="sheet-subview" style="display:none;"></div>
 <script type="text/javascript">
-    tinymce.init({
-        selector: "textarea.full-editor",
-        theme: "modern",
-        plugins: [
-            "advlist autolink lists link image charmap print preview hr anchor pagebreak",
-            "searchreplace wordcount visualblocks visualchars code fullscreen",
-            "insertdatetime media nonbreaking save table contextmenu directionality",
-            "emoticons template paste textcolor"
-        ],
-        toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
-        toolbar2: "print preview media | forecolor backcolor emoticons",
-        image_advtab: true,
-        height: 600
-    });
+    dfCharacter.editSkills = false;
 </script>
-<?php $this->end(); ?>

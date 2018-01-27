@@ -10,6 +10,7 @@ namespace App\View\Helper;
 
 
 use App\Model\Entity\Character;
+use App\Model\Entity\CharacterSkill;
 use Cake\View\Helper\FormHelper;
 use Cake\View\Helper\HtmlHelper;
 use Cake\View\Helper\TextHelper;
@@ -47,24 +48,43 @@ class CharacterHelper extends AppHelper
             $powerLevel = $this->Form->control('power_level', array('readonly' => true, 'style' => 'width: 50px;'));
             $skillLevel = $this->Form->control('skill_level', array('readonly' => true, 'style' => 'width: 50px;'));
             $maxFate = $this->Form->control('max_fate', array('label' => 'Refresh', 'readonly' => true, 'style' => 'width: 50px;'));
+            $skillItemClass = 'character-skill-item';
         } else {
             $characterName = '<label>Character Name</label><br />' . $character->character_name;
-            $template = $character->template->template_name;
-            $powerLevel = $character->power_level;
-            $skillLevel = $character->skill_level;
-            $maxFate = $character->max_fate;
+            $template = '<label>Template</label><br />' . $character->template->template_name;
+            $powerLevel = '<label>Power Level</label><br />' . $character->power_level;
+            $skillLevel = '<label>Skill Level</label><br />' . $character->skill_level;
+            $maxFate = '<label>Refresh</label><br />' . $character->max_fate;
+            $skillItemClass = '';
         }
 
         if ($this->mayEditLimited()) {
             $currentFate = $this->Form->control('current_fate', array('label' => 'Fate', 'style' => 'width: 50px;'));
         } else {
-            $currentFate = $character->current_fate;
+            $currentFate = '<label>Current Fate</label><br />' . $character->current_fate;
+        }
+
+        if ($this->mayEditFull() || $this->mayEditLimited()) {
+            $id = $this->Form->control('id');
+        } else {
+            $id = '';
         }
 
         if ($this->isGmEdit()) {
             $characterStatus = $this->Form->control('character_status_id');
         } else {
-            $characterStatus = ($character->character_status) ? $character->character_status->name : '';
+            $characterStatus =
+                '<label>Status</label><br />' .
+                (($character->character_status) ? $character->character_status->name : '');
+        }
+
+        if ($this->isNewSheet()) {
+            $currentFate = '';
+        }
+
+        $characterSkillsByLevel = [];
+        foreach ($character->character_skills as $skill) {
+            $characterSkillsByLevel[$skill->skill_level][] = $skill;
         }
 
         ob_start();
@@ -72,7 +92,7 @@ class CharacterHelper extends AppHelper
         <table>
             <tr>
                 <td colspan="3">
-                    <?php echo $this->Form->control('id'); ?>
+                    <?php echo $id; ?>
                     <?php echo $characterName; ?>
                 </td>
                 <td colspan="2">
@@ -131,42 +151,35 @@ class CharacterHelper extends AppHelper
                         <input type="hidden" id="new-skill-id"/>
                         <div id="add-skill" class='simple-button'>Add Skill</div>
                     </div>
-                    <div id="skill-pyramid">
-                        <?php foreach (range($options['max_skill_level'], 0, -1) as $level): ?>
-                            <div id="skill-<?= $level; ?>-row" class="skill-row">
-                                <div class="skill-row-level">+<?= $level; ?></div>
-                                <ul class="skill-row-droplist"></ul>
-                            </div>
-                        <?php endforeach; ?>
+                    <div>
+                        <strong>Put a skill in the +0 row to remove it.</strong>
                     </div>
-                <?php else: ?>
-                    <table>
-                        <tr>
-                            <th>
-                                Skill
-                            </th>
-                            <th>
-                                Level
-                            </th>
-                        </tr>
-                        <?php foreach ($character->character_skills as $characterSkill): ?>
-                            <tr class="skill-row">
-                                <td style="min-width: 25%;">
-                                    <?php echo $characterSkill->skill->skill_name; ?>
-                                </td>
-                                <td>
-                                    <?php echo $characterSkill->skill_level; ?>
-                                </td>
-                                <td>
-                                    <div style="display: inline;">
-                                        <?php echo $this->Form->hidden('skill_id', array('class' => 'skill-id', 'value' => $characterSkill->skill_id)); ?>
-                                        <?php echo $this->Html->image('ragny_icon_search.png', array('class' => array('skill-view', 'clickable'))); ?>
-                                    </div>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </table>
                 <?php endif; ?>
+                <div id="skill-pyramid">
+                    <?php $i = 0; ?>
+                    <?php $low = ($this->mayEditFull()) ? 0 : 1; ?>
+                    <?php foreach (range($options['max_skill_level'], $low, -1) as $level): ?>
+                        <div id="skill-<?= $level; ?>-row" class="skill-row">
+                            <div class="skill-row-level">+<?= $level; ?></div>
+                            <ul class="skill-row-droplist">
+                                <?php if (isset($characterSkillsByLevel[$level])): ?>
+                                    <?php foreach ($characterSkillsByLevel[$level] as $skill): ?>
+                                        <?php $row = $i++; ?>
+                                        <li class="<?= $skillItemClass ?>">
+                                            <?= $skill->skill->skill_name; ?>
+                                            <?php if ($this->mayEditFull()): ?>
+                                                <i class="ui-icon ui-icon-arrow-4 skill-drag-handle"></i>
+                                                <?= $this->Form->hidden('character_skills.' . $row . '.skill_id', ['class' => 'skill-id']); ?>
+                                                <?= $this->Form->hidden('character_skills.' . $row . '.skill_level', ['class' => 'skill-level']); ?>
+                                                <?= $this->Form->hidden('character_skills.' . $row . '.id'); ?>
+                                            <?php endif; ?>
+                                        </li>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </ul>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
             </div>
             <div id="stunts" class="tab-pane">
                 <?php if ($this->mayEditFull()): ?>
@@ -516,7 +529,7 @@ class CharacterHelper extends AppHelper
                 <div class="input">
                     Public Character Page. Put anything and everything you want people to know about your character
                     here.
-                    <?php if ($this->mayEditFull()): ?>
+                    <?php if ($this->mayEditFull() || $this->mayEditLimited()): ?>
                         <?php echo $this->Form->textarea('public_information', array('class' => 'full-editor')); ?>
                     <?php else: ?>
                         <?php echo $character->public_information; ?>
@@ -559,9 +572,11 @@ class CharacterHelper extends AppHelper
                 </div>
             <?php endif; ?>
         </div>
+        <?php if (isset($options['skills'])): ?>
         <script>
-            dfCharacter.skills = <?php echo json_encode($options['skills']); ?>;
+            dfCharacter.skills = <?php echo $this->formatSkillsForJson($options['skills']); ?>;
         </script>
+    <?php endif; ?>
         <?php
         return ob_get_clean();
     }
@@ -584,5 +599,17 @@ class CharacterHelper extends AppHelper
     private function isGmEdit()
     {
         return $this->options['edit_gm'];
+    }
+
+    private function formatSkillsForJson($skills)
+    {
+        $list = [];
+        foreach ($skills as $key => $value) {
+            $list[] = [
+                'label' => $value,
+                'value' => $key
+            ];
+        }
+        return json_encode($list);
     }
 }

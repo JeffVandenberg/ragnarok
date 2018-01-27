@@ -634,6 +634,8 @@ dd {
 
 .skill-row-droplist li {
     list-style: none;
+    padding: 5px;
+    display: inline-block;
 }
 
 .skill-drag-handle {
@@ -641,8 +643,6 @@ dd {
 }
 
 .character-skill-item {
-    padding: 5px;
-    display: inline-block;
     cursor: pointer;
 }
 

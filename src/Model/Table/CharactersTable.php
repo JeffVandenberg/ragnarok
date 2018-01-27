@@ -202,9 +202,12 @@ class CharactersTable extends Table
 
     public function saveCharacter(Character $character)
     {
-        // iterate through aspects, skills, powers, stunts, to remove those that don't exist.
+        // iterate through aspects, skills, powers, stunts, to remove those that are invalid
         foreach($character->character_skills as $i => $skill) {
             if(empty($skill->skill_id)) {
+                unset($character->character_skills[$i]);
+            }
+            if($skill->skill_level < 1) {
                 unset($character->character_skills[$i]);
             }
         }

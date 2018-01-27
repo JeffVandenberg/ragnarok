@@ -12,6 +12,8 @@ dfCharacter.baseMentalStress = 2;
 dfCharacter.basePhysicalStress = 2;
 dfCharacter.baseSocialStress = 2;
 dfCharacter.baseHungerStress = 2;
+dfCharacter.currentSkillRow = null;
+dfCharacter.editSkills = true;
 
 dfCharacter.calculateStressModifier = function (skillValue) {
     var modifier = 0;
@@ -42,27 +44,28 @@ function updateSkills() {
     var extraSocialConsequence = 0;
     var extraHungerConsequence = 0;
 
-    $(".skill-name").each(function (row, item) {
-        var skillValue = $(item).closest('.skill-row').find('.skill-level').val();
+    $(".character-skill-item").each(function (row, item) {
+        var skillValue = $(item).find('.skill-level').val();
+        var skillId = $(item).find('.skill-id').val();
 
-        var physicalStressSkill = $("#physical-stress-skill-id").find('option:selected').text();
-        var mentalStressSkill = $("#mental-stress-skill-id").find('option:selected').text();
-        var socialStressSkill = $("#social-stress-skill-id").find('option:selected').text();
-        var hungerStressSkill = $("#hunger-stress-skill-id").find('option:selected').text();
+        var physicalStressSkill = $("#physical-stress-skill-id").val();
+        var mentalStressSkill = $("#mental-stress-skill-id").val();
+        var socialStressSkill = $("#social-stress-skill-id").val();
+        var hungerStressSkill = $("#hunger-stress-skill-id").val();
 
-        if ($(item).val() == mentalStressSkill) {
+        if (skillId === mentalStressSkill) {
             mentalStress += dfCharacter.calculateStressModifier(skillValue);
             extraMentalConsequence = dfCharacter.calculateExtraConsequence(skillValue);
         }
-        if ($(item).val() == hungerStressSkill) {
+        if (skillId === hungerStressSkill) {
             hungerStress += dfCharacter.calculateStressModifier(skillValue);
             extraHungerConsequence = dfCharacter.calculateExtraConsequence(skillValue);
         }
-        if ($(item).val() == physicalStressSkill) {
+        if (skillId === physicalStressSkill) {
             physicalStress += dfCharacter.calculateStressModifier(skillValue);
             extraPhysicalConsequence = dfCharacter.calculateExtraConsequence(skillValue);
         }
-        if ($(item).val() == socialStressSkill) {
+        if (skillId === socialStressSkill) {
             socialStress += dfCharacter.calculateStressModifier(skillValue);
             extraSocialConsequence = dfCharacter.calculateExtraConsequence(skillValue);
         }
@@ -112,12 +115,6 @@ function initializeCharacter() {
     });
 }
 
-function UpdateCharacterPowers(powers) {
-    for (var i = 0; i < powers.powers.length; i++) {
-        var power = powers.powers[i];
-    }
-}
-
 function clearPowerRow() {
     $(this)
         .closest('div')
@@ -134,24 +131,6 @@ function clearPowerRow() {
         .val('')
         .blur();
     checkRefresh();
-}
-
-function clearSkillRow() {
-    $(this)
-        .closest('div')
-        .find('.skill-id')
-        .val(0);
-    $(this)
-        .closest('div')
-        .find('.skill-level')
-        .val('0');
-    $(this)
-        .closest('div')
-        .find('.skill-name')
-        .unlockField()
-        .val('')
-        .blur();
-    checkSkills();
 }
 
 function clearStuntRow() {
@@ -174,6 +153,11 @@ function clearStuntRow() {
 }
 
 function getSkillTemplate(skillData) {
+    if (dfCharacter.currentSkillRow === null) {
+        dfCharacter.currentSkillRow = $(".character-skill-item").length;
+    }
+    var rowId = dfCharacter.currentSkillRow++;
+
     return $('<li class="character-skill-item">')
         .append(skillData.name)
         .append(
@@ -183,14 +167,14 @@ function getSkillTemplate(skillData) {
         .append(
             $('<input>')
                 .attr('type', 'hidden')
-                .attr('name', 'character_skills[][skill_id]')
+                .attr('name', 'character_skills[' + rowId + '][skill_id]')
                 .addClass('skill-id')
                 .val(skillData.id)
         )
         .append(
             $('<input>')
                 .attr('type', 'hidden')
-                .attr('name', 'character_skills[][skill_level]')
+                .attr('name', 'character_skills[' + rowId + '][skill_level]')
                 .addClass('skill-level')
                 .val(0)
         );
@@ -253,25 +237,30 @@ $(function () {
             });
             $(this).autocomplete('search', $(this).val());
         })
-        .on('keydown', "#new-skill-name", function(e) {
-            if(e.keyCode === 13) {
+        .on('keydown', "#new-skill-name", function (e) {
+            if (e.keyCode === 13) {
                 $("#add-skill").click();
             }
         });
 
-    $(".skill-row-droplist").sortable({
-        connectWith: ".skill-row-droplist",
-        placeholder: "character-skill-placeholder",
-        receive: checkSkills
-    });
+    if(dfCharacter.editSkills) {
+        $(".skill-row-droplist").sortable({
+            connectWith: ".skill-row-droplist",
+            placeholder: "character-skill-placeholder",
+            receive: function () {
+                checkSkills();
+                updateSkills();
+            }
+        });
+    }
 
 
-    $('#form-submit').click(function() {
-        $("input:invalid, textarea:invalid").each(function() {
+    $('#form-submit').click(function () {
+        $("input:invalid, textarea:invalid").each(function () {
             var $closest = $(this).closest('.tab-pane'),
                 id = $closest.attr('id');
 
-            if($closest.length > 0) {
+            if ($closest.length > 0) {
                 // Find the link that corresponds to the pane and have it show
                 $('#tabs').find('a[href="#' + id + '"]').click();
             }
@@ -429,7 +418,7 @@ $(function () {
             is_shapeshifter: false
         };
 
-        if(!skillData.id) {
+        if (!skillData.id) {
             alert('Unable to add custom skills.');
         } else {
             var newSkillItem = getSkillTemplate(skillData);
@@ -495,10 +484,10 @@ $(function () {
 
     $("#apply-template")
         .click(function () {
-            $.get('/templates/list-powers/' + $('#template-id').val() + '.json', function(response) {
+            $.get('/templates/list-powers/' + $('#template-id').val() + '.json', function (response) {
                 var powers = response.powers,
                     nextRow = 0;
-                for(var index in response.powers) {
+                for (var index in response.powers) {
                     nextRow = addPowerToSheet(powers[index], nextRow);
                 }
             });
@@ -646,7 +635,7 @@ $(function () {
                                 title: 'View Stunt',
                                 closeOnEscape: true,
                                 buttons: false,
-                                open: function(event, ui) {
+                                open: function (event, ui) {
                                     $(".ui-dialog-titlebar-close")
                                         .show();
                                 }
@@ -675,7 +664,7 @@ $(function () {
                                 title: 'View Power',
                                 closeOnEscape: true,
                                 buttons: false,
-                                open: function(event, ui) {
+                                open: function (event, ui) {
                                     $(".ui-dialog-titlebar-close")
                                         .show();
                                 }
@@ -687,13 +676,6 @@ $(function () {
         });
 
     $(document)
-        .off('blur', '.skill-level')
-        .on('blur', '.skill-level', function () {
-            checkSkills();
-            updateSkills();
-        });
-
-    $(document)
         .off('blur', '.refresh-cost')
         .on('blur', '.refresh-cost', function () {
             checkRefresh();
@@ -701,16 +683,6 @@ $(function () {
     $("#CharacterPowerLevel")
         .change(function () {
             checkRefresh();
-        });
-
-    $(document)
-        .off('click', '.skill-delete')
-        .on('click', '.skill-delete', function () {
-            var skillName = $(this).closest('div').find('.skill-name').val();
-            if (confirm('Are you sure you want to delete ' + skillName + '?')) {
-                clearSkillRow.call(this);
-                $(this).remove();
-            }
         });
 
     $(document)
@@ -737,52 +709,52 @@ $(function () {
 });
 
 function addPowerRow() {
-        var list = $("#power-list");
-        var rowNumber = list.find('li').length;
-        var newItem = $("<li></li>");
-        var newContent = $("<div></div>")
-            .addClass('input');
-        var characterPowerId = $("<input />")
-            .attr('type', 'hidden')
-            .attr('name', 'character_powers[' + rowNumber + '][id]')
-            .attr('id', 'character-powers-' + rowNumber + '-id');
-        var powerId = $('<input />')
-            .attr('type', 'hidden')
-            .attr('name', 'character_powers[' + rowNumber + '][power_id]')
-            .attr('id', 'character-powers-' + rowNumber + '-power-id')
-            .addClass('power-id')
-            .val(0);
-        var powerName = $("<input />")
-            .addClass('power-name')
-            .attr('placeholder', 'Power Name')
-            .attr('name', 'character_powers[' + rowNumber + '][power][power_name]')
-            .attr('id', 'character-powers-' + rowNumber + '-power-power-name');
-        var powerNote = $('<input />')
-            .addClass('power-note')
-            .attr('placeholder', 'Power Note')
-            .attr('name', 'character_powers[' + rowNumber + '][power_note]')
-            .attr('id', 'character-powers-' + rowNumber + '-power-note');
-        var refreshCost = $("<input />")
-            .addClass('refresh-cost')
-            .attr('type', 'number')
-            .attr('name', 'character_powers[' + rowNumber + '][refresh_cost]')
-            .val(0);
-        var viewImg = $('<img />')
-            .attr('src', baseUrl + 'img/ragny_icon_search.png')
-            .addClass('power-view')
-            .addClass('clickable');
-        newItem.append(
-            newContent
-                .append(characterPowerId)
-                .append(powerId)
-                .append(powerName)
-                .append(powerNote)
-                .append(refreshCost)
-                .append(viewImg)
-        );
-        list.append(newItem);
-        powerName.blur();
-        powerNote.blur();
+    var list = $("#power-list");
+    var rowNumber = list.find('li').length;
+    var newItem = $("<li></li>");
+    var newContent = $("<div></div>")
+        .addClass('input');
+    var characterPowerId = $("<input />")
+        .attr('type', 'hidden')
+        .attr('name', 'character_powers[' + rowNumber + '][id]')
+        .attr('id', 'character-powers-' + rowNumber + '-id');
+    var powerId = $('<input />')
+        .attr('type', 'hidden')
+        .attr('name', 'character_powers[' + rowNumber + '][power_id]')
+        .attr('id', 'character-powers-' + rowNumber + '-power-id')
+        .addClass('power-id')
+        .val(0);
+    var powerName = $("<input />")
+        .addClass('power-name')
+        .attr('placeholder', 'Power Name')
+        .attr('name', 'character_powers[' + rowNumber + '][power][power_name]')
+        .attr('id', 'character-powers-' + rowNumber + '-power-power-name');
+    var powerNote = $('<input />')
+        .addClass('power-note')
+        .attr('placeholder', 'Power Note')
+        .attr('name', 'character_powers[' + rowNumber + '][power_note]')
+        .attr('id', 'character-powers-' + rowNumber + '-power-note');
+    var refreshCost = $("<input />")
+        .addClass('refresh-cost')
+        .attr('type', 'number')
+        .attr('name', 'character_powers[' + rowNumber + '][refresh_cost]')
+        .val(0);
+    var viewImg = $('<img />')
+        .attr('src', baseUrl + 'img/ragny_icon_search.png')
+        .addClass('power-view')
+        .addClass('clickable');
+    newItem.append(
+        newContent
+            .append(characterPowerId)
+            .append(powerId)
+            .append(powerName)
+            .append(powerNote)
+            .append(refreshCost)
+            .append(viewImg)
+    );
+    list.append(newItem);
+    powerName.blur();
+    powerNote.blur();
 }
 
 function checkSkills() {
@@ -796,7 +768,7 @@ function checkSkills() {
 
             $(item).find('.skill-level').val(skillLevel);
             remainingPoints -= (numberOfSkills * skillLevel);
-            if((numberOfSkills > nextLevelSkills) && (skillLevel > 1)){
+            if ((numberOfSkills > nextLevelSkills) && (skillLevel > 1)) {
                 $(item).addClass('skill-error');
             } else {
                 $(item).removeClass('skill-error');
@@ -808,12 +780,12 @@ function checkSkills() {
 function getNextFreePowerRow(rowIndex) {
     var foundBlankRow = false;
     do {
-        var powerElement = $('#character-powers-'+rowIndex+'-id');
-        if(powerElement.length === 0) {
+        var powerElement = $('#character-powers-' + rowIndex + '-id');
+        if (powerElement.length === 0) {
             addPowerRow();
             foundBlankRow = true;
         } else {
-            if(powerElement.closest('.power-row').find('.power-id').val() === '') {
+            if (powerElement.closest('.power-row').find('.power-id').val() === '') {
                 foundBlankRow = true;
             } else {
                 rowIndex++;
@@ -826,7 +798,7 @@ function getNextFreePowerRow(rowIndex) {
 
 function addPowerToSheet(power, rowIndex) {
     rowIndex = getNextFreePowerRow(rowIndex);
-    var row = $("#power-list").find('li:nth-child(' + (rowIndex+1) + ')');
+    var row = $("#power-list").find('li:nth-child(' + (rowIndex + 1) + ')');
     row.find('.power-name').val(power.power.power_name).lockField();
     row.find('.power-id').val(power.power_id);
     row.find('.refresh-cost').val(power.power_cost);
