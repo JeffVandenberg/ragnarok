@@ -240,6 +240,9 @@ class CharactersTable extends Table
         return $this->get($id, [
             'contain' => [
                 'CharacterAspects' =>  [
+                    'sort' => [
+                        'aspect_type_id'
+                    ],
                     'AspectTypes'
                 ],
                 'CreatedBy' => [
@@ -257,9 +260,15 @@ class CharactersTable extends Table
                 'CharacterStatuses',
                 'Templates',
                 'CharacterSkills' => [
+                    'sort' => [
+                        'Skills.skill_name'
+                    ],
                     'Skills'
                 ],
                 'CharacterStunts' => [
+                    'sort' => [
+                        'Stunts.stunt_name'
+                    ],
                     'Stunts' => [
                         'fields' => [
                             'stunt_name',
@@ -269,6 +278,9 @@ class CharactersTable extends Table
                     ]
                 ],
                 'CharacterPowers' => [
+                    'sort' => [
+                        'Powers.power_name'
+                    ],
                     'Powers' => [
                         'fields' => [
                             'power_name',
@@ -278,6 +290,9 @@ class CharactersTable extends Table
                     ]
                 ],
                 'CharacterGmNotes' => [
+                    'sort' => [
+                        'created' => 'DESC'
+                    ],
                     'CreatedBy' => [
                         'fields' => [
                             'username'
