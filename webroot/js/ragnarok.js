@@ -1,5 +1,6 @@
 // JS common behaviors
 tinymce.baseURL = '/js/tinymce';
+tinymce.suffix = '.min';
 tinymce.init({
     selector: "textarea.full-editor",
     theme: "modern",
