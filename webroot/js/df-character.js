@@ -85,17 +85,7 @@ function initializeCharacter() {
     checkSkills();
     updateSkills();
     checkRefresh();
-    // lock skills
 
-    $("#skill-list").find("li").each(function () {
-        if (parseInt($(this).find(".skill-id").val()) > 0) {
-            $(this).find(".skill-name").lockField();
-            $(this).find(".skill-row").appendDelete('skill-delete');
-        }
-        if (isNaN(parseInt($(this).find(".skill-level").val()))) {
-            $(this).find(".skill-level").val(0);
-        }
-    });
     // lock stunts
     $("#stunt-list").find("li").each(function () {
         if (parseInt($(this).find(".stunt-id").val()) > 0) {
@@ -243,7 +233,7 @@ $(function () {
             }
         });
 
-    if(dfCharacter.editSkills) {
+    if (dfCharacter.editSkills) {
         $(".skill-row-droplist").sortable({
             connectWith: ".skill-row-droplist",
             placeholder: "character-skill-placeholder",
@@ -713,7 +703,7 @@ function addPowerRow() {
     var rowNumber = list.find('li').length;
     var newItem = $("<li></li>");
     var newContent = $("<div></div>")
-        .addClass('input');
+        .addClass('power-row');
     var characterPowerId = $("<input />")
         .attr('type', 'hidden')
         .attr('name', 'character_powers[' + rowNumber + '][id]')
@@ -724,21 +714,33 @@ function addPowerRow() {
         .attr('id', 'character-powers-' + rowNumber + '-power-id')
         .addClass('power-id')
         .val(0);
-    var powerName = $("<input />")
-        .addClass('power-name')
-        .attr('placeholder', 'Power Name')
-        .attr('name', 'character_powers[' + rowNumber + '][power][power_name]')
-        .attr('id', 'character-powers-' + rowNumber + '-power-power-name');
-    var powerNote = $('<input />')
-        .addClass('power-note')
-        .attr('placeholder', 'Power Note')
-        .attr('name', 'character_powers[' + rowNumber + '][power_note]')
-        .attr('id', 'character-powers-' + rowNumber + '-power-note');
-    var refreshCost = $("<input />")
-        .addClass('refresh-cost')
-        .attr('type', 'number')
-        .attr('name', 'character_powers[' + rowNumber + '][refresh_cost]')
-        .val(0);
+    var powerName = $("<div />")
+        .addClass('input text')
+        .append(
+            $("<input />")
+                .addClass('power-name')
+                .attr('placeholder', 'Power Name')
+                .attr('name', 'character_powers[' + rowNumber + '][power][power_name]')
+                .attr('id', 'character-powers-' + rowNumber + '-power-power-name')
+        );
+    var powerNote = $('<div />')
+        .addClass('input text')
+        .append(
+            $("<input />")
+                .addClass('power-note')
+                .attr('placeholder', 'Power Note')
+                .attr('name', 'character_powers[' + rowNumber + '][power_note]')
+                .attr('id', 'character-powers-' + rowNumber + '-power-note')
+        );
+    var refreshCost = $("<div />")
+        .addClass('input text')
+        .append(
+            $("<input />")
+                .addClass('refresh-cost')
+                .attr('type', 'number')
+                .attr('name', 'character_powers[' + rowNumber + '][refresh_cost]')
+                .val(0)
+        );
     var viewImg = $('<img />')
         .attr('src', baseUrl + 'img/ragny_icon_search.png')
         .addClass('power-view')
