@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <link type="text/css" rel="stylesheet"
-          href="/css/df/jquery-ui.css?v=<?php echo $CONFIG['version']; ?>">
+          href="/css/jquery-ui.css?v=<?php echo $CONFIG['version']; ?>">
     <link type="text/css" rel="stylesheet"
           href="templates/<?php echo $CONFIG['template']; ?>/style.css?v=<?php echo $CONFIG['version']; ?>">
     <script type="text/javascript" src="/js/jquery-1.9.1.js?v=<?php echo $CONFIG['version']; ?>"></script>

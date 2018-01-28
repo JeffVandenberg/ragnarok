@@ -83,8 +83,10 @@ class CharacterHelper extends AppHelper
         }
 
         $characterSkillsByLevel = [];
-        foreach ($character->character_skills as $skill) {
-            $characterSkillsByLevel[$skill->skill_level][] = $skill;
+        if(is_array($character->character_skills)){
+            foreach ($character->character_skills as $skill) {
+                $characterSkillsByLevel[$skill->skill_level][] = $skill;
+            }
         }
 
         ob_start();

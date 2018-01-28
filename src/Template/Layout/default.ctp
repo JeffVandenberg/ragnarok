@@ -41,7 +41,7 @@ $cakeDescription = __d('ragnarok', 'Dominium Fuego');
     echo $this->fetch('meta');
     if (Configure::read('debug')) {
         echo $this->Html->css([
-            'df/jquery-ui.min',
+            'jquery-ui.min',
             'ragnarok-v2'
         ]);
         echo $this->Html->script([
@@ -55,7 +55,7 @@ $cakeDescription = __d('ragnarok', 'Dominium Fuego');
         ]);
     } else {
         $this->Shrink->css([
-            'df/jquery-ui.min.css',
+            'jquery-ui.min.css',
             'ragnarok-v2.css'
         ]);
         echo $this->Shrink->fetch('css');
