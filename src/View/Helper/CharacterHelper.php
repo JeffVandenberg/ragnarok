@@ -84,7 +84,8 @@ class CharacterHelper extends AppHelper
 
         $characterSkillsByLevel = [];
         if(is_array($character->character_skills)){
-            foreach ($character->character_skills as $skill) {
+            foreach ($character->character_skills as $row => $skill) {
+                $skill->row = $row;
                 $characterSkillsByLevel[$skill->skill_level][] = $skill;
             }
         }
@@ -158,7 +159,6 @@ class CharacterHelper extends AppHelper
                     </div>
                 <?php endif; ?>
                 <div id="skill-pyramid">
-                    <?php $i = 0; ?>
                     <?php $low = ($this->mayEditFull()) ? 0 : 1; ?>
                     <?php foreach (range($options['max_skill_level'], $low, -1) as $level): ?>
                         <div id="skill-<?= $level; ?>-row" class="skill-row">
@@ -166,14 +166,13 @@ class CharacterHelper extends AppHelper
                             <ul class="skill-row-droplist">
                                 <?php if (isset($characterSkillsByLevel[$level])): ?>
                                     <?php foreach ($characterSkillsByLevel[$level] as $skill): ?>
-                                        <?php $row = $i++; ?>
                                         <li class="<?= $skillItemClass ?>">
                                             <?= $skill->skill->skill_name; ?>
                                             <?php if ($this->mayEditFull()): ?>
                                                 <i class="ui-icon ui-icon-arrow-4 skill-drag-handle"></i>
-                                                <?= $this->Form->hidden('character_skills.' . $row . '.skill_id', ['class' => 'skill-id']); ?>
-                                                <?= $this->Form->hidden('character_skills.' . $row . '.skill_level', ['class' => 'skill-level']); ?>
-                                                <?= $this->Form->hidden('character_skills.' . $row . '.id'); ?>
+                                                <?= $this->Form->hidden('character_skills.' . $skill->row . '.skill_id', ['class' => 'skill-id']); ?>
+                                                <?= $this->Form->hidden('character_skills.' . $skill->row . '.skill_level', ['class' => 'skill-level']); ?>
+                                                <?= $this->Form->hidden('character_skills.' . $skill->row . '.id'); ?>
                                             <?php endif; ?>
                                         </li>
                                     <?php endforeach; ?>
