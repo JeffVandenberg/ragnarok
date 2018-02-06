@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Table;
 
 use App\Model\Entity\Character;
@@ -204,24 +205,30 @@ class CharactersTable extends Table
     public function saveCharacter(Character $character)
     {
         // iterate through aspects, skills, powers, stunts, to remove those that are invalid
-        foreach($character->character_skills as $i => $skill) {
-            if(empty($skill->skill_id)) {
-                unset($character->character_skills[$i]);
-            }
-            if($skill->skill_level < 1) {
-                unset($character->character_skills[$i]);
-            }
-        }
-
-        foreach($character->character_stunts as $i => $stunt) {
-            if(empty($stunt->stunt_id)) {
-                unset($character->character_stunts[$i]);
+        if (is_array($character->character_skills)) {
+            foreach ($character->character_skills as $i => $skill) {
+                if (empty($skill->skill_id)) {
+                    unset($character->character_skills[$i]);
+                }
+                if ($skill->skill_level < 1) {
+                    unset($character->character_skills[$i]);
+                }
             }
         }
 
-        foreach($character->character_powers as $i => $power) {
-            if(empty($power->power_id)) {
-                unset($character->character_powers[$i]);
+        if(is_array($character->character_stunts)) {
+            foreach ($character->character_stunts as $i => $stunt) {
+                if (empty($stunt->stunt_id)) {
+                    unset($character->character_stunts[$i]);
+                }
+            }
+        }
+
+        if(is_array($character->character_powers)) {
+            foreach ($character->character_powers as $i => $power) {
+                if (empty($power->power_id)) {
+                    unset($character->character_powers[$i]);
+                }
             }
         }
 
@@ -240,7 +247,7 @@ class CharactersTable extends Table
     {
         return $this->get($id, [
             'contain' => [
-                'CharacterAspects' =>  [
+                'CharacterAspects' => [
                     'sort' => [
                         'aspect_type_id'
                     ],
