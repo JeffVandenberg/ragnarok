@@ -120,7 +120,7 @@ class CharacterHelper extends AppHelper
                 </td>
             </tr>
         </table>
-        <div id="tabs" class="tabs">
+        <div id="tabs" class="tabs character-sheet">
             <ul>
                 <li><a href="#aspects">Aspects</a></li>
                 <li><a href="#skills">Skills</a></li>
@@ -340,7 +340,9 @@ class CharacterHelper extends AppHelper
                 This section is for notes which have a more complexity, such as your wereform's alternate skills and
                 various magical bonuses, foci, etc.
                 <?php if ($this->mayEditFull()): ?>
-                    <?php echo $this->Form->control('additional_power_notes'); ?>
+                    <?php echo $this->Form->control('additional_power_notes', [
+                            'class' => 'tinymce-textarea'
+                    ]); ?>
                 <?php else: ?>
                     <?php echo $this->Text->autoParagraph($character->additional_power_notes); ?>
                 <?php endif; ?>

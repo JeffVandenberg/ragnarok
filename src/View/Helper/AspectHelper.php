@@ -11,16 +11,21 @@ namespace App\View\Helper;
 use App\Model\Entity\Character;
 use App\Model\Entity\CharacterAspect;
 use Cake\View\Helper\FormHelper;
+use Cake\View\Helper\HtmlHelper;
+use Cake\View\Helper\TextHelper;
 
 
 /**
  * @property FormHelper Form
+ * @property HtmlHelper Html
+ * @property TextHelper Text
  */
 class AspectHelper extends AppHelper
 {
     public $helpers = array(
         'Html',
         'Form',
+        'Text'
     );
 
     public function MakeEditTable(Character $character)
@@ -97,7 +102,7 @@ class AspectHelper extends AppHelper
     </td>
     <td style="vertical-align: top;">
         <label>Description</label><br />
-        {$aspect->description}
+        {$this->Text->autoParagraph($aspect->description)}
     </td>
     <td>
     </td>

@@ -542,6 +542,10 @@ dd {
 }
 
 /* character sheet */
+.character-sheet p {
+    padding: 0 0 10px;
+}
+
 .aspect {
     text-align: center;
     font-weight: bold;
