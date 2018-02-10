@@ -28,7 +28,7 @@ $menu = [
                 'Locations' => '/wiki/OurWorld/Locations',
                 'Factions' => '/wiki/OurWorld/Factions',
                 'City Map' => [
-                    'link' => 'https://drive.google.com/open?id=19lT_rlqzNv6iNIMqBhA1xNPMUlk&usp=sharing',
+                    'link' => 'https://www.google.com/maps/d/viewer?mid=1VdMk5bLda0YRxF5DHh7DyUugWgvIx_Ov&ll=29.966120919084982%2C-90.06174234865722&z=13',
                     'target' => '_blank'
                 ]
             ]
