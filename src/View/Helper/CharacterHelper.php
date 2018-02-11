@@ -129,7 +129,7 @@ class CharacterHelper extends AppHelper
                 <li><a href="#powers2">Power Notes</a></li>
                 <li><a href="#stress">Stress</a></li>
                 <li><a href="#description">Public</a></li>
-                <?php if (!$this->isNewSheet()): ?>
+                <?php if ($this->isGmEdit()): ?>
                     <li><a href="#notes">Admin</a></li>
                 <?php endif; ?>
             </ul>
@@ -539,7 +539,7 @@ class CharacterHelper extends AppHelper
                     <?php endif; ?>
                 </div>
             </div>
-            <?php if (!$this->isNewSheet()): ?>
+            <?php if ($this->isGmEdit()): ?>
                 <div id="notes" class="tab-pane">
                     <table>
                         <?php if ($this->isGmEdit()): ?>

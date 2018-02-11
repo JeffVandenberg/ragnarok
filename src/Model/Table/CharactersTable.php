@@ -121,13 +121,15 @@ class CharactersTable extends Table
         ]);
         $this->hasMany('CharacterPowers', [
             'foreignKey' => 'character_id',
+            'saveStrategy' => 'replace'
         ]);
         $this->hasMany('CharacterSkills', [
             'foreignKey' => 'character_id',
             'saveStrategy' => 'replace'
         ]);
         $this->hasMany('CharacterStunts', [
-            'foreignKey' => 'character_id'
+            'foreignKey' => 'character_id',
+            'saveStrategy' => 'replace'
         ]);
         $this->hasMany('DiceRolls', [
             'foreignKey' => 'character_id'
