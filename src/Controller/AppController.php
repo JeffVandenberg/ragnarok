@@ -92,7 +92,7 @@ class AppController extends Controller
      */
     public function validateUserCharacter(Character $character)
     {
-        return ($character->created_by_id = $this->Auth->user('user_id'));
+        return ($character->created_by_id == $this->Auth->user('user_id'));
     }
 
 
