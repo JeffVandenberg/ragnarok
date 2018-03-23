@@ -43,11 +43,21 @@ class CharacterHelper extends AppHelper
         $this->options = array_merge($this->options, $options);
 
         if ($this->mayEditFull()) {
-            $characterName = $this->Form->control('character_name', array('style' => 'width:350px;'));
+            $characterName = $this->Form->control('character_name', ['style' => 'width:350px;']);
             $template = $this->Form->control('template_id');
-            $powerLevel = $this->Form->control('power_level', array('readonly' => true, 'style' => 'width: 50px;'));
-            $skillLevel = $this->Form->control('skill_level', array('readonly' => true, 'style' => 'width: 50px;'));
-            $maxFate = $this->Form->control('max_fate', array('label' => 'Refresh', 'readonly' => true, 'style' => 'width: 50px;'));
+            $powerLevel = $this->Form->control('power_level', [
+                'readonly' => !$this->isGmEdit(),
+                'style' => 'width: 50px;'
+            ]);
+            $skillLevel = $this->Form->control('skill_level', [
+                'readonly' => !$this->isGmEdit(),
+                'style' => 'width: 50px;'
+            ]);
+            $maxFate = $this->Form->control('max_fate', [
+                'label' => 'Refresh',
+                'readonly' => true,
+                'style' => 'width: 50px;'
+            ]);
             $skillItemClass = 'character-skill-item';
         } else {
             $characterName = '<label>Character Name</label><br />' . $character->character_name;
@@ -83,7 +93,7 @@ class CharacterHelper extends AppHelper
         }
 
         $characterSkillsByLevel = [];
-        if(is_array($character->character_skills)){
+        if (is_array($character->character_skills)) {
             foreach ($character->character_skills as $row => $skill) {
                 $skill->row = $row;
                 $characterSkillsByLevel[$skill->skill_level][] = $skill;
@@ -341,7 +351,7 @@ class CharacterHelper extends AppHelper
                 various magical bonuses, foci, etc.
                 <?php if ($this->mayEditFull()): ?>
                     <?php echo $this->Form->control('additional_power_notes', [
-                            'class' => 'tinymce-textarea'
+                        'class' => 'tinymce-textarea'
                     ]); ?>
                 <?php else: ?>
                     <?php echo $this->Text->autoParagraph($character->additional_power_notes); ?>

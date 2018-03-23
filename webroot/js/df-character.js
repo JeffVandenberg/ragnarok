@@ -670,10 +670,8 @@ $(function () {
         .on('blur', '.refresh-cost', function () {
             checkRefresh();
         });
-    $("#CharacterPowerLevel")
-        .change(function () {
-            checkRefresh();
-        });
+    $("#power-level")
+        .change(checkRefresh);
 
     $(document)
         .off('click', '.stunt-delete')
