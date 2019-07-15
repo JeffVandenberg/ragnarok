@@ -123,7 +123,7 @@ class CharactersController extends AppController
             $this->redirect(array('controller' => 'characters', 'action' => '/'));
         }
         $options = [
-            'max_skill_level' => 5,
+            'max_skill_level' => $this->Config->Read('MAX_SKILL_LEVEL'),
             'edit_full' => false,
             'edit_limited' => false,
             'is_new' => false
@@ -176,7 +176,7 @@ class CharactersController extends AppController
 
             $options = [
                 'skill_points' => $this->Config->Read('SKILL_POINTS'),
-                'max_skill_level' => 5,
+                'max_skill_level' => $this->Config->Read('MAX_SKILL_LEVEL'),
                 'skills' => TableRegistry::get('Skills')->find('list')->cache('skill_list'),
                 'edit_full' => true,
                 'edit_gm' => true,
@@ -256,7 +256,7 @@ class CharactersController extends AppController
         $skillPoints = $this->Config->Read('SKILL_POINTS');
         $options = [
             'skill_points' => $skillPoints,
-            'max_skill_level' => 5,
+            'max_skill_level' => $this->Config->Read('MAX_SKILL_LEVEL'),
             'edit_full' => true,
             'is_new' => true
         ];
@@ -297,7 +297,7 @@ class CharactersController extends AppController
         $options = [
             'skill_points' => $this->Config->Read('SKILL_POINTS'),
             'skills' => $skills,
-            'max_skill_level' => 5,
+            'max_skill_level' => $this->Config->Read('MAX_SKILL_LEVEL'),
             'edit_full' => true,
             'is_new' => false
         ];
@@ -336,7 +336,7 @@ class CharactersController extends AppController
 
         $options = [
             'skill_points' => $this->Config->Read('SKILL_POINTS'),
-            'max_skill_level' => 5,
+            'max_skill_level' => $this->Config->Read('MAX_SKILL_LEVEL'),
             'edit_full' => false,
             'edit_limited' => true,
             'is_new' => false
