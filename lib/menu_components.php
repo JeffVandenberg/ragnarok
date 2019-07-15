@@ -126,7 +126,7 @@ $menu = [
             'menu' => [
                 'Game Configuration' => [
                     'link' => [
-                        'controller' => 'configuration',
+                        'controller' => 'configurations',
                         'action' => 'index'
                     ]
                 ]
